@@ -16,6 +16,23 @@
     <link rel="stylesheet" href="{{URL::asset('/dist/css/adminlte.min.css')}}">
     <!-- Google Font: Source Sans Pro -->
     <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
+
+
+    <!-- jQuery -->
+    <script src="{{ URL::asset('/plugins/jquery/jquery.min.js') }}"></script>
+    <!-- Bootstrap 4 -->
+    <script src="{{ URL::asset('/plugins/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+    <!-- AdminLTE App -->
+    <script src="{{ URL::asset('/dist/js/adminlte.min.js') }}"></script>
+    <!-- AdminLTE for demo purposes -->
+    <script src="{{ URL::asset('/dist/js/demo.js') }}"></script>
+
+
+    <link rel="stylesheet" href="../../plugins/icheck-bootstrap/icheck-bootstrap.min.css">
+    <!-- Toastr -->
+    <link rel="stylesheet" href="{{asset('/plugins/toastr/toastr.min.css')}}">
+    <!-- Toastr -->
+    <script src="{{asset('/plugins/toastr/toastr.min.js')}}"></script>
 </head>
 
 <body class="hold-transition sidebar-mini sidebar-collapse">
@@ -52,7 +69,7 @@
             <ul class="navbar-nav ml-auto">
                 <!-- Messages Dropdown Menu -->
                 <li class="nav-item dropdown">
-                    <a class="nav-link"href="{{route('register')}}">
+                    <a class="nav-link" href="{{route('register')}}">
                         <i class="far fa-comments"></i>
                     </a>
                 </li>
@@ -93,7 +110,7 @@
 
                 <!-- Sidebar Menu -->
                 <nav class="mt-2">
-                
+
                     <ul class="nav nav-pills nav-sidebar flex-column nav-compact nav-child-indent" data-widget="treeview" role="menu" data-accordion="false">
                         <!-- Add icons to the links using the .nav-icon class
                with font-awesome or any other icon font library -->
@@ -239,14 +256,7 @@
     </div>
     <!-- ./wrapper -->
 
-    <!-- jQuery -->
-    <script src="{{ URL::asset('/plugins/jquery/jquery.min.js') }}"></script>
-    <!-- Bootstrap 4 -->
-    <script src="{{ URL::asset('/plugins/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
-    <!-- AdminLTE App -->
-    <script src="{{ URL::asset('/dist/js/adminlte.min.js') }}"></script>
-    <!-- AdminLTE for demo purposes -->
-    <script src="{{ URL::asset('/dist/js/demo.js') }}"></script>
+
 </body>
 
 </html>

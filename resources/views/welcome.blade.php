@@ -226,11 +226,14 @@
 </section>
 <script>
     function buscarProfesional(value) {
+       
+       
         rut = document.getElementById('rut').value;
-        console.log(document.getElementById('rut').value);
+        ruta = @json(route('obtener.profesional',['rut' => 'rut']));
+        ruta= ruta.replace('rut',rut);
         $.ajax({
             type: "GET",
-            url: '/obtenerProfesional/' + rut,
+            url: ruta,
             success: function(data) {
                 if (data != 'vacio') {
                     document.getElementById('nombre').value = data['nombre'];

@@ -173,7 +173,7 @@
 
                                     <div class="col-md-12">
                                         <label for="especialidad">Especialidad si la opción es médico : <b style="color:red">(*)</b></label>
-                                        <input type="text" class="form-control" name="especialidad" id="especialidad">
+                                        <input type="text" class="form-control" name="especialidad" id="especialidad" value="{{ old('direccion') }}">
                                         <div class="input-group mb-3">
                                             @if ($errors->has('especialidad'))
                                             <span class="text-danger">{{ $errors->first('especialidad') }}</span>

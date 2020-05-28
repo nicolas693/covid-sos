@@ -15,15 +15,15 @@ class ProfesionalController extends Controller
         $rut = '/^([0-9])+\-([kK0-9])+$/';
         $validatedData = $request->validate(
             [
-                'rut' => 'required|regex:' . $rut,
-                'nombre' => 'required|regex:' . $regLatino,
-                'aPaterno' => 'required|regex:' . $regLatino,
-                'aMaterno' => 'required|regex:' . $regLatino,
-                'correo' => 'required|email',
-                'telefono' => 'required',
-                'direccion' => 'required|regex:' . $regLatinoNum,
-                'tipoProfesional' => 'required',
-                'especialidad' => 'required_if:tipoProfesional,medico',
+                'rut' => 'required|max:11|regex:' . $rut,
+                'nombre' => 'required|max:30|regex:' . $regLatino,
+                'aPaterno' => 'required|max:30|regex:' . $regLatino,
+                'aMaterno' => 'required|max:30|regex:' . $regLatino,
+                'correo' => 'required|max:50|email',
+                'telefono' => 'required|max:30',
+                'direccion' => 'required|max:80|regex:' . $regLatinoNum,
+                'tipoProfesional' => 'required|max:30',
+                'especialidad' => 'required_if:tipoProfesional,medico|max:30',
                 'pais' => 'required'
             ],
             [
@@ -34,7 +34,8 @@ class ProfesionalController extends Controller
                 'aPaterno.regex' => 'Este campo solo debe contener letras y espacios!',
                 'aMaterno.regex' => 'Este campo solo debe contener letras y espacios!',
                 'direccion.regex' => 'Este campo solo debe contener letras, números y espacios!',
-                'especialidad.required_if' => 'Este campo es requerido si usted es Médico!'
+                'especialidad.required_if' => 'Este campo es requerido si usted es Médico!',
+                'max' => 'Este campo no debe tener mas de :max caracteres !'
             ]
         );
         $d = $request->all();

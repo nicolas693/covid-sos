@@ -33,6 +33,12 @@
     <link rel="stylesheet" href="{{asset('/plugins/toastr/toastr.min.css')}}">
     <!-- Toastr -->
     <script src="{{asset('/plugins/toastr/toastr.min.js')}}"></script>
+
+    <!-- Select2 -->
+    <link rel="stylesheet" href="{{asset('/plugins/select2/css/select2.min.css')}}">
+    <link rel="stylesheet" href="{{asset('/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css')}}">
+    <!-- Select2 -->
+    <script src="{{asset('/plugins/select2/js/select2.full.min.js')}}"></script>
 </head>
 
 <body class="hold-transition sidebar-mini sidebar-collapse">
@@ -93,7 +99,7 @@
             <!-- Brand Logo -->
             <a href="../../index3.html" class="brand-link">
                 <img src="{{ URL::asset('dist/img/AdminLTELogo.png') }}" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
-                <span class="brand-text font-weight-light">Agenda</span>
+                <span class="brand-text font-weight-light">COVID-SOS</span>
             </a>
 
             <!-- Sidebar -->
@@ -245,7 +251,7 @@
             <div class="float-right d-none d-sm-block">
                 <b>Version</b> 3.0.4
             </div>
-            <strong>Agenda Occidente</strong>
+            <strong>COVID-SOS</strong>
         </footer>
 
         <!-- Control Sidebar -->

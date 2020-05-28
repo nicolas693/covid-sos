@@ -1,6 +1,6 @@
 @extends('layouts.master')
 @section('content')
-<!-- iCheck for checkboxes and radio inputs -->
+
 
 
 <style>
@@ -123,7 +123,11 @@
                                     </div>
                                     <div class="col-md-12">
                                         <label for="pais">País : <b style="color:red">(*)</b></label>
-                                        <input type="text" class="form-control" name="pais" id="pais" value="{{ old('pais') }}">
+
+                                        <select class="form-control select2" name="pais" id="pais" value="{{ old('pais') }}">
+                                        </select>
+
+
                                         <div class="input-group mb-3">
                                             @if ($errors->has('pais'))
                                             <span class="text-danger">{{ $errors->first('pais') }}</span>
@@ -173,7 +177,14 @@
 
                                     <div class="col-md-12">
                                         <label for="especialidad">Especialidad si la opción es médico : <b style="color:red">(*)</b></label>
-                                        <input type="text" class="form-control" name="especialidad" id="especialidad" value="{{ old('direccion') }}">
+                                        <!-- <input type="text" class="form-control" name="especialidad" id="especialidad" value="{{ old('direccion') }}"> -->
+                                        <select name="especialidad" id="especialidad" class="form-control select2">
+                                            <option value="">Seleccione especialidad</option>
+                                            <option value="uno ">Uno</option>
+                                            <option value="dos">Dos</option>
+                                            <option value="tres">Tres</option>
+
+                                        </select>
                                         <div class="input-group mb-3">
                                             @if ($errors->has('especialidad'))
                                             <span class="text-danger">{{ $errors->first('especialidad') }}</span>
@@ -208,7 +219,7 @@
                                     <b>Para buscar tu información en la base de datos pulsa el botón buscar : </b>
                                     <button type="button" class="btn btn-info"><i class="fas fa-search"></i></button>
                                 </div>
-                             
+
                             </div>
 
                         </div>
@@ -225,12 +236,35 @@
     </div>
 </section>
 <script>
+    $("#pais").select2({
+        placeholder: "Seleccione nacionalidad",
+        allowClear: true,
+        minimumInputLength: 3,
+        formatInputTooShort: function() {
+            return "Ingrese 3 o más caracteres para la búsqueda";
+        },
+        ajax: {
+            url: "{{ route('live_search.nacionalidades') }}",
+            data: function(params) {
+                var query = {
+                    name: params.term,
+                }
+                return query;
+            },
+            processResults: function(data) {
+                return {
+                    results: data
+                };
+            }
+        }
+    });
+
     function buscarProfesional(value) {
-       
-       
+
+
         rut = document.getElementById('rut').value;
-        ruta = @json(route('obtener.profesional',['rut' => 'rut']));
-        ruta= ruta.replace('rut',rut);
+        ruta = @json(route('obtener.profesional', ['rut' => 'rut']));
+        ruta = ruta.replace('rut', rut);
         $.ajax({
             type: "GET",
             url: ruta,
@@ -269,12 +303,13 @@
                     document.getElementById('correo').value = '';
                     document.getElementById('especialidad').value = '';
                     toastr.warning('No se encuentra información asociada a el rut ingresado !');
-                    
+
                 }
 
 
             }
         });
     }
+    $('.select2-selection--single').css('height', 'calc(2.25rem + 2px)');
 </script>
 @endsection

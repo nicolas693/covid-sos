@@ -15,9 +15,7 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/profesional', function () {
-    return view('profesional');
-});
+
 
 Auth::routes();
 
@@ -25,5 +23,8 @@ Route::get('/home', 'HomeController@index')->name('home');
 
 Route::post('/enviarSolicitud','ProfesionalController@enviarSolicitud')->name('enviar.solicitud');
 Route::get('/obtenerProfesional/{rut}','ProfesionalController@obtenerProfesional')->name('obtener.profesional');
+Route::get('/profesional','ProfesionalController@index')->name('profesional.index');
 
 route::get('/live_search/nacionalidades', 'LiveSearchController@getNacionalidades')->name('live_search.nacionalidades');
+route::get('/live_search/profesiones', 'LiveSearchController@getProfesiones')->name('live_search.profesiones');
+route::get('/live_search/especialidades', 'LiveSearchController@getEspecialidades')->name('live_search.especialidades');

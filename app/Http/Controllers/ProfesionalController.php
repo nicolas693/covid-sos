@@ -4,25 +4,40 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Profesional;
+use App\Datos\Pais;
+use App\Datos\Titulo;
+use App\Datos\Especialidad;
+use App\Datos\Region;
+use App\Rules\RutValido;
 
 class ProfesionalController extends Controller
 {
-    public function enviarSolicitud(Request $request){
-        
+    public function index(){
+        $region = new Region();
+        $region->setConnection('masterdb');
+        $region = $region->where('id','!=','0');
+        $regiones = $region->pluck('tx_descripcion','id');
+        return view('profesional')->with('regiones',$regiones);
+    }
+    public function enviarSolicitud(Request $request)
+    {
+
 
         $regLatino = '/^([A-Za-zÑñáéíóúÁÉÍÓÚ ]+)$/';
         $regLatinoNum = '/^([A-Za-z0-9ÑñáéíóúÁÉÍÓÚ ]+)$/';
         $rut = '/^([0-9])+\-([kK0-9])+$/';
         $validatedData = $request->validate(
             [
-                'rut' => 'required|max:11|regex:' . $rut,
+                'rut' => ['required','max:11','regex:' . $rut,new RutValido(request('rut'))],
                 'nombre' => 'required|max:100|regex:' . $regLatino,
                 'correo' => 'required|max:50|email',
                 'telefono' => 'required|max:30',
-                'direccion' => 'required|max:80|regex:' . $regLatinoNum,
-                'tipoProfesional' => 'required|max:30',
-                'especialidad' => 'required_if:tipoProfesional,medico|max:30',
-                'pais' => 'required'
+                'lugar_trabajo' => 'required|max:80|regex:' . $regLatinoNum,
+                'profesion' => 'required|max:30',
+                'especialidad' => 'required_if:profesion,32|max:30',
+                'pais' => 'required',
+                'regiones' => 'required_if:disponibilidad,si',
+                'observacion' => 'max:190|regex:' . $regLatinoNum,
             ],
             [
                 'required' => 'Este campo es obligatorio!',
@@ -33,48 +48,60 @@ class ProfesionalController extends Controller
                 'aMaterno.regex' => 'Este campo solo debe contener letras y espacios!',
                 'direccion.regex' => 'Este campo solo debe contener letras, números y espacios!',
                 'especialidad.required_if' => 'Este campo es requerido si usted es Médico!',
+                'regiones.required_if' => 'Este campo es requerido si usted tiene disponibilidad!',
                 'max' => 'Este campo no debe tener mas de :max caracteres !'
             ]
         );
         $d = $request->all();
-        $profesional = Profesional::where('rut',$d['rut'])->first();
-        if ($profesional == null){
+        $profesional = Profesional::where('rut', $d['rut'])->first();
+        if ($profesional == null) {
             $profesional = new Profesional();
             $profesional->rut = $d['rut'];
             $profesional->nombre = $d['nombre'];
             $profesional->email = $d['correo'];
             $profesional->telefono = $d['telefono'];
-            $profesional->direccion = $d['direccion'];
-            $profesional->tipo_profesional = $d['tipoProfesional'];
+            $profesional->lugar_trabajo = $d['lugar_trabajo'];
+            $profesional->tipo_profesional = $d['profesion'];
             $profesional->especialidad = $d['especialidad'];
+            $profesional->disponibilidad = $d['disponibilidad'];
             $profesional->pais = $d['pais'];
             $profesional->save();
             return redirect('/profesional')->with('status', 'created');
-        }else{
+        } else {
             $profesional->rut = $d['rut'];
             $profesional->nombre = $d['nombre'];
             $profesional->email = $d['correo'];
             $profesional->telefono = $d['telefono'];
-            $profesional->direccion = $d['direccion'];
-            $profesional->tipo_profesional = $d['tipoProfesional'];
+            $profesional->lugar_trabajo = $d['lugar_trabajo'];
+            $profesional->tipo_profesional = $d['profesion'];
             $profesional->especialidad = $d['especialidad'];
             $profesional->pais = $d['pais'];
+            $profesional->disponibilidad = $d['disponibilidad'];
             $profesional->save();
             return redirect('/profesional')->with('status', 'updated');
         }
-        
-
-        
-        
     }
-    public function obtenerProfesional($rut){
-        $profesional = Profesional::where('rut',$rut)->first();
-        if($profesional==null){
+    public function obtenerProfesional($rut)
+    {
+        $profesional = Profesional::where('rut', $rut)->first();
+        if ($profesional == null) {
+
             return 'vacio';
-        }else{
+        } else {
+            $pais = new Pais();
+            $pais->setConnection('masterdb');
+
+            $titulo = new Titulo();
+            $titulo->setConnection('masterdb');
+
+            $especialidad = new Especialidad();
+            $especialidad->setConnection('masterdb');
+
+            $profesional['tx_pais'] = $pais->where('id', $profesional->pais)->first()->tx_descripcion;
+            $profesional['tx_tp'] = $titulo->where('id', $profesional->tipo_profesional)->first()->tx_descripcion;
+            $profesional['tx_es'] = $especialidad->where('id', $profesional->especialidad)->first()->tx_descripcion;
             return $profesional;
         }
-        
     }
 
     private  function calcularDv($rut)

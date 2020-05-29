@@ -145,29 +145,10 @@
                                     </div>
 
                                     <div class="col-md-12">
-                                        <label for="radio">Tipo Profesional : <b style="color:red">(*)</b></label>
-                                        <div class="form-group clearfix">
-                                            <div class="icheck-primary">
-                                                <input type="radio" name="tipoProfesional" value="medico" id="medico" @if(old('tipoProfesional')=="medico" ) checked @endif>
-                                                <label class="form-check-label" for="medico">Médico</label>
-                                            </div>
-                                            <div class="icheck-primary">
-                                                <input type="radio" name="tipoProfesional" value="enfermero" id="enfermero" @if(old('tipoProfesional')=="enfermero" ) checked @endif>
-                                                <label class="form-check-label" for="enfermero">Enfermero/a</label>
-                                            </div>
-                                            <div class="icheck-primary">
-                                                <input type="radio" name="tipoProfesional" value="kinesiologo" id="kinesiologo" @if(old('tipoProfesional')=="kinesiologo" ) checked @endif>
-                                                <label class="form-check-label" for="kinesiologo">Kinesiologo</label>
-                                            </div>
-                                            <div class="icheck-primary">
-                                                <input type="radio" name="tipoProfesional" value="tecnico" id="tecnico" @if(old('tipoProfesional')=="tecnico" ) checked @endif>
-                                                <label class="form-check-label" for="tecnico">Técnico de enfermería de nivel superior</label>
-                                            </div>
-                                            <div class="icheck-primary">
-                                                <input type="radio" name="tipoProfesional" value="paramedico" id="paramedico" @if(old('tipoProfesional')=="paramedico" ) checked @endif>
-                                                <label class="form-check-label" for="paramedico">Paramédico</label>
-                                            </div>
-                                        </div>
+                                        <label for="profesion">Tipo Profesional : <b style="color:red">(*)</b></label>
+                                        <select name="profesion" id="profesion" class="form-control select2">
+
+                                        </select>
                                         <div class="input-group mb-3">
                                             @if ($errors->has('tipoProfesional'))
                                             <span class="text-danger">{{ $errors->first('tipoProfesional') }}</span>
@@ -237,6 +218,29 @@
 </section>
 <script>
     $("#pais").select2({
+        placeholder: "Seleccione nacionalidad",
+        allowClear: true,
+        minimumInputLength: 3,
+        formatInputTooShort: function() {
+            return "Ingrese 3 o más caracteres para la búsqueda";
+        },
+        ajax: {
+            url: "{{ route('live_search.nacionalidades') }}",
+            data: function(params) {
+                var query = {
+                    name: params.term,
+                }
+                return query;
+            },
+            processResults: function(data) {
+                return {
+                    results: data
+                };
+            }
+        }
+    });
+
+    $("#profesion").select2({
         placeholder: "Seleccione nacionalidad",
         allowClear: true,
         minimumInputLength: 3,

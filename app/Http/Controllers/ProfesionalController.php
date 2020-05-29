@@ -51,6 +51,8 @@ class ProfesionalController extends Controller
         $profesional->especialidad = $d['especialidad'];
         $profesional->pais = $d['pais'];
         $profesional->save();
+
+        return view('/profesional');
         
     }
     public function obtenerProfesional($rut){

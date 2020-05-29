@@ -17,15 +17,14 @@ class CreateProfesionalsTable extends Migration
         Schema::create('profesionales', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('rut',11);
-            $table->string('nombre',30);
-            $table->string('apellido_paterno',30);
-            $table->string('apellido_materno',30);
+            $table->string('nombre',100);
             $table->string('telefono',30);
             $table->string('email',50);
-            $table->string('direccion',80);
+            $table->string('lugar_trabajo',80);
             $table->string('pais',30);
             $table->string('tipo_profesional',30);
             $table->string('especialidad',30)->nullable();
+            $table->string('disponibilidad',3)->nullable();
             $table->timestamps();
 
             // CÓDIGO PARA LLAVE FORANEA DE TABLA DISPONIBILIDAD

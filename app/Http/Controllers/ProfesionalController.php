@@ -22,7 +22,7 @@ class ProfesionalController extends Controller
     public function enviarSolicitud(Request $request)
     {
 
-
+        
         $regLatino = '/^([A-Za-zÑñáéíóúÁÉÍÓÚ ]+)$/';
         $regLatinoNum = '/^([A-Za-z0-9ÑñáéíóúÁÉÍÓÚ ]+)$/';
         $rut = '/^([0-9])+\-([kK0-9])+$/';
@@ -53,6 +53,7 @@ class ProfesionalController extends Controller
             ]
         );
         $d = $request->all();
+        $d['fechas'] = json_decode($d['fechas']);
         $profesional = Profesional::where('rut', $d['rut'])->first();
         if ($profesional == null) {
             $profesional = new Profesional();

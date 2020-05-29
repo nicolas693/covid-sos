@@ -75,7 +75,7 @@
                             </div>
                             <div class="col-md-1"></div>
                             <div class="col-md-10">
-                                <form action="{{route('enviar.solicitud')}}" method="POST">
+                                <form action="{{route('enviar.solicitud')}}" method="POST" class="formulario_profesional">
                                     @csrf
                                     <div class="col-md-12">
                                         <label for="rut">Rut : <b style="color:red">(*)</b></label>
@@ -174,7 +174,7 @@
                                         </div>
                                     </div>
 
-                                    <div class="col-sm-6">
+                                    <div class="col-sm-12">
                                         <label for="especialidad">¿Tiene disponibilidad para trabajar fuera de su región de residencia? <b style="color:red">(*)</b></label>
                                         <div class="form-group clearfix">
                                             <div class="icheck-primary d-inline">
@@ -213,44 +213,153 @@
                                     </div>
 
                                     <div class="col-md-12">
-                                        <hr>
-                                        <h1>parte de las fechas y horas</h1>
-                                        <hr>
-                                    </div>
+                                        <div class="fechas">
+                                            <div id="divRow0" class="clonerow">
+                                                <div class="row fila_completa" id="innerDivRow0">
 
-                                    <div class="col-md-12">
-                                        <label for="observaciones">Observaciones</label>
-                                        <textarea class="form-control" name="observaciones" id="observaciones" rows="5" placeholder="Observaciones"></textarea>
-                                    </div>
-
-
-
-                                    <div class="col-md-12">
-                                        <div class="float-right">
-                                            <button type="submit" class="btn btn-success mt-3">Enviar</button>
+                                                    <div class="col">
+                                                        {{-- <label for="example-time-input" class="col-form-label" >Dia: </label> --}}
+                                                        <select class="form-control fila_select">
+                                                            <option value="lunes">Lunes</option>
+                                                            <option value="martes">Martes</option>
+                                                            <option value="miercoles">Miercoles</option>
+                                                            <option value="jueves">Jueves</option>
+                                                            <option value="viernes">Viernes</option>
+                                                            <option value="sabado">Sabado</option>
+                                                            <option value="domingo">Domingo</option>
+                                                        </select>
+                                                    </div>
+                                                    <div class="col">
+                                                        {{-- <label for="example-time-input" >Inicio: </label> --}}
+                                                        {{-- style="margin-left:5px;margin-right:5px" --}}
+                                                        <input class="form-control fila_inicio" type="time" value="08:00" placeholder="Hora Inicio">
+                                                    </div>
+                                                    <div class="col">
+                                                        {{-- <label for="example-time-input" >Termino: </label> --}}
+                                                        <input class="form-control fila_termino" type="time" value="16:00">
+                                                    </div>
+                                                    <div class="col">
+                                                        <div class="form-group boton_add">
+                                                            <span style="font-size: 20px; color: Dodgerblue;">
+                                                                <i class="fas fa-plus-circle add_fecha"></i>
+                                                            </span>
+                                                        </div>
+                                                        <div class="form-group boton_remove">
+                                                            <span style="font-size: 20px; color: rgb(255, 30, 30);">
+                                                                <i class="fas fa-minus-circle remove_fecha text-danger"></i>
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
 
-
-                                </form>
-
-
                             </div>
 
+                            <div class="col-md-12">
+                                <label for="observaciones">Observaciones</label>
+                                <textarea class="form-control" name="observaciones" id="observaciones" rows="5" placeholder="Observaciones"></textarea>
+                            </div>
+
+
+
+                            <div class="col-md-12">
+                                <div class="float-right">
+                                    <button type="submit" class="btn btn-success mt-3">Enviar</button>
+                                </div>
+                            </div>
+                             <input type="hidden" id="fechas_input" name="fechas" value="">
+
+                            </form>
+
+
                         </div>
-                    </div>
-                    <!-- /.card-body -->
-                    <div class="card-footer">
 
                     </div>
-                    <!-- /.card-footer-->
                 </div>
-                <!-- /.card -->
+                <!-- /.card-body -->
+                <div class="card-footer">
+
+                </div>
+                <!-- /.card-footer-->
             </div>
+            <!-- /.card -->
         </div>
+    </div>
     </div>
 </section>
 <script>
+    $(document).ready(function() {
+        var max_fields = 10; //maximum input boxes allowed
+        var wrapper = $(".fechas"); //Fields wrapper
+        var add_button = $(".add_fecha"); //Add button ID
+        var remove_button = $(".remove_fecha"); //Add button ID
+
+        var fechas_formulario = [];
+        var x = 1; //initlal text box count
+        // var div_nuevo=$("#clonar").clone();
+        var div_nuevo = $("#nuevo");
+        // console.log(x);
+
+        $(".boton_remove").hide();
+
+
+        original = $('#divRow0');
+        $(add_button).click(function(e) { //on add input button click
+            clone = $(original).clone(true, true);
+            clone.find('.boton_add').remove();
+            clone.find('.boton_remove').show();
+            // console.log($('.boton_add'));
+            // console.log($('.clonerow').length);
+            clone.find('#divRow0').prop('id', 'divRow' + $('.clonerow').length);
+            clone.find('#innerDivRow0').prop('id', 'innerDivRow' + $('.clonerow').length);
+            // e.preventDefault();
+
+
+
+            // $algo="<div id=user'"+x+"'>hola</div>";
+            // console.log(div_nuevo);
+            $(wrapper).append(clone); //add input box
+            // x = $('.fechas > div').length
+            // console.log(x);
+            // $(wrapper).append('<div><input type="text" name="mytext[]"/><a href="#" class="remove_field">Remove</a></div>'); //add input box
+        });
+
+
+
+        $(remove_button).click(function(e) {
+            // console.log(Array.from($('.fila_select, .fila_inicio').get(), e => e.value));
+            // console.log($('.fila_completa').length);
+            // console.log($(this).parentsUntil('.clonerow'));
+            $(this).parentsUntil('.fechas').remove();
+
+
+        })
+
+        $(".formulario_profesional").submit(function(e) {
+            // e.preventDefault();
+
+            $('.fila_completa').each(function(index, element) {
+                //  console.log( $( this ).find('.fila_select').val() );
+                //  console.log( $( this ).find('.fila_inicio').val() );
+                //  console.log( $( this ).find('.fila_termino').val() );
+                var fila = {
+                    dia: $(this).find('.fila_select').val(),
+                    hora_inicio: $(this).find('.fila_inicio').val(),
+                    hora_termino: $(this).find('.fila_termino').val()
+                }
+                fechas_formulario.push(fila);
+            });
+            console.log(fechas_formulario);
+            $('#fechas_input').val(JSON.stringify(fechas_formulario));
+
+            // $("#formulario_profesional").submit();
+            return true;
+        });
+
+    });
+
     $('.select2').select2({});
 
     $("#pais").select2({

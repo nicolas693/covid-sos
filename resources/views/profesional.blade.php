@@ -254,22 +254,18 @@
                                             </div>
                                         </div>
                                     </div>
-
+                                    <div class="col-md-12">
+                                        <label for="observaciones">Observaciones</label>
+                                        <textarea class="form-control" name="observaciones" id="observaciones" rows="5" placeholder="Observaciones"></textarea>
+                                    </div>
                             </div>
-
-                            <div class="col-md-12">
-                                <label for="observaciones">Observaciones</label>
-                                <textarea class="form-control" name="observaciones" id="observaciones" rows="5" placeholder="Observaciones"></textarea>
-                            </div>
-
-
 
                             <div class="col-md-12">
                                 <div class="float-right">
                                     <button type="submit" class="btn btn-success mt-3">Enviar</button>
                                 </div>
                             </div>
-                             <input type="hidden" id="fechas_input" name="fechas" value="">
+                            <input type="hidden" id="fechas_input" name="fechas" value="">
 
                             </form>
 

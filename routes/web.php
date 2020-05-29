@@ -29,4 +29,5 @@ route::get('/live_search/nacionalidades', 'LiveSearchController@getNacionalidade
 route::get('/live_search/profesiones', 'LiveSearchController@getProfesiones')->name('live_search.profesiones');
 route::get('/live_search/especialidades', 'LiveSearchController@getEspecialidades')->name('live_search.especialidades');
 
-route::get('/reclutador', 'ReclutadorController@index')->name('reclurador.index');
+route::get('/reclutador', 'ReclutadorController@index')->name('reclutador.index');
+route::get('/callcenter', 'CallCenterController@index')->name('callcenter.index');

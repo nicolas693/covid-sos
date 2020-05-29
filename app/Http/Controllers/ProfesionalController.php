@@ -16,9 +16,7 @@ class ProfesionalController extends Controller
         $validatedData = $request->validate(
             [
                 'rut' => 'required|max:11|regex:' . $rut,
-                'nombre' => 'required|max:30|regex:' . $regLatino,
-                'aPaterno' => 'required|max:30|regex:' . $regLatino,
-                'aMaterno' => 'required|max:30|regex:' . $regLatino,
+                'nombre' => 'required|max:100|regex:' . $regLatino,
                 'correo' => 'required|max:50|email',
                 'telefono' => 'required|max:30',
                 'direccion' => 'required|max:80|regex:' . $regLatinoNum,
@@ -39,20 +37,34 @@ class ProfesionalController extends Controller
             ]
         );
         $d = $request->all();
-        $profesional = new Profesional();
-        $profesional->rut = $d['rut'];
-        $profesional->nombre = $d['nombre'];
-        $profesional->apellido_paterno = $d['aPaterno'];
-        $profesional->apellido_materno = $d['aMaterno'];
-        $profesional->email = $d['correo'];
-        $profesional->telefono = $d['telefono'];
-        $profesional->direccion = $d['direccion'];
-        $profesional->tipo_profesional = $d['tipoProfesional'];
-        $profesional->especialidad = $d['especialidad'];
-        $profesional->pais = $d['pais'];
-        $profesional->save();
+        $profesional = Profesional::where('rut',$d['rut'])->first();
+        if ($profesional == null){
+            $profesional = new Profesional();
+            $profesional->rut = $d['rut'];
+            $profesional->nombre = $d['nombre'];
+            $profesional->email = $d['correo'];
+            $profesional->telefono = $d['telefono'];
+            $profesional->direccion = $d['direccion'];
+            $profesional->tipo_profesional = $d['tipoProfesional'];
+            $profesional->especialidad = $d['especialidad'];
+            $profesional->pais = $d['pais'];
+            $profesional->save();
+            return redirect('/profesional')->with('status', 'created');
+        }else{
+            $profesional->rut = $d['rut'];
+            $profesional->nombre = $d['nombre'];
+            $profesional->email = $d['correo'];
+            $profesional->telefono = $d['telefono'];
+            $profesional->direccion = $d['direccion'];
+            $profesional->tipo_profesional = $d['tipoProfesional'];
+            $profesional->especialidad = $d['especialidad'];
+            $profesional->pais = $d['pais'];
+            $profesional->save();
+            return redirect('/profesional')->with('status', 'updated');
+        }
+        
 
-        return view('/profesional');
+        
         
     }
     public function obtenerProfesional($rut){

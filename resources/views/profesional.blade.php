@@ -1,4 +1,4 @@
-@extends('layouts.master')
+@extends('layouts.master-top')
 @section('content')
 
 
@@ -44,7 +44,7 @@
 <section class="content">
     <div class="container-fluid">
         <div class="row">
-            <div class="col-md-8 offset-2">
+            <div class="col-md-8 offset-md-2">
                 <!-- Default box -->
                 <div class="card">
                     <div class="card-header">
@@ -57,7 +57,25 @@
                     </div>
                     <div class="card-body">
                         <div class="row">
-                            <div class="col-md-6">
+                            <div class="col-md-12">
+                                @if (session('status')=='created')
+                                <div class="alert alert-success alert-dismissible">
+                                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                                    <h5><i class="icon fas fa-check"></i> Atención!</h5>
+                                    El registro ha sido ingresado exitosamente!
+                                </div>
+                                @endif
+
+                                @if (session('status')=='updated')
+                                <div class="alert alert-success alert-dismissible">
+                                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                                    <h5><i class="icon fas fa-check"></i> Atención!</h5>
+                                    El registro ha sido actualizado exitosamente!
+                                </div>
+                                @endif
+                            </div>
+                            <div class="col-md-1"></div>
+                            <div class="col-md-10">
                                 <form action="{{route('enviar.solicitud')}}" method="POST">
                                     @csrf
                                     <div class="col-md-12">
@@ -77,7 +95,7 @@
 
                                     </div>
                                     <div class="col-md-12">
-                                        <label for="nombre">Nombre : <b style="color:red">(*)</b></label>
+                                        <label for="nombre">Nombre Completo : <b style="color:red">(*)</b></label>
                                         <input type="text" class="form-control" name="nombre" id="nombre" value="{{ old('nombre') }}">
                                         <div class="input-group mb-3">
                                             @if ($errors->has('nombre'))
@@ -85,24 +103,7 @@
                                             @endif
                                         </div>
                                     </div>
-                                    <div class="col-md-12">
-                                        <label for="aPaterno">Apellido Materno : <b style="color:red">(*)</b></label>
-                                        <input type="text" class="form-control" name="aPaterno" id="aPaterno" value="{{ old('aPaterno') }}">
-                                        <div class="input-group mb-3">
-                                            @if ($errors->has('aPaterno'))
-                                            <span class="text-danger">{{ $errors->first('aPaterno') }}</span>
-                                            @endif
-                                        </div>
-                                    </div>
-                                    <div class="col-md-12">
-                                        <label for="aMaterno">Apellido Materno : <b style="color:red">(*)</b></label>
-                                        <input type="text" class="form-control" name="aMaterno" id="aMaterno" value="{{ old('aMaterno') }}">
-                                        <div class="input-group mb-3">
-                                            @if ($errors->has('aMaterno'))
-                                            <span class="text-danger">{{ $errors->first('aMaterno') }}</span>
-                                            @endif
-                                        </div>
-                                    </div>
+                                 
                                     <div class="col-md-12">
                                         <label for="telefono">Teléfono de contacto : <b style="color:red">(*)</b></label>
                                         <input type="text" class="form-control" name="telefono" id="telefono" value="{{ old('telefono') }}">
@@ -126,7 +127,8 @@
 
                                         <select class="form-control select2" name="pais" id="pais" value="{{ old('pais') }}">
                                         </select>
-
+                                        <input type="hidden" name="cod_pais" id="cod_pais" value="">
+                                        <input type="hidden" name="tx_pais" id="tx_pais" value="">
 
                                         <div class="input-group mb-3">
                                             @if ($errors->has('pais'))
@@ -198,6 +200,8 @@
                                         <hr>
                                     </div>
 
+
+
                                     <div class="col-md-12">
                                         <label for="observaciones">Observaciones</label>
                                         <textarea class="form-control" name="observaciones" id="observaciones" rows="5" placeholder="Observaciones"></textarea>
@@ -212,7 +216,7 @@
 
 
                             </div>
-                            <div class="col-md-6">
+                            <!-- <div class="col-md-6">
                                 <div class="callout callout-info mt-4">
                                     <h2>Atención!</h2>
 
@@ -220,7 +224,7 @@
                                     <button type="button" class="btn btn-info"><i class="fas fa-search"></i></button>
                                 </div>
 
-                            </div>
+                            </div> -->
 
                         </div>
                     </div>
@@ -259,6 +263,17 @@
         }
     });
 
+    $("#pais").on('change', function(e){
+        console.log(e, e.currentTarget.value);
+        console.log(e.currentTarget.innerText.split("\n").slice(-1)[0] );
+    });
+    // $("#pais").select2("trigger", "select", {
+    //     data: {
+    //         id: document.getElementById('cod_pais').value,
+    //         text: document.getElementById('tx_pais').value
+    //     }
+    // });
+
     function buscarProfesional(value) {
 
 
@@ -271,8 +286,6 @@
             success: function(data) {
                 if (data != 'vacio') {
                     document.getElementById('nombre').value = data['nombre'];
-                    document.getElementById('aPaterno').value = data['apellido_paterno'];
-                    document.getElementById('aMaterno').value = data['apellido_materno'];
                     document.getElementById('direccion').value = data['direccion'];
                     document.getElementById('telefono').value = data['telefono'];
                     document.getElementById('pais').value = data['pais'];
@@ -295,8 +308,6 @@
                     }
                 } else {
                     document.getElementById('nombre').value = '';
-                    document.getElementById('aPaterno').value = '';
-                    document.getElementById('aMaterno').value = '';
                     document.getElementById('direccion').value = '';
                     document.getElementById('telefono').value = '';
                     document.getElementById('pais').value = '';

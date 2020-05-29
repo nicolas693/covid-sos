@@ -31,6 +31,18 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <!-- AdminLTE for demo purposes -->
     <script src="{{ URL::asset('/dist/js/demo.js') }}"></script>
 
+    <script src="{{ URL::asset('/plugins/datatables/jquery.dataTables.min.js') }}"></script>
+    <script src="{{ URL::asset('/plugins/datatables/dataTables.bootstrap4.min.js') }}"></script>
+
+    <script src="{{ URL::asset('/plugins/datatables/FixedHeader/js/dataTables.fixedHeader.min.js') }}"></script>
+    <script src="{{ URL::asset('/plugins/datatables/Responsive/js/dataTables.responsive.min.js') }}"></script>
+    <script src="{{ URL::asset('/plugins/datatables/Responsive/js/responsive.bootstrap4.min.js') }}"></script>
+
+
+    <link rel="stylesheet" href="{{asset('/plugins/datatables/dataTables.bootstrap4.min.css')}}">
+    <link rel="stylesheet" href="{{asset('/plugins/datatables/FixedHeader/css/fixedHeader.bootstrap.min.css')}}">
+    <link rel="stylesheet" href="{{asset('/plugins/datatables/Responsive/css/responsive.bootstrap.min.css')}}">
+
 
     <link rel="stylesheet" href="../../plugins/icheck-bootstrap/icheck-bootstrap.min.css">
     <!-- Toastr -->

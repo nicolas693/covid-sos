@@ -13,7 +13,7 @@ class LiveSearchController extends Controller
     {
         $someModel = new Pais();
 
-        $someModel->setConnection('masterdb'); 
+        //$someModel->setConnection('masterdb'); 
 
         $data = $someModel->where('tx_descripcion', 'LIKE', '%' . $request->name . '%')
             ->orWhere('cd_pais', 'LIKE', '%' . $request->name . '%')
@@ -27,7 +27,7 @@ class LiveSearchController extends Controller
     {
         $someModel = new Titulo();
 
-        $someModel->setConnection('masterdb'); 
+        //$someModel->setConnection('masterdb'); 
 
         $data = $someModel->where('tx_descripcion', 'LIKE', '%' . $request->name . '%')
             ->orWhere('cd_tipo_profesional', 'LIKE', '%' . $request->name . '%')
@@ -41,7 +41,7 @@ class LiveSearchController extends Controller
     {
         $someModel = new Especialidad();
 
-        $someModel->setConnection('masterdb'); 
+        //$someModel->setConnection('masterdb'); 
 
         $data = $someModel->where('tx_descripcion', 'LIKE', '%' . $request->name . '%')
             ->orWhere('cd_especialidad_medica', 'LIKE', '%' . $request->name . '%')

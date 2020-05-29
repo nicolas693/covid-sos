@@ -14,7 +14,7 @@ class ProfesionalController extends Controller
 {
     public function index(){
         $region = new Region();
-        $region->setConnection('masterdb');
+        //$region->setConnection('masterdb');
         $region = $region->where('id','!=','0');
         $regiones = $region->pluck('tx_descripcion','id');
         return view('profesional')->with('regiones',$regiones);
@@ -90,13 +90,13 @@ class ProfesionalController extends Controller
             return 'vacio';
         } else {
             $pais = new Pais();
-            $pais->setConnection('masterdb');
+            //$pais->setConnection('masterdb');
 
             $titulo = new Titulo();
-            $titulo->setConnection('masterdb');
+            //$titulo->setConnection('masterdb');
 
             $especialidad = new Especialidad();
-            $especialidad->setConnection('masterdb');
+            //$especialidad->setConnection('masterdb');
 
             $profesional['tx_pais'] = $pais->where('id', $profesional->pais)->first()->tx_descripcion;
             $profesional['tx_tp'] = $titulo->where('id', $profesional->tipo_profesional)->first()->tx_descripcion;

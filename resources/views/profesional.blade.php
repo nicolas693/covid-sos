@@ -77,7 +77,65 @@
                             <div class="col-md-10">
                                 <form action="{{route('enviar.solicitud')}}" method="POST" class="formulario_profesional">
                                     @csrf
-                                    <div class="col-md-12">
+                                    <div class="form-group col-md-12">
+                                        <label for="radioPrimary1">
+                                            Extranjero <b style="color:red">(*)</b>
+                                        </label>
+                                        <div class="form-group clearfix">
+                                            <div class="icheck-primary d-inline" style="margin-right:5%">
+                                                <input type="radio" id="ex_si" name="extranjero" value="1" @if(old('extranjero')=="1" ) checked @endif>
+                                                <label for="ex_si">
+                                                    Si
+                                                </label>
+                                            </div>
+                                            <div class="icheck-primary d-inline" style="margin-right:5%">
+                                                <input type="radio" id="ex_no" name="extranjero" value="0" @if(old('extranjero')=="0" ) checked @endif>
+                                                <label for="ex_no">
+                                                    No
+                                                </label>
+                                            </div>
+                                        </div>
+                                        @if ($errors->has('extranjero'))
+                                        <span class="text-danger">{{ $errors->first('extranjero') }}</span>
+                                        @endif
+                                    </div>
+                                    <div class="col-sm-12">
+                                        <div class="form-group">
+                                            <label>
+                                                Tipo de identificación <b style="color:red">(*)</b> :
+                                            </label>
+                                            <div class="form-group clearfix">
+                                                <div class="icheck-primary d-inline" style="margin-right:5%">
+                                                    <input type="radio" id="rut_r" name="tipo_identificacion" value="1" @if(old('tipo_identificacion')=="1" ) checked @endif>
+                                                    <label for="rut_r">
+                                                        RUT
+                                                    </label>
+                                                </div>
+                                                <div class="icheck-primary d-inline" style="margin-right:5%">
+                                                    <input type="radio" id="rut_provisorio_r" name="tipo_identificacion" value="2" @if(old('tipo_identificacion')=="2" ) checked @endif @if(old('extranjero')=="0" ) disabled @endif>
+                                                    <label for="rut_provisorio_r">
+                                                        RUT PROVISORIO
+                                                    </label>
+                                                </div>
+                                                <div class="icheck-primary d-inline" style="margin-right:5%">
+                                                    <input type="radio" id="pasaporte_r" name="tipo_identificacion" value="3" @if(old('tipo_identificacion')=="3" ) checked @endif @if(old('extranjero')=="0" ) disabled @endif>
+                                                    <label for="pasaporte_r">
+                                                        PASAPORTE
+                                                    </label>
+                                                </div>
+                                                <!-- <div class="icheck-primary d-inline" style="margin-right:5%">
+                                                <input type="radio" id="indoc_r" name="tipo_identificacion" value="4" @if(old('tipo_identificacion')=="4" ) checked @endif @if(old('extranjero')=="0" ) disabled @endif>
+                                                <label for="indoc_r">
+                                                    INDOCUMENTADO
+                                                </label>
+                                            </div> -->
+                                            </div>
+                                        </div>
+                                        @if ($errors->has('tipo_identificacion'))
+                                        <span class="text-danger">{{ $errors->first('tipo_identificacion') }}</span>
+                                        @endif
+                                    </div>
+                                    <div class="col-md-12" style="display: none;" id="div_rut">
                                         <label for="rut">Rut : <b style="color:red">(*)</b></label>
 
                                         <div class="form-group input-group" style="margin-bottom:0">
@@ -89,6 +147,40 @@
                                         <div class="input-group mb-3">
                                             @if ($errors->has('rut'))
                                             <span class="text-danger ml-1">{{ $errors->first('rut') }}</span>
+                                            @endif
+                                        </div>
+
+                                    </div>
+
+                                    <div class="col-md-12" style="display: none;" id="div_provisorio">
+                                        <label for="provisorio">Rut Provisorio : <b style="color:red">(*)</b></label>
+
+                                        <div class="form-group input-group" style="margin-bottom:0">
+                                            <input type="text" class="form-control" id="provisorio" name="provisorio" placeholder="Ej: 11222333-0" value="{{ old('provisorio') }}">
+                                            <span class="input-group-btn">
+                                                <button type="button" class="btn btn-info" name="boton_consultar" title="Buscar Paciente Por RUT" onclick="buscarProfesional()"><i class="fas fa-search"></i></button>
+                                            </span>
+                                        </div>
+                                        <div class="input-group mb-3">
+                                            @if ($errors->has('provisorio'))
+                                            <span class="text-danger ml-1">{{ $errors->first('provisorio') }}</span>
+                                            @endif
+                                        </div>
+
+                                    </div>
+
+                                    <div class="col-md-12" style="display: none;" id="div_pasaporte">
+                                        <label for="pasaporte">Pasaporte : <b style="color:red">(*)</b></label>
+
+                                        <div class="form-group input-group" style="margin-bottom:0">
+                                            <input type="text" class="form-control" id="pasaporte" name="pasaporte" placeholder="Ej: 11222333-0" value="{{ old('pasaporte') }}">
+                                            <span class="input-group-btn">
+                                                <button type="button" class="btn btn-info" name="boton_consultar" title="Buscar Paciente Por RUT" onclick="buscarProfesional()"><i class="fas fa-search"></i></button>
+                                            </span>
+                                        </div>
+                                        <div class="input-group mb-3">
+                                            @if ($errors->has('pasaporte'))
+                                            <span class="text-danger ml-1">{{ $errors->first('pasaporte') }}</span>
                                             @endif
                                         </div>
 
@@ -453,6 +545,77 @@
             $('#div_regiones').fadeIn();
         } else {
             $('#div_regiones').fadeOut();
+        }
+    });
+
+
+
+    $('input[name ="extranjero"]').change(function(e) {
+        var valor = e.currentTarget.value;
+        //En caso de que sea esxtranjero, se muestra div nacionalidad y se bloquean los radio button correspondientes
+        if (valor == '1') {
+            $('#div_nacionalidad').fadeIn({
+                duration: 100
+            });
+            rut_r = document.getElementById('rut_provisorio_r');
+            pas_r = document.getElementById('pasaporte_r');
+            indoc_r = document.getElementById('indoc_r');
+
+            rut_r.disabled = false;
+            pas_r.disabled = false;
+        } else {
+            //En caso de que no sea esxtranjero, se esconden div nacionalidad y pasaporte y se bloquean los radio button correspondientes
+            $('#div_nacionalidad').fadeOut({
+                duration: 300
+            });
+            $('#div_pasaporte').fadeOut({
+                duration: 300
+            });
+
+            rut_r = document.getElementById('rut_r');
+            rutp_r = document.getElementById('rut_provisorio_r');
+            pas_r = document.getElementById('pasaporte_r');
+
+            rut_r.checked = true;
+            // rut_r.disabled = false;
+            //desmarca y deshabilita los radio button
+            rutp_r.checked = false;
+            rutp_r.disabled = true;
+            pas_r.checked = false;
+            pas_r.disabled = true;
+
+            var opciones = document.getElementById('tipo_codigo');
+
+            $('#div_provisorio').fadeOut('slow', function() {
+                $('#div_pasaporte').fadeOut('slow', function() {
+                    $('#div_rut').fadeIn('slow', function() {});
+                });
+            });
+        }
+    });
+
+    $('input[name ="tipo_identificacion"]').change(function(e) {
+        value = e.target.value;
+        if (value == '1') {
+            $('#div_provisorio').fadeOut(function() {
+                $('#div_pasaporte').fadeOut(function() {
+                    $('#div_rut').fadeIn();
+                });
+            });
+        }
+        if (value == '2') {
+            $('#div_rut').fadeOut(function() {
+                $('#div_pasaporte').fadeOut(function() {
+                    $('#div_provisorio').fadeIn();
+                });
+            });
+        }
+        if (value == '3') {
+            $('#div_rut').fadeOut(function() {
+                $('#div_provisorio').fadeOut(function() {
+                    $('#div_pasaporte').fadeIn();
+                });
+            });
         }
     });
 

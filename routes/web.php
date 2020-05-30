@@ -31,3 +31,4 @@ route::get('/live_search/especialidades', 'LiveSearchController@getEspecialidade
 
 route::get('/reclutador', 'ReclutadorController@index')->name('reclutador.index');
 route::get('/callcenter', 'CallCenterController@index')->name('callcenter.index');
+route::get('/callcenter/verinfo/{id}', 'CallCenterController@verInfo')->name('callcenter.verinfo');

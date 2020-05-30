@@ -68,6 +68,7 @@
                                     <td>E-mail</td>
                                     <td>Lugar De Trabajo</td>
                                     <td>Disponibilidad</td>
+                                    <td>Acción</td>
                                 </tr>
                             </thead>
                             <tbody>
@@ -78,6 +79,11 @@
                                     <td>{{$pro->email}}</td>
                                     <td>{{$pro->lugar_trabajo}}</td>
                                     <td>{{$pro->disponibilidad}}</td>
+                                    <td>
+                                        <button type="button" class="btn btn-info btn-sm" name="{{$pro->id}}"  title="Información Profesional" onclick="verInfo(this.name)"><i class="fas fa-info-circle"></i></button>
+                                        <button type="button" class="btn btn-success btn-sm" name="{{$pro->id}}"  title="Asignar Profesional"><i class="fas fa-plus"></i></button>
+                                        
+                                    </td>
                                 </tr>
                                 @endforeach
                             </tbody>
@@ -89,6 +95,7 @@
         </div>
     </div>
     </div>
+    <div id="modal"></div>
 </section>
 <script>
     $(document).ready(function() {
@@ -111,5 +118,16 @@
             },
         });
     });
+    function verInfo(id) {
+        $(".CC").attr('disabled', true);
+        ruta = @json(route('callcenter.verinfo', ['id' => 'id']));
+        ruta = ruta.replace('id', id);
+        console.log(ruta);
+        $('.modal').modal('hide');
+        $.get(ruta, function(data) {
+            $('#modal').html(data);
+            $('#modalInfo').modal('show');
+        });
+    }
 </script>
 @endsection

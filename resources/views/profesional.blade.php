@@ -136,7 +136,7 @@
                                         @endif
                                     </div>
 
-                                    <div class="col-md-12" id ="div_pais" style="display: none;">
+                                    <div class="col-md-12" id="div_pais" style="display: none;">
                                         <label for="pais">País : <b style="color:red">(*)</b></label>
 
                                         <select class="form-control select2" name="pais" id="pais" value="{{ old('pais') }}">
@@ -228,17 +228,64 @@
                                             @endif
                                         </div>
                                     </div>
-                                
+
                                     <div class="col-md-12">
-                                        <label for="lugar_trabajo">Lugar De Trabajo Actual : <b style="color:red">(*)</b></label>
-                                        <input type="text" class="form-control" name="lugar_trabajo" id="lugar_trabajo" value="{{ old('lugar_trabajo') }}">
+                                        <label for="direccion">Direccion : <b style="color:red">(*)</b></label>
+                                        <input type="text" class="form-control" name="direccion" id="direccion" value="{{ old('direccion') }}">
                                         <div class="input-group mb-3">
-                                            @if ($errors->has('lugar_trabajo'))
-                                            <span class="text-danger ml-1">{{ $errors->first('lugar_trabajo') }}</span>
+                                            @if ($errors->has('direccion'))
+                                            <span class="text-danger ml-1">{{ $errors->first('direccion') }}</span>
                                             @endif
                                         </div>
                                     </div>
 
+                                    <div class="col-md-6" id="div_comuna_residencia">
+                                        <label for="comuna_residencia">Comuna Residencia : <b style="color:red">(*)</b></label>
+
+                                        <select class="form-control select2 comuna_select" name="comuna_residencia" id="comuna_residencia" value="{{ old('comuna_residencia') }}">
+                                        </select>
+                                        <input type="hidden" name="cod_comuna_residencia" id="cod_comuna_residencia" value="{{ old('cod_comuna_residencia') }}">
+                                        <input type="hidden" name="tx_comuna_residencia" id="tx_comuna_residencia" value="{{ old('tx_comuna_residencia') }}">
+
+                                        <div class="input-group mb-3">
+                                            @if ($errors->has('comuna_residencia'))
+                                            <span class="text-danger ml-1">{{ $errors->first('comuna_residencia') }}</span>
+                                            @endif
+                                        </div>
+                                    </div>
+
+                                    <!-- <div class="col-md-6" id="div_comuna_preferencia">
+                                        <label for="comuna_preferencia">Comuna Preferencia : <b style="color:red">(*)</b></label>
+                                        <div class="select2-purple">
+                                            <select class="form-control select2 comuna_select" name="comuna_preferencia[]" id="comuna_preferencia" multiple="multiple" value="">
+                                            </select>
+                                        </div>
+                                        <input type="hidden" name="cod_comuna_preferencia" id="cod_comuna_preferencia" value="">
+
+                                        <div class="input-group mb-3">
+                                            @if ($errors->has('comuna_preferencia'))
+                                            <span class="text-danger ml-1">{{ $errors->first('comuna_preferencia') }}</span>
+                                            @endif
+                                        </div>
+                                    </div> -->
+                                    <div class="col-md-6" id="div_comuna_preferencia">
+                                        <label for="comuna_preferencia">Comuna Preferencia : <b style="color:red">(*)</b></label>
+                                        <div class="select2-purple">
+                                            <select class="form-control select2" name="comuna_preferencia[]" id="comuna_preferencia" multiple="multiple" value="">
+                                                @foreach($comunas as $key => $comuna)
+
+                                                <option value="{{$key}}">{{$comuna}}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                        <input type="hidden" name="cod_comuna_preferencia" id="cod_comuna_preferencia" value="{{old('cod_comuna_preferencia')}}">
+
+                                        <div class="input-group mb-3">
+                                            @if ($errors->has('comuna_preferencia'))
+                                            <span class="text-danger ml-1">{{ $errors->first('comuna_preferencia') }}</span>
+                                            @endif
+                                        </div>
+                                    </div>
                                     <div class="col-md-12">
                                         <label for="profesion">Tipo Profesional : <b style="color:red">(*)</b></label>
                                         <select name="profesion" id="profesion" class="form-control select2">
@@ -255,12 +302,11 @@
 
                                     <div class="col-md-12" id="div_especialidad" style="display: none;">
                                         <label for="especialidad">Especialidad : <b style="color:red">(*)</b></label>
-                                        <!-- <input type="text" class="form-control" name="especialidad" id="especialidad" value="{{ old('direccion') }}"> -->
-                                        <select name="especialidad" id="especialidad" class="form-control select2 multiple">
-                                            <input type="hidden" name="cod_es" id="cod_es" value="{{ old('cod_es') }}">
-                                            <input type="hidden" name="tx_es" id="tx_es" value="{{ old('tx_es') }}">
+                                        <select name="especialidad" id="especialidad" class="form-control select2 multiple" value="{{ old('especialidad') }}">
 
                                         </select>
+                                        <input type="hidden" name="cod_es" id="cod_es" value="{{ old('cod_es') }}">
+                                        <input type="hidden" name="tx_es" id="tx_es" value="{{ old('tx_es') }}">
                                         <div class="input-group mb-3">
                                             @if ($errors->has('especialidad'))
                                             <span class="text-danger ml-1">{{ $errors->first('especialidad') }}</span>
@@ -269,7 +315,7 @@
                                     </div>
 
                                     <div class="col-sm-12">
-                                        <label for="especialidad">¿Tiene disponibilidad para trabajar fuera de su región de residencia? <b style="color:red">(*)</b></label>
+                                        <label for="disponibilidad">¿Tiene disponibilidad para trabajar fuera de su región de residencia? <b style="color:red">(*)</b></label>
                                         <div class="form-group clearfix">
                                             <div class="icheck-primary d-inline">
                                                 <input type="radio" id="radioPrimary1" name="disponibilidad" value="si" @if(old('disponibilidad')=='si' ) checked @endif>
@@ -289,7 +335,6 @@
 
                                     <div class="col-md-12" id="div_regiones" style="display: none;">
                                         <label for="regiones">Seleccione Regiones : <b style="color:red">(*)</b></label>
-                                        <!-- <input type="text" class="form-control" name="especialidad" id="especialidad" value="{{ old('direccion') }}"> -->
                                         <div class="select2-purple">
                                             <select name="regiones[]" id="regiones" class="select2" multiple="multiple" ata-placeholder="Seleccione Región" style="width: 100%;">
                                                 @foreach($regiones as $key => $reg)
@@ -445,64 +490,72 @@
             // $("#formulario_profesional").submit();
             return true;
         });
-        valor = document.querySelector('input[name="extranjero"]:checked').value;
-        if (valor == '1') {
-            $('#div_pais').fadeIn();
-            rut_r = document.getElementById('rut_provisorio_r');
-            pas_r = document.getElementById('pasaporte_r');
-            indoc_r = document.getElementById('indoc_r');
+        valor = document.querySelector('input[name="extranjero"]:checked');
+        if (valor != null) {
+            valor = valor.value;
+            if (valor == '1') {
+                $('#div_pais').fadeIn();
+                rut_r = document.getElementById('rut_provisorio_r');
+                pas_r = document.getElementById('pasaporte_r');
+                indoc_r = document.getElementById('indoc_r');
 
-            rut_r.disabled = false;
-            pas_r.disabled = false;
-        } else {
-            //En caso de que no sea esxtranjero, se esconden div nacionalidad y pasaporte y se bloquean los radio button correspondientes
-            $('#div_pais').fadeOut();
-            $('#div_pasaporte').fadeOut();
+                rut_r.disabled = false;
+                pas_r.disabled = false;
+            } else {
+                //En caso de que no sea esxtranjero, se esconden div nacionalidad y pasaporte y se bloquean los radio button correspondientes
+                $('#div_pais').fadeOut();
+                $('#div_pasaporte').fadeOut();
 
-            rut_r = document.getElementById('rut_r');
-            rutp_r = document.getElementById('rut_provisorio_r');
-            pas_r = document.getElementById('pasaporte_r');
+                rut_r = document.getElementById('rut_r');
+                rutp_r = document.getElementById('rut_provisorio_r');
+                pas_r = document.getElementById('pasaporte_r');
 
-            rut_r.checked = true;
-            // rut_r.disabled = false;
-            //desmarca y deshabilita los radio button
-            rutp_r.checked = false;
-            rutp_r.disabled = true;
-            pas_r.checked = false;
-            pas_r.disabled = true;
+                rut_r.checked = true;
+                // rut_r.disabled = false;
+                //desmarca y deshabilita los radio button
+                rutp_r.checked = false;
+                rutp_r.disabled = true;
+                pas_r.checked = false;
+                pas_r.disabled = true;
 
-            var opciones = document.getElementById('tipo_codigo');
+                var opciones = document.getElementById('tipo_codigo');
 
-            $('#div_provisorio').fadeOut('slow', function() {
-                $('#div_pasaporte').fadeOut('slow', function() {
-                    $('#div_rut').fadeIn('slow', function() {});
+                $('#div_provisorio').fadeOut('slow', function() {
+                    $('#div_pasaporte').fadeOut('slow', function() {
+                        $('#div_rut').fadeIn('slow', function() {});
+                    });
                 });
-            });
+            }
         }
 
-        value = document.querySelector('input[name="tipo_identificacion"]:checked').value;
 
-        if (value == '1') {
-            $('#div_provisorio').fadeOut(function() {
-                $('#div_pasaporte').fadeOut(function() {
-                    $('#div_rut').fadeIn();
-                });
-            });
-        }
-        if (value == '2') {
-            $('#div_rut').fadeOut(function() {
-                $('#div_pasaporte').fadeOut(function() {
-                    $('#div_provisorio').fadeIn();
-                });
-            });
-        }
-        if (value == '3') {
-            $('#div_rut').fadeOut(function() {
+        value = document.querySelector('input[name="tipo_identificacion"]:checked');
+        if (value != null) {
+            value = value.value;
+            if (value == '1') {
                 $('#div_provisorio').fadeOut(function() {
-                    $('#div_pasaporte').fadeIn();
+                    $('#div_pasaporte').fadeOut(function() {
+                        $('#div_rut').fadeIn();
+                    });
                 });
-            });
+            }
+            if (value == '2') {
+                $('#div_rut').fadeOut(function() {
+                    $('#div_pasaporte').fadeOut(function() {
+                        $('#div_provisorio').fadeIn();
+                    });
+                });
+            }
+            if (value == '3') {
+                $('#div_rut').fadeOut(function() {
+                    $('#div_provisorio').fadeOut(function() {
+                        $('#div_pasaporte').fadeIn();
+                    });
+                });
+            }
         }
+
+
     });
 
     $('.select2').select2({});
@@ -575,6 +628,28 @@
             }
         }
     });
+    $(".comuna_select").select2({
+        placeholder: "Seleccione nacionalidad",
+        allowClear: true,
+        minimumInputLength: 3,
+        formatInputTooShort: function() {
+            return "Ingrese 3 o más caracteres para la búsqueda";
+        },
+        ajax: {
+            url: "{{ route('live_search.comunas') }}",
+            data: function(params) {
+                var query = {
+                    name: params.term,
+                }
+                return query;
+            },
+            processResults: function(data) {
+                return {
+                    results: data
+                };
+            }
+        }
+    });
 
     $("#pais").on('change', function(e) {
         document.getElementById('cod_pais').value = e.currentTarget.value;
@@ -597,6 +672,18 @@
         document.getElementById('cod_es').value = e.currentTarget.value;
         document.getElementById('tx_es').value = e.currentTarget.innerText.split("\n").slice(-1)[0];
     });
+
+    $("#comuna_residencia").on('change', function(e) {
+        document.getElementById('cod_comuna_residencia').value = e.currentTarget.value;
+        document.getElementById('tx_comuna_residencia').value = e.currentTarget.innerText.split("\n").slice(-1)[0];
+    });
+
+    $("#comuna_preferencia").on('change', function(e) {
+        document.getElementById('cod_comuna_preferencia').value = $('#comuna_preferencia').val();
+        console.log($('#comuna_preferencia').val());
+    });
+
+
 
     $('input[name ="disponibilidad"]').change(function(e) {
         value = e.target.value;
@@ -692,12 +779,21 @@
         }
     });
 
+
     $("#especialidad").select2("trigger", "select", {
         data: {
             id: document.getElementById('cod_es').value,
             text: document.getElementById('tx_es').value
         }
     });
+
+    $("#comuna_residencia").select2("trigger", "select", {
+        data: {
+            id: document.getElementById('cod_comuna_residencia').value,
+            text: document.getElementById('tx_comuna_residencia').value
+        }
+    });
+
 
     function buscarProfesional(value) {
 
@@ -711,7 +807,7 @@
             success: function(data) {
                 if (data != 'vacio') {
                     document.getElementById('nombre').value = data['nombre'];
-                    document.getElementById('lugar_trabajo').value = data['lugar_trabajo'];
+                    document.getElementById('direccion').value = data['direccion'];
                     document.getElementById('telefono').value = data['telefono'];
                     document.getElementById('pais').value = data['pais'];
                     document.getElementById('correo').value = data['email'];
@@ -739,7 +835,7 @@
 
                 } else {
                     document.getElementById('nombre').value = '';
-                    document.getElementById('lugar_trabajo').value = '';
+                    document.getElementById('direccion').value = '';
                     document.getElementById('telefono').value = '';
                     document.getElementById('pais').value = '';
                     document.getElementById('correo').value = '';

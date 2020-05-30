@@ -40,4 +40,28 @@ class Profesional extends Model
         return $this->hasOne('App\Datos\Pais', 'id','pais')->first();
     }
 
+    public function getComunasPreferencia()
+    {
+        $comunasPreferencia =$this->hasMany('App\ComunaPreferencia', 'profesional_id','id')->get();
+        $data = [];
+        foreach($comunasPreferencia as $cp){
+            $comuna =$cp->getComuna();
+            $data[$comuna->id] = $comuna->tx_descripcion;
+           
+        }
+        return $data;
+    }
+
+    public function getComunasPreferenciaString()
+    {
+        $comunasPreferencia =$this->hasMany('App\ComunaPreferencia', 'profesional_id','id')->get();
+        $data = [];
+        foreach($comunasPreferencia as $cp){
+            $comuna =$cp->getComuna();
+            $data[$comuna->id] = $comuna->tx_descripcion;
+           
+        }
+        return join( ',', $data);
+    }
+
 }

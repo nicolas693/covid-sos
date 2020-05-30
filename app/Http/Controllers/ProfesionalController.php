@@ -2,23 +2,30 @@
 
 namespace App\Http\Controllers;
 
+use App\Datos\Comuna;
 use Illuminate\Http\Request;
 use App\Profesional;
+use App\ComunaPreferencia;
 use App\Datos\Pais;
 use App\Datos\Titulo;
 use App\Datos\Especialidad;
 use App\Datos\Region;
+
 use App\Rules\RutValido;
+use App\Rules\ValidarLiveSearch;
 
 class ProfesionalController extends Controller
 {
     public function index()
     {
         $region = new Region();
+        $comunas = new Comuna();
         //$region->setConnection('masterdb');
         $region = $region->where('id', '!=', '0');
-        $regiones = $region->pluck('tx_descripcion', 'id');
-        return view('profesional')->with('regiones', $regiones);
+        $region = $region->pluck('tx_descripcion', 'id');
+        $comunas = $comunas->where('id', '!=', '0');
+        $comunas = $comunas->pluck('tx_descripcion', 'id');
+        return view('profesional')->with('comunas',  $comunas)->with('regiones',  $region);
     }
     public function enviarSolicitud(Request $request)
     {
@@ -29,13 +36,18 @@ class ProfesionalController extends Controller
         $rut = '/^([0-9])+\-([kK0-9])+$/';
         $validatedData = $request->validate(
             [
+                'extranjero' => 'required',
+                'tipo_identificacion' => 'required',
                 'rut' => ['required_if:tipo_identificacion,1', 'max:11', 'regex:' . $rut, new RutValido(request('rut')),'nullable'],
                 'provisorio' => ['required_if:tipo_identificacion,2', 'max:11', 'regex:' . $rut, new RutValido(request('rut')),'nullable'],
                 'pasaporte' => ['required_if:tipo_identificacion,3', 'max:11', 'regex:' . $regLatino,'nullable'],
                 'nombre' => 'required|max:100|regex:' . $regLatino,
                 'correo' => 'required|max:50|email',
                 'telefono' => 'required|max:30',
-                'lugar_trabajo' => 'required|max:80|regex:' . $regLatinoNum,
+                'direccion' => 'required|max:80|regex:' . $regLatinoNum,
+                'profesion' => 'required|max:30',
+                'comuna_residencia' => 'required|max:6',
+                'comuna_preferencia' => ['required'],
                 'profesion' => 'required|max:30',
                 'especialidad' => 'required_if:profesion,32|max:30',
                 'pais' => 'required_if:extranjero,1',
@@ -46,47 +58,61 @@ class ProfesionalController extends Controller
                 'required' => 'Este campo es obligatorio!',
                 'email' => 'El correo debe tener formato de correo electrónico!',
                 'rut.regex' => 'El RUT debe ser ingresado sin puntos!',
-                'rut.required_if' => 'Este campo es requerido!',
-                'provisorio.required_if' => 'Este campo es requerido!',
-                'pasaporte.required_if' => 'Este campo es requerido!',
+                'rut.required_if' => 'Este campo es obligatorio!',
+                'provisorio.required_if' => 'Este campo es obligatorio!',
+                'pasaporte.required_if' => 'Este campo es obligatorio!',
                 'provisorio.regex' => 'El RUT Provisorio debe ser ingresado sin puntos!',
                 'nombre.regex' => 'Este campo solo debe contener letras y espacios!',
                 'aPaterno.regex' => 'Este campo solo debe contener letras y espacios!',
                 'aMaterno.regex' => 'Este campo solo debe contener letras y espacios!',
                 'direccion.regex' => 'Este campo solo debe contener letras, números y espacios!',
-                'especialidad.required_if' => 'Este campo es requerido si usted es Médico!',
-                'pais.required_if' => 'Este campo es requerido si usted es extranjero!',
-                'regiones.required_if' => 'Este campo es requerido si usted tiene disponibilidad!',
+                'especialidad.required_if' => 'Este campo es obligatorio si usted es Médico!',
+                'pais.required_if' => 'Este campo es obligatorio si usted es extranjero!',
+                'regiones.required_if' => 'Este campo es obligatorio si usted tiene disponibilidad!',
                 'max' => 'Este campo no debe tener mas de :max caracteres !'
             ]
         );
         $d = $request->all();
         $d['fechas'] = json_decode($d['fechas']);
-        dd($d);
+       
         $profesional = Profesional::where('rut', $d['rut'])->first();
+        $profesional = null;
         if ($profesional == null) {
             $profesional = new Profesional();
             $profesional->rut = $d['rut'];
             $profesional->nombre = $d['nombre'];
             $profesional->email = $d['correo'];
             $profesional->telefono = $d['telefono'];
-            $profesional->lugar_trabajo = $d['lugar_trabajo'];
+            $profesional->direccion = $d['direccion'];
             $profesional->tipo_profesional = $d['profesion'];
             $profesional->especialidad = $d['especialidad'];
             $profesional->disponibilidad = $d['disponibilidad'];
-            $profesional->pais = $d['pais'];
+            $profesional->comuna_residencia = $d['comuna_residencia'];
+            if($d['extranjero']=='0'){
+                $profesional->pais = '43';
+            }else{
+                $profesional->pais = $d['pais'];
+            }
+            
             $profesional->save();
+            foreach($d['comuna_preferencia'] as $key => $c){
+                $com = new ComunaPreferencia();
+                $com->profesional_id = $profesional->id;
+                $com->comuna_id = $c;
+                $com->save();
+            }
+           
             return redirect('/profesional')->with('status', 'created');
         } else {
-            $profesional->rut = $d['rut'];
-            $profesional->nombre = $d['nombre'];
-            $profesional->email = $d['correo'];
-            $profesional->telefono = $d['telefono'];
-            $profesional->lugar_trabajo = $d['lugar_trabajo'];
-            $profesional->tipo_profesional = $d['profesion'];
-            $profesional->especialidad = $d['especialidad'];
-            $profesional->pais = $d['pais'];
-            $profesional->disponibilidad = $d['disponibilidad'];
+            // $profesional->rut = $d['rut'];
+            // $profesional->nombre = $d['nombre'];
+            // $profesional->email = $d['correo'];
+            // $profesional->telefono = $d['telefono'];
+            // $profesional->lugar_trabajo = $d['lugar_trabajo'];
+            // $profesional->tipo_profesional = $d['profesion'];
+            // $profesional->especialidad = $d['especialidad'];
+            // $profesional->pais = $d['pais'];
+            // $profesional->disponibilidad = $d['disponibilidad'];
             $profesional->save();
             return redirect('/profesional')->with('status', 'updated');
         }
@@ -94,6 +120,7 @@ class ProfesionalController extends Controller
     public function obtenerProfesional($rut)
     {
         $profesional = Profesional::where('rut', $rut)->first();
+        
         if ($profesional == null) {
 
             return 'vacio';

@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Datos\Pais;
 use App\Datos\Titulo;
 use App\Datos\Especialidad;
+use App\Datos\Comuna;
 
 class LiveSearchController extends Controller
 {
@@ -45,6 +46,19 @@ class LiveSearchController extends Controller
 
         $data = $someModel->where('tx_descripcion', 'LIKE', '%' . $request->name . '%')
             ->orWhere('cd_especialidad_medica', 'LIKE', '%' . $request->name . '%')
+            ->get()->take(10)->map(function ($item) {
+                return ["id" => $item->id, "text" => $item->tx_descripcion];
+            });
+        return response()->json($data);
+    }
+    function getComunas(Request $request)
+    {
+        $someModel = new Comuna();
+
+        //$someModel->setConnection('masterdb'); 
+
+        $data = $someModel->where('tx_descripcion', 'LIKE', '%' . $request->name . '%')
+            ->orWhere('cd_comuna', 'LIKE', '%' . $request->name . '%')
             ->get()->take(10)->map(function ($item) {
                 return ["id" => $item->id, "text" => $item->tx_descripcion];
             });

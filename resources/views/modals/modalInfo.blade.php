@@ -11,8 +11,8 @@
       <!-- Modal body -->
       <div class="modal-body">
         <div class="row">
-          <div class="col-md-8">
-            <table style="width: 80%;">
+          <div class="col-md-10">
+            <table style="width: 100%;">
               <tbody>
                 <tr>
                   <td>Nombre :</td>
@@ -38,6 +38,12 @@
                   <td>E-mail :</td>
                   <td>{{$profesional->email}}</td>
                 </tr>
+
+                <tr>
+                  <td>Preferencias de comuna :</td>
+                  <td>{{$profesional->getComunasPreferenciaString()}}</td>
+                </tr>
+                
               </tbody>
             </table>
           </div>

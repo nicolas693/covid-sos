@@ -20,7 +20,7 @@ class CreateProfesionalsTable extends Migration
             $table->string('nombre',100);
             $table->string('telefono',30);
             $table->string('email',50);
-            $table->string('lugar_trabajo',80);
+            $table->string('direccion',80);
             $table->string('pais',30);
             $table->string('tipo_profesional',30);
             $table->string('especialidad',30)->nullable();

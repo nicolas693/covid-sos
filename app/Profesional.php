@@ -8,14 +8,14 @@ class Profesional extends Model
 {
     protected $table = 'profesionales';
     protected $fillable = [
-        'rut', 
-        'nombre', 
+        'rut',
+        'nombre',
         'apellido_paterno',
-        'apellido_materno', 
-        'telefono', 
+        'apellido_materno',
+        'telefono',
         'email',
-        'direccion', 
-        'pais', 
+        'direccion',
+        'pais',
         'tipo_profesional',
         'especialidad'
     ];

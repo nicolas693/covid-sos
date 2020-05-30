@@ -56,6 +56,9 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <!-- Select2 -->
     <script src="{{asset('/plugins/select2/js/select2.full.min.js')}}"></script>
 
+     <!-- Moment -->
+     <script src="{{asset('/plugins/moment/moment.min.js')}}"></script>
+
 </head>
 
 <body class="hold-transition layout-top-nav">
@@ -106,7 +109,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                     <li class="nav-item">
                         <a href="#" class="nav-link">Login</a>
                     </li>
-                   
+
 
                     <li class="nav-item">
                         <a class="nav-link" data-widget="control-sidebar" data-slide="true" href="#" role="button"><i class="fas fa-th-large"></i></a>

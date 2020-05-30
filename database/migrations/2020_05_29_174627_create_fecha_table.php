@@ -20,9 +20,7 @@ class CreateFechaTable extends Migration
             $table->string('hora_inicio')->nullable();
             $table->string('hora_termino')->nullable();
 
-            $table->foreign('profesional_id')
-                ->references('id')
-                ->on('profesionales');
+            $table->foreign('profesional_id')->references('id')->on('profesionales');
 
             $table->softDeletes();
             $table->timestamps();

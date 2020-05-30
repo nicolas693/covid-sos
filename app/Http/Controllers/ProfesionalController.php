@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Profesional;
+use App\Fecha;
 use App\Datos\Pais;
 use App\Datos\Titulo;
 use App\Datos\Especialidad;
@@ -22,39 +23,39 @@ class ProfesionalController extends Controller
     }
     public function enviarSolicitud(Request $request)
     {
-
-
+        // dd($request->all());
         $regLatino = '/^([A-Za-zÑñáéíóúÁÉÍÓÚ ]+)$/';
         $regLatinoNum = '/^([A-Za-z0-9ÑñáéíóúÁÉÍÓÚ ]+)$/';
         $rut = '/^([0-9])+\-([kK0-9])+$/';
-        $validatedData = $request->validate(
-            [
-                'rut' => ['required', 'max:11', 'regex:' . $rut, new RutValido(request('rut'))],
-                'nombre' => 'required|max:100|regex:' . $regLatino,
-                'correo' => 'required|max:50|email',
-                'telefono' => 'required|max:30',
-                'lugar_trabajo' => 'required|max:80|regex:' . $regLatinoNum,
-                'profesion' => 'required|max:30',
-                'especialidad' => 'required_if:profesion,32|max:30',
-                'pais' => 'required',
-                'regiones' => 'required_if:disponibilidad,si',
-                'observacion' => 'max:190|regex:' . $regLatinoNum,
-            ],
-            [
-                'required' => 'Este campo es obligatorio!',
-                'email' => 'El correo debe tener formato de correo electrónico!',
-                'rut.regex' => 'El RUT debe ser ingresado sin puntos!',
-                'nombre.regex' => 'Este campo solo debe contener letras y espacios!',
-                'aPaterno.regex' => 'Este campo solo debe contener letras y espacios!',
-                'aMaterno.regex' => 'Este campo solo debe contener letras y espacios!',
-                'direccion.regex' => 'Este campo solo debe contener letras, números y espacios!',
-                'especialidad.required_if' => 'Este campo es requerido si usted es Médico!',
-                'regiones.required_if' => 'Este campo es requerido si usted tiene disponibilidad!',
-                'max' => 'Este campo no debe tener mas de :max caracteres !'
-            ]
-        );
+        // $validatedData = $request->validate(
+        //     [
+        //         'rut' => ['required', 'max:11', 'regex:' . $rut, new RutValido(request('rut'))],
+        //         'nombre' => 'required|max:100|regex:' . $regLatino,
+        //         'correo' => 'required|max:50|email',
+        //         'telefono' => 'required|max:30',
+        //         'lugar_trabajo' => 'required|max:80|regex:' . $regLatinoNum,
+        //         'profesion' => 'required|max:30',
+        //         'especialidad' => 'required_if:profesion,32|max:30',
+        //         'pais' => 'required',
+        //         'regiones' => 'required_if:disponibilidad,si',
+        //         'observacion' => 'max:190|regex:' . $regLatinoNum,
+        //     ],
+        //     [
+        //         'required' => 'Este campo es obligatorio!',
+        //         'email' => 'El correo debe tener formato de correo electrónico!',
+        //         'rut.regex' => 'El RUT debe ser ingresado sin puntos!',
+        //         'nombre.regex' => 'Este campo solo debe contener letras y espacios!',
+        //         'aPaterno.regex' => 'Este campo solo debe contener letras y espacios!',
+        //         'aMaterno.regex' => 'Este campo solo debe contener letras y espacios!',
+        //         'direccion.regex' => 'Este campo solo debe contener letras, números y espacios!',
+        //         'especialidad.required_if' => 'Este campo es requerido si usted es Médico!',
+        //         'regiones.required_if' => 'Este campo es requerido si usted tiene disponibilidad!',
+        //         'max' => 'Este campo no debe tener mas de :max caracteres !'
+        //     ]
+        // );
         $d = $request->all();
         $d['fechas'] = json_decode($d['fechas']);
+
         $profesional = Profesional::where('rut', $d['rut'])->first();
         if ($profesional == null) {
             $profesional = new Profesional();
@@ -67,20 +68,34 @@ class ProfesionalController extends Controller
             $profesional->especialidad = $d['especialidad'];
             $profesional->disponibilidad = $d['disponibilidad'];
             $profesional->pais = $d['pais'];
+            $profesional->horas = $d['horas'];
             $profesional->save();
+
+            foreach ($d['fechas'] as $key => $value) {
+                $fecha=new Fecha();
+                $fecha->profesional_id=$profesional->id;
+                $fecha->dia=$d['fechas'][$key]->dia;
+                $fecha->hora_inicio=$d['fechas'][$key]->hora_inicio;
+                $fecha->hora_termino=$d['fechas'][$key]->hora_termino;
+                $fecha->save();
+            }
+            // dd($d['fechas'],$d['horas']);
+
             return redirect('/profesional')->with('status', 'created');
         } else {
-            $profesional->rut = $d['rut'];
-            $profesional->nombre = $d['nombre'];
-            $profesional->email = $d['correo'];
-            $profesional->telefono = $d['telefono'];
-            $profesional->lugar_trabajo = $d['lugar_trabajo'];
-            $profesional->tipo_profesional = $d['profesion'];
-            $profesional->especialidad = $d['especialidad'];
-            $profesional->pais = $d['pais'];
-            $profesional->disponibilidad = $d['disponibilidad'];
-            $profesional->save();
-            return redirect('/profesional')->with('status', 'updated');
+            // $profesional->rut = $d['rut'];
+            // $profesional->nombre = $d['nombre'];
+            // $profesional->email = $d['correo'];
+            // $profesional->telefono = $d['telefono'];
+            // $profesional->lugar_trabajo = $d['lugar_trabajo'];
+            // $profesional->tipo_profesional = $d['profesion'];
+            // $profesional->especialidad = $d['especialidad'];
+            // $profesional->pais = $d['pais'];
+            // $profesional->disponibilidad = $d['disponibilidad'];
+            // $profesional->save();
+
+            // return redirect('/profesional')->with('status', 'updated');
+            return redirect('/profesional');
         }
     }
     public function obtenerProfesional($rut)

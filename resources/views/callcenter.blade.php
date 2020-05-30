@@ -20,7 +20,8 @@
         opacity: 1;
         margin-top: 25%;
     }
-    .bold{
+
+    .bold {
         font-weight: bold !important;
     }
 </style>
@@ -50,7 +51,7 @@
 
                 <div class="card">
                     <div class="card-header">
-                        <h3 class="card-title">VISTA RECLUTADOR</h3>
+                        <h3 class="card-title">VISTA CALL CENTER</h3>
 
                         <div class="card-tools">
                             <button type="button" class="btn btn-tool" data-card-widget="collapse" data-toggle="tooltip" title="Collapse">
@@ -58,7 +59,7 @@
                         </div>
                     </div>
                     <div class="card-body">
-                        
+
                         <table class="table table-sm nowrap" id="tabla_reclutador" style="width: 100%;">
                             <thead class="bold">
                                 <tr>
@@ -67,36 +68,66 @@
                                     <td>E-mail</td>
                                     <td>Lugar De Trabajo</td>
                                     <td>Disponibilidad</td>
+                                    <td>Acción</td>
                                 </tr>
                             </thead>
                             <tbody>
                                 @foreach($profesionales as $key => $pro)
-                                    <tr>
-                                        <td>{{$pro->nombre}}</td>
-                                        <td>{{$pro->telefono}}</td>
-                                        <td>{{$pro->email}}</td>
-                                        <td>{{$pro->lugar_trabajo}}</td>
-                                        <td>{{$pro->disponibilidad}}</td>
-                                    </tr>
+                                <tr>
+                                    <td>{{$pro->nombre}}</td>
+                                    <td>{{$pro->telefono}}</td>
+                                    <td>{{$pro->email}}</td>
+                                    <td>{{$pro->lugar_trabajo}}</td>
+                                    <td>{{$pro->disponibilidad}}</td>
+                                    <td>
+                                        <button type="button" class="btn btn-info btn-sm" name="{{$pro->id}}"  title="Información Profesional" onclick="verInfo(this.name)"><i class="fas fa-info-circle"></i></button>
+                                        <button type="button" class="btn btn-success btn-sm" name="{{$pro->id}}"  title="Asignar Profesional"><i class="fas fa-plus"></i></button>
+                                        
+                                    </td>
+                                </tr>
                                 @endforeach
                             </tbody>
                         </table>
                     </div>
                 </div>
-               
             </div>
             <!-- /.card -->
         </div>
     </div>
     </div>
+    <div id="modal"></div>
 </section>
 <script>
     $(document).ready(function() {
         $('#tabla_reclutador').DataTable({
-            responsive: true
+            responsive: true,
+            language: {
+                "lengthMenu": "Mostrar _MENU_ registros por página",
+                "zeroRecords": "No se encontraron registros",
+                "info": "Mostrando página _PAGE_ de _PAGES_",
+                "infoEmpty": "No hay registros disponibles",
+                "infoFiltered": "(filtered from _MAX_ total records)",
+                "search": "Buscar:",
+                "processing": "Consultando...",
+                "paginate": {
+                    "first": "Primera",
+                    "last": "Ultima",
+                    "next": "Siguiente",
+                    "previous": "Anterior"
+                },
+            },
         });
     });
-
-   
+    function verInfo(id) {
+        $(".CC").attr('disabled', true);
+        ruta = @json(route('callcenter.verinfo', ['id' => 'id']));
+        ruta = ruta.replace('id', id);
+        console.log(ruta);
+        $('.modal').modal('hide');
+        $.get(ruta, function(data) {
+            $('#modal').html(data);
+            $('#modalInfo').modal('show');
+        });
+    }
 </script>
 @endsection

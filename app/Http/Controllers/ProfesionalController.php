@@ -12,23 +12,24 @@ use App\Rules\RutValido;
 
 class ProfesionalController extends Controller
 {
-    public function index(){
+    public function index()
+    {
         $region = new Region();
         //$region->setConnection('masterdb');
-        $region = $region->where('id','!=','0');
-        $regiones = $region->pluck('tx_descripcion','id');
-        return view('profesional')->with('regiones',$regiones);
+        $region = $region->where('id', '!=', '0');
+        $regiones = $region->pluck('tx_descripcion', 'id');
+        return view('profesional')->with('regiones', $regiones);
     }
     public function enviarSolicitud(Request $request)
     {
 
-        
+
         $regLatino = '/^([A-Za-zÑñáéíóúÁÉÍÓÚ ]+)$/';
         $regLatinoNum = '/^([A-Za-z0-9ÑñáéíóúÁÉÍÓÚ ]+)$/';
         $rut = '/^([0-9])+\-([kK0-9])+$/';
         $validatedData = $request->validate(
             [
-                'rut' => ['required','max:11','regex:' . $rut,new RutValido(request('rut'))],
+                'rut' => ['required', 'max:11', 'regex:' . $rut, new RutValido(request('rut'))],
                 'nombre' => 'required|max:100|regex:' . $regLatino,
                 'correo' => 'required|max:50|email',
                 'telefono' => 'required|max:30',

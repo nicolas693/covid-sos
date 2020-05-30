@@ -25,9 +25,12 @@ class RutValido implements Rule
      */
     public function passes($attribute, $value)
     {
+        if (strpos( $value, '-') == false) {
+           return false;
+        }
         
         $rut = explode('-',$value)[0];
-        $dv = strtoupper (explode('-',$value)[1]);
+        $dv = strtoupper(explode('-',$value)[1]);
         $dvv = '';
         $rut_rev = strrev($rut); // se invierte el rut
         $multiplicador = 2; // setea el multiplicador de los digitos del rut
@@ -67,6 +70,6 @@ class RutValido implements Rule
      */
     public function message()
     {
-        return 'Debe ingresar un RUT válido!';
+        return 'Debe ingresar un RUT válido, EJ : 18222333-6!';
     }
 }

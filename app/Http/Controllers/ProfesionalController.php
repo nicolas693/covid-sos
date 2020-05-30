@@ -23,20 +23,22 @@ class ProfesionalController extends Controller
     public function enviarSolicitud(Request $request)
     {
 
-
+        //dd($request->all());
         $regLatino = '/^([A-Za-zÑñáéíóúÁÉÍÓÚ ]+)$/';
         $regLatinoNum = '/^([A-Za-z0-9ÑñáéíóúÁÉÍÓÚ ]+)$/';
         $rut = '/^([0-9])+\-([kK0-9])+$/';
         $validatedData = $request->validate(
             [
-                'rut' => ['required', 'max:11', 'regex:' . $rut, new RutValido(request('rut'))],
+                'rut' => ['required_if:tipo_identificacion,1', 'max:11', 'regex:' . $rut, new RutValido(request('rut')),'nullable'],
+                'provisorio' => ['required_if:tipo_identificacion,2', 'max:11', 'regex:' . $rut, new RutValido(request('rut')),'nullable'],
+                'pasaporte' => ['required_if:tipo_identificacion,3', 'max:11', 'regex:' . $regLatino,'nullable'],
                 'nombre' => 'required|max:100|regex:' . $regLatino,
                 'correo' => 'required|max:50|email',
                 'telefono' => 'required|max:30',
                 'lugar_trabajo' => 'required|max:80|regex:' . $regLatinoNum,
                 'profesion' => 'required|max:30',
                 'especialidad' => 'required_if:profesion,32|max:30',
-                'pais' => 'required',
+                'pais' => 'required_if:extranjero,1',
                 'regiones' => 'required_if:disponibilidad,si',
                 'observacion' => 'max:190|regex:' . $regLatinoNum,
             ],
@@ -44,17 +46,23 @@ class ProfesionalController extends Controller
                 'required' => 'Este campo es obligatorio!',
                 'email' => 'El correo debe tener formato de correo electrónico!',
                 'rut.regex' => 'El RUT debe ser ingresado sin puntos!',
+                'rut.required_if' => 'Este campo es requerido!',
+                'provisorio.required_if' => 'Este campo es requerido!',
+                'pasaporte.required_if' => 'Este campo es requerido!',
+                'provisorio.regex' => 'El RUT Provisorio debe ser ingresado sin puntos!',
                 'nombre.regex' => 'Este campo solo debe contener letras y espacios!',
                 'aPaterno.regex' => 'Este campo solo debe contener letras y espacios!',
                 'aMaterno.regex' => 'Este campo solo debe contener letras y espacios!',
                 'direccion.regex' => 'Este campo solo debe contener letras, números y espacios!',
                 'especialidad.required_if' => 'Este campo es requerido si usted es Médico!',
+                'pais.required_if' => 'Este campo es requerido si usted es extranjero!',
                 'regiones.required_if' => 'Este campo es requerido si usted tiene disponibilidad!',
                 'max' => 'Este campo no debe tener mas de :max caracteres !'
             ]
         );
         $d = $request->all();
         $d['fechas'] = json_decode($d['fechas']);
+        dd($d);
         $profesional = Profesional::where('rut', $d['rut'])->first();
         if ($profesional == null) {
             $profesional = new Profesional();

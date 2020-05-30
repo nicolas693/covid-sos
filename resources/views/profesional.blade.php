@@ -135,13 +135,28 @@
                                         <span class="text-danger">{{ $errors->first('tipo_identificacion') }}</span>
                                         @endif
                                     </div>
+
+                                    <div class="col-md-12" id ="div_pais" style="display: none;">
+                                        <label for="pais">País : <b style="color:red">(*)</b></label>
+
+                                        <select class="form-control select2" name="pais" id="pais" value="{{ old('pais') }}">
+                                        </select>
+                                        <input type="hidden" name="cod_pais" id="cod_pais" value="{{ old('cod_pais') }}">
+                                        <input type="hidden" name="tx_pais" id="tx_pais" value="{{ old('tx_pais') }}">
+
+                                        <div class="input-group mb-3">
+                                            @if ($errors->has('pais'))
+                                            <span class="text-danger ml-1">{{ $errors->first('pais') }}</span>
+                                            @endif
+                                        </div>
+                                    </div>
                                     <div class="col-md-12" style="display: none;" id="div_rut">
                                         <label for="rut">Rut : <b style="color:red">(*)</b></label>
 
                                         <div class="form-group input-group" style="margin-bottom:0">
                                             <input type="text" class="form-control" id="rut" name="rut" placeholder="Ej: 11222333-0" value="{{ old('rut') }}">
                                             <span class="input-group-btn">
-                                                <button type="button" class="btn btn-info" name="boton_consultar" title="Buscar Paciente Por RUT" onclick="buscarProfesional()"><i class="fas fa-search"></i></button>
+                                                <!-- <button type="button" class="btn btn-info" name="boton_consultar" title="Buscar Paciente Por RUT" onclick="buscarProfesional()"><i class="fas fa-search"></i></button> -->
                                             </span>
                                         </div>
                                         <div class="input-group mb-3">
@@ -158,7 +173,7 @@
                                         <div class="form-group input-group" style="margin-bottom:0">
                                             <input type="text" class="form-control" id="provisorio" name="provisorio" placeholder="Ej: 11222333-0" value="{{ old('provisorio') }}">
                                             <span class="input-group-btn">
-                                                <button type="button" class="btn btn-info" name="boton_consultar" title="Buscar Paciente Por RUT" onclick="buscarProfesional()"><i class="fas fa-search"></i></button>
+                                                <!-- <button type="button" class="btn btn-info" name="boton_consultar" title="Buscar Paciente Por RUT" onclick="buscarProfesional()"><i class="fas fa-search"></i></button> -->
                                             </span>
                                         </div>
                                         <div class="input-group mb-3">
@@ -175,7 +190,7 @@
                                         <div class="form-group input-group" style="margin-bottom:0">
                                             <input type="text" class="form-control" id="pasaporte" name="pasaporte" placeholder="Ej: 11222333-0" value="{{ old('pasaporte') }}">
                                             <span class="input-group-btn">
-                                                <button type="button" class="btn btn-info" name="boton_consultar" title="Buscar Paciente Por RUT" onclick="buscarProfesional()"><i class="fas fa-search"></i></button>
+                                                <!-- <button type="button" class="btn btn-info" name="boton_consultar" title="Buscar Paciente Por RUT" onclick="buscarProfesional()"><i class="fas fa-search"></i></button> -->
                                             </span>
                                         </div>
                                         <div class="input-group mb-3">
@@ -213,20 +228,7 @@
                                             @endif
                                         </div>
                                     </div>
-                                    <div class="col-md-12">
-                                        <label for="pais">País : <b style="color:red">(*)</b></label>
-
-                                        <select class="form-control select2" name="pais" id="pais" value="{{ old('pais') }}">
-                                        </select>
-                                        <input type="hidden" name="cod_pais" id="cod_pais" value="{{ old('cod_pais') }}">
-                                        <input type="hidden" name="tx_pais" id="tx_pais" value="{{ old('tx_pais') }}">
-
-                                        <div class="input-group mb-3">
-                                            @if ($errors->has('pais'))
-                                            <span class="text-danger ml-1">{{ $errors->first('pais') }}</span>
-                                            @endif
-                                        </div>
-                                    </div>
+                                
                                     <div class="col-md-12">
                                         <label for="lugar_trabajo">Lugar De Trabajo Actual : <b style="color:red">(*)</b></label>
                                         <input type="text" class="form-control" name="lugar_trabajo" id="lugar_trabajo" value="{{ old('lugar_trabajo') }}">
@@ -443,7 +445,64 @@
             // $("#formulario_profesional").submit();
             return true;
         });
+        valor = document.querySelector('input[name="extranjero"]:checked').value;
+        if (valor == '1') {
+            $('#div_pais').fadeIn();
+            rut_r = document.getElementById('rut_provisorio_r');
+            pas_r = document.getElementById('pasaporte_r');
+            indoc_r = document.getElementById('indoc_r');
 
+            rut_r.disabled = false;
+            pas_r.disabled = false;
+        } else {
+            //En caso de que no sea esxtranjero, se esconden div nacionalidad y pasaporte y se bloquean los radio button correspondientes
+            $('#div_pais').fadeOut();
+            $('#div_pasaporte').fadeOut();
+
+            rut_r = document.getElementById('rut_r');
+            rutp_r = document.getElementById('rut_provisorio_r');
+            pas_r = document.getElementById('pasaporte_r');
+
+            rut_r.checked = true;
+            // rut_r.disabled = false;
+            //desmarca y deshabilita los radio button
+            rutp_r.checked = false;
+            rutp_r.disabled = true;
+            pas_r.checked = false;
+            pas_r.disabled = true;
+
+            var opciones = document.getElementById('tipo_codigo');
+
+            $('#div_provisorio').fadeOut('slow', function() {
+                $('#div_pasaporte').fadeOut('slow', function() {
+                    $('#div_rut').fadeIn('slow', function() {});
+                });
+            });
+        }
+
+        value = document.querySelector('input[name="tipo_identificacion"]:checked').value;
+
+        if (value == '1') {
+            $('#div_provisorio').fadeOut(function() {
+                $('#div_pasaporte').fadeOut(function() {
+                    $('#div_rut').fadeIn();
+                });
+            });
+        }
+        if (value == '2') {
+            $('#div_rut').fadeOut(function() {
+                $('#div_pasaporte').fadeOut(function() {
+                    $('#div_provisorio').fadeIn();
+                });
+            });
+        }
+        if (value == '3') {
+            $('#div_rut').fadeOut(function() {
+                $('#div_provisorio').fadeOut(function() {
+                    $('#div_pasaporte').fadeIn();
+                });
+            });
+        }
     });
 
     $('.select2').select2({});
@@ -554,9 +613,7 @@
         var valor = e.currentTarget.value;
         //En caso de que sea esxtranjero, se muestra div nacionalidad y se bloquean los radio button correspondientes
         if (valor == '1') {
-            $('#div_nacionalidad').fadeIn({
-                duration: 100
-            });
+            $('#div_pais').fadeIn();
             rut_r = document.getElementById('rut_provisorio_r');
             pas_r = document.getElementById('pasaporte_r');
             indoc_r = document.getElementById('indoc_r');
@@ -565,12 +622,8 @@
             pas_r.disabled = false;
         } else {
             //En caso de que no sea esxtranjero, se esconden div nacionalidad y pasaporte y se bloquean los radio button correspondientes
-            $('#div_nacionalidad').fadeOut({
-                duration: 300
-            });
-            $('#div_pasaporte').fadeOut({
-                duration: 300
-            });
+            $('#div_pais').fadeOut();
+            $('#div_pasaporte').fadeOut();
 
             rut_r = document.getElementById('rut_r');
             rutp_r = document.getElementById('rut_provisorio_r');

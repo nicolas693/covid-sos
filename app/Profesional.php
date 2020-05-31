@@ -64,4 +64,10 @@ class Profesional extends Model
         return join( ',', $data);
     }
 
+    public function getEstadoTitulo()
+    {
+        $estado =$this->hasOne('App\Datos\EstadoTitulo', 'id','estado_titulo')->first();
+        return $estado;
+    }
+
 }

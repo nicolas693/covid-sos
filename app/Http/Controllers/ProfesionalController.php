@@ -10,7 +10,7 @@ use App\Datos\Pais;
 use App\Datos\Titulo;
 use App\Datos\Especialidad;
 use App\Datos\Region;
-
+use App\Datos\EstadoTitulo;
 use App\Rules\RutValido;
 use App\Rules\ValidarLiveSearch;
 
@@ -25,7 +25,8 @@ class ProfesionalController extends Controller
         $region = $region->pluck('tx_descripcion', 'id');
         $comunas = $comunas->where('id', '!=', '0');
         $comunas = $comunas->pluck('tx_descripcion', 'id');
-        return view('profesional')->with('comunas',  $comunas)->with('regiones',  $region);
+        $estado_titulo = EstadoTitulo::all()->pluck('tx_descripcion','id')->toArray();
+        return view('profesional')->with('comunas',  $comunas)->with('regiones',  $region)->with('estado_titulo',$estado_titulo);
     }
     public function enviarSolicitud(Request $request)
     {
@@ -88,6 +89,7 @@ class ProfesionalController extends Controller
             $profesional->especialidad = $d['especialidad'];
             $profesional->disponibilidad = $d['disponibilidad'];
             $profesional->comuna_residencia = $d['comuna_residencia'];
+            $profesional->estado_titulo = $d['estudios'];
             if($d['extranjero']=='0'){
                 $profesional->pais = '43';
             }else{

@@ -211,6 +211,21 @@
                                     </div>
 
                                     <div class="col-md-12">
+                                        <label for="estudios">Estado de estudios : <b style="color:red">(*)</b></label>
+                                        <select class="form-control select2" name="estudios" id="estudios" value="">
+                                                @foreach($estado_titulo as $key => $et)
+
+                                                <option value="{{$key}}">{{$et}}</option>
+                                                @endforeach
+                                            </select>
+                                        <div class="input-group mb-3">
+                                            @if ($errors->has('estudios'))
+                                            <span class="text-danger ml-1">{{ $errors->first('estudios') }}</span>
+                                            @endif
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-12">
                                         <label for="telefono">Teléfono de contacto : <b style="color:red">(*)</b></label>
                                         <input type="text" class="form-control" name="telefono" id="telefono" value="{{ old('telefono') }}">
                                         <div class="input-group mb-3">

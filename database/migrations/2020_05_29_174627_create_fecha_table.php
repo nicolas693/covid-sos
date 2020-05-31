@@ -15,7 +15,14 @@ class CreateFechaTable extends Migration
     {
         Schema::create('fechas', function (Blueprint $table) {
             $table->bigIncrements('id');
+            $table->unsignedBigInteger('profesional_id')->nullable();
+            $table->string('dia')->nullable();
+            $table->string('hora_inicio')->nullable();
+            $table->string('hora_termino')->nullable();
 
+            $table->foreign('profesional_id')->references('id')->on('profesionales');
+
+            $table->softDeletes();
             $table->timestamps();
         });
     }

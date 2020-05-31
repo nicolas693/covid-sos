@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Profesional;
+use App\Fecha;
 use App\Datos\Pais;
 use App\Datos\Titulo;
 use App\Datos\Especialidad;
@@ -12,23 +13,23 @@ use App\Rules\RutValido;
 
 class ProfesionalController extends Controller
 {
-    public function index(){
+    public function index()
+    {
         $region = new Region();
         //$region->setConnection('masterdb');
-        $region = $region->where('id','!=','0');
-        $regiones = $region->pluck('tx_descripcion','id');
-        return view('profesional')->with('regiones',$regiones);
+        $region = $region->where('id', '!=', '0');
+        $regiones = $region->pluck('tx_descripcion', 'id');
+        return view('profesional')->with('regiones', $regiones);
     }
     public function enviarSolicitud(Request $request)
     {
-
-        
+        //  dd($request->all());
         $regLatino = '/^([A-Za-zÑñáéíóúÁÉÍÓÚ ]+)$/';
         $regLatinoNum = '/^([A-Za-z0-9ÑñáéíóúÁÉÍÓÚ ]+)$/';
         $rut = '/^([0-9])+\-([kK0-9])+$/';
         $validatedData = $request->validate(
             [
-                'rut' => ['required','max:11','regex:' . $rut,new RutValido(request('rut'))],
+                'rut' => ['required', 'max:11', 'regex:' . $rut, new RutValido(request('rut'))],
                 'nombre' => 'required|max:100|regex:' . $regLatino,
                 'correo' => 'required|max:50|email',
                 'telefono' => 'required|max:30',
@@ -54,6 +55,7 @@ class ProfesionalController extends Controller
         );
         $d = $request->all();
         $d['fechas'] = json_decode($d['fechas']);
+
         $profesional = Profesional::where('rut', $d['rut'])->first();
         if ($profesional == null) {
             $profesional = new Profesional();
@@ -66,20 +68,34 @@ class ProfesionalController extends Controller
             $profesional->especialidad = $d['especialidad'];
             $profesional->disponibilidad = $d['disponibilidad'];
             $profesional->pais = $d['pais'];
+            $profesional->horas = $d['horas'];
             $profesional->save();
+
+            foreach ($d['fechas'] as $key => $value) {
+                $fecha=new Fecha();
+                $fecha->profesional_id=$profesional->id;
+                $fecha->dia=$d['fechas'][$key]->dia;
+                $fecha->hora_inicio=$d['fechas'][$key]->hora_inicio;
+                $fecha->hora_termino=$d['fechas'][$key]->hora_termino;
+                $fecha->save();
+            }
+            // dd($d['fechas'],$d['horas']);
+
             return redirect('/profesional')->with('status', 'created');
         } else {
-            $profesional->rut = $d['rut'];
-            $profesional->nombre = $d['nombre'];
-            $profesional->email = $d['correo'];
-            $profesional->telefono = $d['telefono'];
-            $profesional->lugar_trabajo = $d['lugar_trabajo'];
-            $profesional->tipo_profesional = $d['profesion'];
-            $profesional->especialidad = $d['especialidad'];
-            $profesional->pais = $d['pais'];
-            $profesional->disponibilidad = $d['disponibilidad'];
-            $profesional->save();
-            return redirect('/profesional')->with('status', 'updated');
+            // $profesional->rut = $d['rut'];
+            // $profesional->nombre = $d['nombre'];
+            // $profesional->email = $d['correo'];
+            // $profesional->telefono = $d['telefono'];
+            // $profesional->lugar_trabajo = $d['lugar_trabajo'];
+            // $profesional->tipo_profesional = $d['profesion'];
+            // $profesional->especialidad = $d['especialidad'];
+            // $profesional->pais = $d['pais'];
+            // $profesional->disponibilidad = $d['disponibilidad'];
+            // $profesional->save();
+
+            // return redirect('/profesional')->with('status', 'updated');
+            return redirect('/profesional');
         }
     }
     public function obtenerProfesional($rut)

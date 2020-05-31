@@ -6,6 +6,7 @@ use App\Datos\Comuna;
 use Illuminate\Http\Request;
 use App\Profesional;
 use App\ComunaPreferencia;
+use App\Fecha;
 use App\Datos\Pais;
 use App\Datos\Titulo;
 use App\Datos\Especialidad;
@@ -77,6 +78,7 @@ class ProfesionalController extends Controller
         $d = $request->all();
         $d['fechas'] = json_decode($d['fechas']);
        
+
         $profesional = Profesional::where('rut', $d['rut'])->first();
         $profesional = null;
         if ($profesional == null) {
@@ -97,6 +99,9 @@ class ProfesionalController extends Controller
                 $profesional->pais = $d['pais'];
             }
             
+           
+           
+            $profesional->horas = $d['horas'];
             $profesional->save();
             foreach($d['comuna_preferencia'] as $key => $c){
                 $com = new ComunaPreferencia();
@@ -104,7 +109,17 @@ class ProfesionalController extends Controller
                 $com->comuna_id = $c;
                 $com->save();
             }
-           
+
+            foreach ($d['fechas'] as $key => $value) {
+                $fecha=new Fecha();
+                $fecha->profesional_id=$profesional->id;
+                $fecha->dia=$d['fechas'][$key]->dia;
+                $fecha->hora_inicio=$d['fechas'][$key]->hora_inicio;
+                $fecha->hora_termino=$d['fechas'][$key]->hora_termino;
+                $fecha->save();
+            }
+            // dd($d['fechas'],$d['horas']);
+
             return redirect('/profesional')->with('status', 'created');
         } else {
             // $profesional->rut = $d['rut'];
@@ -117,7 +132,10 @@ class ProfesionalController extends Controller
             // $profesional->pais = $d['pais'];
             // $profesional->disponibilidad = $d['disponibilidad'];
             $profesional->save();
-            return redirect('/profesional')->with('status', 'updated');
+            // $profesional->save();
+
+            // return redirect('/profesional')->with('status', 'updated');
+            return redirect('/profesional');
         }
     }
     public function obtenerProfesional($rut)
@@ -144,12 +162,12 @@ class ProfesionalController extends Controller
         }
     }
 
-    private  function calcularDv($rut)
-    {
-        $rut_rev = strrev($rut); // se invierte el rut
-        $multiplicador = 2; // setea el multiplicador de los digitos del rut
-        $suma = 0;
-        for ($i = 0; $i < strlen($rut_rev); $i++) { // itera hasta el largo del string $rut_rev
+                private  function calcularDv($rut)
+                {
+                    $rut_rev = strrev($rut); // se invierte el rut
+                    $multiplicador = 2; // setea el multiplicador de los digitos del rut
+                    $suma = 0;
+                    for ($i = 0; $i < strlen($rut_rev); $i++) { // itera hasta el largo del string $rut_rev
             $digito = $rut_rev[$i];
             $digito = intval($digito); // transforma el digito de string a int
             if ($multiplicador > 7) { // si el multiplicador es mayor a 7 se resetea a 2

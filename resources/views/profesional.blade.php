@@ -173,8 +173,6 @@
                                         <div class="form-group input-group" style="margin-bottom:0">
                                             <input type="text" class="form-control" id="provisorio" name="provisorio" placeholder="Ej: 11222333-0" value="{{ old('provisorio') }}">
                                             <span class="input-group-btn">
-                                                <!-- <button type="button" class="btn btn-info" name="boton_consultar" title="Buscar Paciente Por RUT" onclick="buscarProfesional()"><i class="fas fa-search"></i></button> -->
-                                            </span>
                                         </div>
                                         <div class="input-group mb-3">
                                             @if ($errors->has('provisorio'))
@@ -190,7 +188,6 @@
                                         <div class="form-group input-group" style="margin-bottom:0">
                                             <input type="text" class="form-control" id="pasaporte" name="pasaporte" placeholder="Ej: 11222333-0" value="{{ old('pasaporte') }}">
                                             <span class="input-group-btn">
-                                                <!-- <button type="button" class="btn btn-info" name="boton_consultar" title="Buscar Paciente Por RUT" onclick="buscarProfesional()"><i class="fas fa-search"></i></button> -->
                                             </span>
                                         </div>
                                         <div class="input-group mb-3">
@@ -420,7 +417,7 @@
                                 </div>
                             </div>
                             <input type="hidden" id="fechas_input" name="fechas" value="">
-
+                            <input type="hidden" id="horas_input" name="horas" value="">
                             </form>
 
 
@@ -438,11 +435,14 @@
     </div>
 </section>
 <script>
+
     $(document).ready(function() {
         var max_fields = 10; //maximum input boxes allowed
         var wrapper = $(".fechas"); //Fields wrapper
         var add_button = $(".add_fecha"); //Add button ID
         var remove_button = $(".remove_fecha"); //Add button ID
+
+        var horas_totales=0;
 
         var fechas_formulario = [];
         var x = 1; //initlal text box count
@@ -486,7 +486,7 @@
         })
 
         $(".formulario_profesional").submit(function(e) {
-            // e.preventDefault();
+            //  e.preventDefault();
 
             $('.fila_completa').each(function(index, element) {
                 //  console.log( $( this ).find('.fila_select').val() );
@@ -497,11 +497,29 @@
                     hora_inicio: $(this).find('.fila_inicio').val(),
                     hora_termino: $(this).find('.fila_termino').val()
                 }
+
+var inicio = moment($(this).find('.fila_inicio').val(),'HH:mm');
+var termino = moment($(this).find('.fila_termino').val(),'HH:mm');
+
+if(inicio>termino){
+var diff_a=24-inicio.get('hour');
+var diff_b=termino.get('hour');
+horas_totales=horas_totales+diff_a+diff_b;diff_a+diff_b;
+}else{
+horas_totales=horas_totales+parseInt(moment.duration(termino.diff(inicio)).asHours());
+}
+
+// console.log(parseInt(moment.duration(termino.diff(inicio), 'milliseconds').asHours()))
+
                 fechas_formulario.push(fila);
             });
-            console.log(fechas_formulario);
-            $('#fechas_input').val(JSON.stringify(fechas_formulario));
 
+            console.log(fechas_formulario);
+            console.log(horas_totales);
+            $('#fechas_input').val(JSON.stringify(fechas_formulario));
+            fechas_formulario=[];
+            $('#horas_input').val(JSON.stringify(horas_totales));
+            horas_totales=0;
             // $("#formulario_profesional").submit();
             return true;
         });

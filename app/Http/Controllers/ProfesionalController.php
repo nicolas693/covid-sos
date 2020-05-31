@@ -20,6 +20,7 @@ class ProfesionalController extends Controller
     {
         $region = new Region();
         $comunas = new Comuna();
+        // TEST NUEVO REPO
         //$region->setConnection('masterdb');
         $region = $region->where('id', '!=', '0');
         $region = $region->pluck('tx_descripcion', 'id');

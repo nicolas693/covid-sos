@@ -2,7 +2,7 @@
 @section('content')
 
 
-
+<script src="https://cdn.datatables.net/responsive/2.2.4/js/dataTables.responsive.min.js"></script>
 <style>
     .toastr-margin {
         margin-top: 25px;
@@ -64,10 +64,13 @@
                             <thead class="bold">
                                 <tr>
                                     <td>Nombre</td>
-                                    <td>Teléfono</td>
+                                    <td>Profesion</td>
+                                    <td>Titulo</td>
+                                    <td>Especialidad</td>
+                                    <td>Horas Sem.</td>
+                                    <td>Estado</td>
+                                    <td>Telefono</td>
                                     <td>E-mail</td>
-                                    <td>Lugar De Trabajo</td>
-                                    <td>Disponibilidad</td>
                                     <td>Acción</td>
                                 </tr>
                             </thead>
@@ -75,14 +78,16 @@
                                 @foreach($profesionales as $key => $pro)
                                 <tr>
                                     <td>{{$pro->nombre}}</td>
+                                    <td>{{$pro->tipo_profesional}}</td>
+                                    <td>{{$pro->estado_titulo}}</td>
+                                    <td>{{$pro->especialidad}}</td>
+                                    <td>{{$pro->horas}}</td>
+                                    <td>{{$pro->estado}}</td>
                                     <td>{{$pro->telefono}}</td>
                                     <td>{{$pro->email}}</td>
-                                    <td>{{$pro->lugar_trabajo}}</td>
-                                    <td>{{$pro->disponibilidad}}</td>
                                     <td>
                                         <button type="button" class="btn btn-info btn-sm" name="{{$pro->id}}"  title="Información Profesional" onclick="verInfo(this.name)"><i class="fas fa-info-circle"></i></button>
                                         <button type="button" class="btn btn-success btn-sm" name="{{$pro->id}}"  title="Asignar Profesional"><i class="fas fa-plus"></i></button>
-                                        
                                     </td>
                                 </tr>
                                 @endforeach
@@ -116,6 +121,19 @@
                     "previous": "Anterior"
                 },
             },
+            "columns": [
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null, //Added New
+
+        // {"orderable": false, "width":"2%"},
+    ],
         });
     });
     function verInfo(id) {
@@ -128,6 +146,9 @@
             $('#modal').html(data);
             $('#modalInfo').modal('show');
         });
-    }
+
+   };
+
+
 </script>
 @endsection

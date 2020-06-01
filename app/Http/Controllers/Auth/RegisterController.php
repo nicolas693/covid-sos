@@ -8,6 +8,7 @@ use App\User;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use App\Rules\RutValido;
 
 class RegisterController extends Controller
 {
@@ -29,7 +30,8 @@ class RegisterController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = RouteServiceProvider::HOME;
+    // protected $redirectTo = RouteServiceProvider::HOME;
+     protected $redirectTo = '/';
 
     /**
      * Create a new controller instance.
@@ -49,11 +51,25 @@ class RegisterController extends Controller
      */
     protected function validator(array $data)
     {
-        return Validator::make($data, [
-            'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-            'password' => ['required', 'string', 'min:8', 'confirmed'],
-        ]);
+        $rut = '/^([0-9])+\-([kK0-9])+$/';
+        
+        return Validator::make(
+            $data,
+            [
+                'rut' => ['regex:' . $rut,new RutValido(request('rut')),'max:11', 'nullable'],
+                'name' => ['required', 'string', 'max:255'],
+                'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+                'password' => ['required', 'string', 'min:8', 'confirmed'],
+            ],
+            [
+                'required' => 'Este campo es obligatorio!',
+                'email' => 'El correo debe tener formato de correo electrónico!',
+                'rut.regex' => 'El RUT debe ser ingresado sin puntos!',
+               
+                'password.confirmed' => 'Las contraseñas no coinciden!',
+                'max' => 'Este campo no debe tener mas de :max caracteres !'
+            ]
+        );
     }
 
     /**
@@ -64,7 +80,17 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
+        //dd($data);
+        // $user = new User();
+        // $user->rut = $data['rut'];
+        // $user->name = $data['name'];
+        // $user->email = $data['email'];
+        // $user->password = Hash::make($data['password']);
+        // $user->save();
+
+        // return view('auth/login');
         return User::create([
+            'rut' => $data['rut'],
             'name' => $data['name'],
             'email' => $data['email'],
             'password' => Hash::make($data['password']),

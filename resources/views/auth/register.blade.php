@@ -72,18 +72,18 @@
                         </div>
                         <div class="col-md-12">
                             <input type="password" class="form-control" name="password_confirmation" placeholder="Repita Contraseña">
-                            <div class="input-group-append">
+                            <!-- <div class="input-group-append">
                                 <div class="input-group-text">
                                     <span class="fas fa-lock"></span>
                                 </div>
-                            </div>
+                            </div> -->
                         </div>
                     </div>
 
                     <div class="row">
                         
                         <!-- /.col -->
-                        <div class="col-6">
+                        <div class="col-md-6 offset-3 mt-3">
                             <button type="submit" class="btn btn-info btn-block btn-flat">Registrar</button>
                         </div>
                         <!-- /.col -->

@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Profesional;
+use App\Asignacion;
 
 class AsignacionController extends Controller
 {
@@ -34,12 +36,31 @@ class AsignacionController extends Controller
      */
     public function store(Request $request)
     {
-        dd("aqui");
+
     }
 
     public function guardar(Request $request)
     {
-        dd($request->all());
+        //  dd($request->all(),$request->estado);
+        $profesional=Profesional::find($request->profesional_id);
+
+        if($request->modo=="establecimiento"){
+            $asignacion=new Asignacion();
+            $asignacion->profesional_id=$profesional->id;
+            $asignacion->asignador_id="1";//$request->user_id;
+            $asignacion->establecimiento=$request->establecimiento;
+            $asignacion->observaciones=$request->observaciones;
+            $asignacion->save();
+
+            $profesional->estado="contratado";
+            $profesional->save();
+            return redirect('/callcenter')->with('status', 'asignado');
+        }
+
+        //cambio el estado
+        $profesional->estado=$request->estadoProfesional;
+        $profesional->save();
+        return redirect('/callcenter')->with('status', 'cambio_estado');
     }
     /**
      * Display the specified resource.

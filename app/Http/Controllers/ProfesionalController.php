@@ -76,7 +76,7 @@ class ProfesionalController extends Controller
         );
         $d = $request->all();
         $d['fechas'] = json_decode($d['fechas']);
-       
+
 
         $profesional = Profesional::where('rut', $d['rut'])->first();
         $profesional = null;
@@ -97,9 +97,9 @@ class ProfesionalController extends Controller
             }else{
                 $profesional->pais = $d['pais'];
             }
-            
-           
-           
+
+
+
             $profesional->horas = $d['horas'];
             $profesional->save();
             foreach($d['comuna_preferencia'] as $key => $c){
@@ -140,7 +140,7 @@ class ProfesionalController extends Controller
     public function obtenerProfesional($rut)
     {
         $profesional = Profesional::where('rut', $rut)->first();
-        
+
         if ($profesional == null) {
 
             return 'vacio';

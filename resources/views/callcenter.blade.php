@@ -65,12 +65,13 @@
                                 <tr>
                                     <td>Nombre</td>
                                     <td>Profesion</td>
-                                    <td>Titulo</td>
-                                    <td>Especialidad</td>
-                                    <td>Horas</td>
+                                    {{-- <td>Titulo</td> --}}
+                                    {{-- <td>Especialidad</td> --}}
+                                    <td>Preferencia laboral</td>
+                                    {{-- <td>Horas</td>  --}}
+                                    {{-- disponibilidad --}}
                                     <td>Estado</td>
-                                    <td>Telefono</td>
-                                    <td>E-mail</td>
+
                                     <td>Acción</td>
                                 </tr>
                             </thead>
@@ -79,27 +80,25 @@
                                 <tr>
                                     <td>{{$pro->nombre}}</td>
                                     <td>{{$pro->getTitulo()->tx_descripcion}}</td>
-                                    <td>{{$pro->getEstadoTitulo()->tx_descripcion}}</td>
-                                    @if (isset($pro->getEspecialidad()->tx_descripcion))
+                                    {{-- <td>{{$pro->getEstadoTitulo()->tx_descripcion}}</td> --}}
+                                    {{-- @if (isset($pro->getEspecialidad()->tx_descripcion))
                                         <td>{{$pro->getEspecialidad()->tx_descripcion}}</td>
                                     @else
                                         <td></td>
-                                    @endif
-                                    <td>{{$pro->horas}}</td>
-                                    {{-- @switch($pro->estado)
+                                    @endif --}}
+                                    {{-- <td>{{$pro->horas}}</td> --}}
+                                    <td>{{$pro->getComunasPreferenciaString()}}</td>
+                                    @switch($pro->estado)
                                         @case("disponible")
-                                            <td >{{strtoupper($pro->estado)}}</td>
+                                            <td class="text-success">{{strtoupper($pro->estado)}}</td>
                                             @break
-                                        @case("ya asignado")
-                                            <td>{{$pro->estado}}</td>
+                                        @case("no disponible")
+                                            <td class="text-danger">{{strtoupper($pro->estado)}}</td>
                                             @break
-                                        @case("no ubicable")
-                                            <td >{{$pro->estado}}</td>
+                                        @case("contratado")
+                                            <td class="text-warning">{{strtoupper($pro->estado)}}</td>
                                             @break
-                                    @endswitch --}}
-                                    <td >{{strtoupper($pro->estado)}}</td>
-                                    <td>{{$pro->telefono}}</td>
-                                    <td>{{$pro->email}}</td>
+                                    @endswitch
                                     <td>
                                         <button type="button" class="btn btn-info btn-sm" name="{{$pro->id}}"  title="Información Profesional" onclick="verInfo(this.name)"><i class="fas fa-info-circle"></i></button>
                                         <button type="button" class="btn btn-success btn-sm" name="{{$pro->id}}"  onclick="asignarProfesional(this.name)"title="Asignar Profesional"><i class="fas fa-plus"></i></button>
@@ -140,10 +139,7 @@
         null,
         null,
         null,
-        null,
-        null,
-        null,
-        null,
+        // null,
         null,
         null, //Added New
 
@@ -166,10 +162,11 @@
     function asignarProfesional(id) {
         ruta = @json(route('callcenter.asignarProfesional', ['id' => 'id']));
         ruta = ruta.replace('id', id);
-        console.log(ruta);
+
 
         $('.modal').modal('hide');
         $.get(ruta, function(data) {
+            //  console.log(data);
             $('#modal').html(data);
             $('#modalAsignacion').modal('show');
         });

@@ -14,6 +14,7 @@ class CallCenterController extends Controller
         $profesion=DB::table('gen_titulo_profesional')->pluck('tx_descripcion','cd_tipo_profesional')->toArray();
         $comunas=DB::table('gen_comuna')->pluck('tx_descripcion','id')->toArray();
 
+
         $profesionales = Profesional::all();
 
         return view('/callcenter')->with('profesionales',$profesionales);

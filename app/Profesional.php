@@ -3,19 +3,20 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Datos\EstadoTitulo;
 
 class Profesional extends Model
 {
     protected $table = 'profesionales';
     protected $fillable = [
-        'rut', 
-        'nombre', 
+        'rut',
+        'nombre',
         'apellido_paterno',
-        'apellido_materno', 
-        'telefono', 
+        'apellido_materno',
+        'telefono',
         'email',
-        'direccion', 
-        'pais', 
+        'direccion',
+        'pais',
         'tipo_profesional',
         'especialidad'
     ];
@@ -47,7 +48,7 @@ class Profesional extends Model
         foreach($comunasPreferencia as $cp){
             $comuna =$cp->getComuna();
             $data[$comuna->id] = $comuna->tx_descripcion;
-           
+
         }
         return $data;
     }
@@ -59,7 +60,7 @@ class Profesional extends Model
         foreach($comunasPreferencia as $cp){
             $comuna =$cp->getComuna();
             $data[$comuna->id] = $comuna->tx_descripcion;
-           
+
         }
         return join( ',', $data);
     }
@@ -67,7 +68,12 @@ class Profesional extends Model
     public function getEstadoTitulo()
     {
         $estado =$this->hasOne('App\Datos\EstadoTitulo', 'id','estado_titulo')->first();
+        if($estado==null){
+            $estado=new EstadoTitulo();
+            $estado->tx_descripcion="N/A";
+        }
         return $estado;
+
     }
 
 }

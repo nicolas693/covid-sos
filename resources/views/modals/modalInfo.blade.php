@@ -24,6 +24,7 @@
                 </tr>
                 <tr>
                   <td>Especialidad :</td>
+                  $estado_titulo[$profesional->especial]
                   @if($profesional->getEspecialidad()!='vacio')
                   <td>{{$profesional->getEspecialidad()->tx_descripcion}}</td>
                   @else
@@ -43,7 +44,7 @@
                   <td>Preferencias de comuna :</td>
                   <td>{{$profesional->getComunasPreferenciaString()}}</td>
                 </tr>
-                
+
               </tbody>
             </table>
           </div>

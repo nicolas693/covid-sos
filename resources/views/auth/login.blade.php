@@ -78,10 +78,7 @@
 
 
                     <div class="row">
-                        <div class="col-8">
-
-                        </div>
-                        <div class="col-4"><button type="submit" class="btn btn-info btn-block btn-flat">Log In</button></div>
+                        <div class="col-md-6 offset-3"><button type="submit" class="btn btn-info btn-block btn-flat">Log In</button></div>
                     </div>
 
                 </form>

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Profesional;
+use DB;
 
 class CallCenterController extends Controller
 {
@@ -20,5 +21,9 @@ class CallCenterController extends Controller
     public function verInfo($id){
         $profesional = Profesional::find($id);
         return view('modals/modalInfo')->with('profesional',$profesional);
+    }
+    public function asignarProfesional($id){
+        $profesional = Profesional::find($id);
+        return view('modals/modalAsignacion')->with('profesional',$profesional);
     }
 }

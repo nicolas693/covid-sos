@@ -21,8 +21,6 @@
         margin-top: 25%;
     }
 </style>
-
-
 <!-- Main content -->
 <section class="content">
     <div class="container-fluid">
@@ -123,12 +121,6 @@
                                                         PASAPORTE
                                                     </label>
                                                 </div>
-                                                <!-- <div class="icheck-primary d-inline" style="margin-right:5%">
-                                                <input type="radio" id="indoc_r" name="tipo_identificacion" value="4" @if(old('tipo_identificacion')=="4" ) checked @endif @if(old('extranjero')=="0" ) disabled @endif>
-                                                <label for="indoc_r">
-                                                    INDOCUMENTADO
-                                                </label>
-                                            </div> -->
                                             </div>
                                         </div>
                                         @if ($errors->has('tipo_identificacion'))
@@ -138,12 +130,10 @@
 
                                     <div class="col-md-12" id="div_pais" style="display: none;">
                                         <label for="pais">País : <b style="color:red">(*)</b></label>
-
                                         <select class="form-control select2" name="pais" id="pais" value="{{ old('pais') }}">
                                         </select>
                                         <input type="hidden" name="cod_pais" id="cod_pais" value="{{ old('cod_pais') }}">
                                         <input type="hidden" name="tx_pais" id="tx_pais" value="{{ old('tx_pais') }}">
-
                                         <div class="input-group mb-3">
                                             @if ($errors->has('pais'))
                                             <span class="text-danger ml-1">{{ $errors->first('pais') }}</span>
@@ -152,11 +142,9 @@
                                     </div>
                                     <div class="col-md-12" style="display: none;" id="div_rut">
                                         <label for="rut">Rut : <b style="color:red">(*)</b></label>
-
                                         <div class="form-group input-group" style="margin-bottom:0">
                                             <input type="text" class="form-control" id="rut" name="rut" placeholder="Ej: 11222333-0" value="{{ old('rut') }}">
                                             <span class="input-group-btn">
-                                                <!-- <button type="button" class="btn btn-info" name="boton_consultar" title="Buscar Paciente Por RUT" onclick="buscarProfesional()"><i class="fas fa-search"></i></button> -->
                                             </span>
                                         </div>
                                         <div class="input-group mb-3">
@@ -169,7 +157,6 @@
 
                                     <div class="col-md-12" style="display: none;" id="div_provisorio">
                                         <label for="provisorio">Rut Provisorio : <b style="color:red">(*)</b></label>
-
                                         <div class="form-group input-group" style="margin-bottom:0">
                                             <input type="text" class="form-control" id="provisorio" name="provisorio" placeholder="Ej: 11222333-0" value="{{ old('provisorio') }}">
                                             <span class="input-group-btn">
@@ -184,7 +171,6 @@
 
                                     <div class="col-md-12" style="display: none;" id="div_pasaporte">
                                         <label for="pasaporte">Pasaporte : <b style="color:red">(*)</b></label>
-
                                         <div class="form-group input-group" style="margin-bottom:0">
                                             <input type="text" class="form-control" id="pasaporte" name="pasaporte" placeholder="Ej: 11222333-0" value="{{ old('pasaporte') }}">
                                             <span class="input-group-btn">
@@ -210,11 +196,10 @@
                                     <div class="col-md-12">
                                         <label for="estudios">Estado de estudios : <b style="color:red">(*)</b></label>
                                         <select class="form-control select2" name="estudios" id="estudios" value="">
-                                                @foreach($estado_titulo as $key => $et)
-
-                                                <option value="{{$key}}">{{$et}}</option>
-                                                @endforeach
-                                            </select>
+                                            @foreach($estado_titulo as $key => $et)
+                                            <option value="{{$key}}">{{$et}}</option>
+                                            @endforeach
+                                        </select>
                                         <div class="input-group mb-3">
                                             @if ($errors->has('estudios'))
                                             <span class="text-danger ml-1">{{ $errors->first('estudios') }}</span>
@@ -251,57 +236,43 @@
                                         </div>
                                     </div>
 
-                                    <div class="col-md-6" id="div_comuna_residencia">
-                                        <label for="comuna_residencia">Comuna Residencia : <b style="color:red">(*)</b></label>
+                                    <div class="col-md-12">
+                                        <div class="row">
+                                            <div class="col-md-6" id="div_comuna_residencia">
+                                                <label for="comuna_residencia">Comuna Residencia : <b style="color:red">(*)</b></label>
+                                                <select class="form-control select2 comuna_select" name="comuna_residencia" id="comuna_residencia" value="{{ old('comuna_residencia') }}">
+                                                </select>
+                                                <input type="hidden" name="cod_comuna_residencia" id="cod_comuna_residencia" value="{{ old('cod_comuna_residencia') }}">
+                                                <input type="hidden" name="tx_comuna_residencia" id="tx_comuna_residencia" value="{{ old('tx_comuna_residencia') }}">
+                                                <div class="input-group mb-3">
+                                                    @if ($errors->has('comuna_residencia'))
+                                                    <span class="text-danger ml-1">{{ $errors->first('comuna_residencia') }}</span>
+                                                    @endif
+                                                </div>
+                                            </div>
 
-                                        <select class="form-control select2 comuna_select" name="comuna_residencia" id="comuna_residencia" value="{{ old('comuna_residencia') }}">
-                                        </select>
-                                        <input type="hidden" name="cod_comuna_residencia" id="cod_comuna_residencia" value="{{ old('cod_comuna_residencia') }}">
-                                        <input type="hidden" name="tx_comuna_residencia" id="tx_comuna_residencia" value="{{ old('tx_comuna_residencia') }}">
-
-                                        <div class="input-group mb-3">
-                                            @if ($errors->has('comuna_residencia'))
-                                            <span class="text-danger ml-1">{{ $errors->first('comuna_residencia') }}</span>
-                                            @endif
+                                            <div class="col-md-6" id="div_comuna_preferencia">
+                                                <label for="comuna_preferencia">Comuna Preferencia : <b style="color:red">(*)</b></label>
+                                                <div class="select2-purple">
+                                                    <select class="form-control select2" name="comuna_preferencia[]" id="comuna_preferencia" multiple="multiple" value="">
+                                                        @foreach($comunas as $key => $comuna)
+                                                        <option value="{{$key}}">{{$comuna}}</option>
+                                                        @endforeach
+                                                    </select>
+                                                </div>
+                                                <input type="hidden" name="cod_comuna_preferencia" id="cod_comuna_preferencia" value="{{old('cod_comuna_preferencia')}}">
+                                                <div class="input-group mb-3">
+                                                    @if ($errors->has('comuna_preferencia'))
+                                                    <span class="text-danger ml-1">{{ $errors->first('comuna_preferencia') }}</span>
+                                                    @endif
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
 
-                                    <!-- <div class="col-md-6" id="div_comuna_preferencia">
-                                        <label for="comuna_preferencia">Comuna Preferencia : <b style="color:red">(*)</b></label>
-                                        <div class="select2-purple">
-                                            <select class="form-control select2 comuna_select" name="comuna_preferencia[]" id="comuna_preferencia" multiple="multiple" value="">
-                                            </select>
-                                        </div>
-                                        <input type="hidden" name="cod_comuna_preferencia" id="cod_comuna_preferencia" value="">
-
-                                        <div class="input-group mb-3">
-                                            @if ($errors->has('comuna_preferencia'))
-                                            <span class="text-danger ml-1">{{ $errors->first('comuna_preferencia') }}</span>
-                                            @endif
-                                        </div>
-                                    </div> -->
-                                    <div class="col-md-6" id="div_comuna_preferencia">
-                                        <label for="comuna_preferencia">Comuna Preferencia : <b style="color:red">(*)</b></label>
-                                        <div class="select2-purple">
-                                            <select class="form-control select2" name="comuna_preferencia[]" id="comuna_preferencia" multiple="multiple" value="">
-                                                @foreach($comunas as $key => $comuna)
-
-                                                <option value="{{$key}}">{{$comuna}}</option>
-                                                @endforeach
-                                            </select>
-                                        </div>
-                                        <input type="hidden" name="cod_comuna_preferencia" id="cod_comuna_preferencia" value="{{old('cod_comuna_preferencia')}}">
-
-                                        <div class="input-group mb-3">
-                                            @if ($errors->has('comuna_preferencia'))
-                                            <span class="text-danger ml-1">{{ $errors->first('comuna_preferencia') }}</span>
-                                            @endif
-                                        </div>
-                                    </div>
                                     <div class="col-md-12">
                                         <label for="profesion">Tipo Profesional : <b style="color:red">(*)</b></label>
                                         <select name="profesion" id="profesion" class="form-control select2">
-
                                         </select>
                                         <input type="hidden" name="cod_tp" id="cod_tp" value="{{ old('cod_tp') }}">
                                         <input type="hidden" name="tx_tp" id="tx_tp" value="{{ old('tx_tp') }}">
@@ -315,7 +286,6 @@
                                     <div class="col-md-12" id="div_especialidad" style="display: none;">
                                         <label for="especialidad">Especialidad : <b style="color:red">(*)</b></label>
                                         <select name="especialidad" id="especialidad" class="form-control select2 multiple" value="{{ old('especialidad') }}">
-
                                         </select>
                                         <input type="hidden" name="cod_es" id="cod_es" value="{{ old('cod_es') }}">
                                         <input type="hidden" name="tx_es" id="tx_es" value="{{ old('tx_es') }}">
@@ -324,43 +294,6 @@
                                             <span class="text-danger ml-1">{{ $errors->first('especialidad') }}</span>
                                             @endif
                                         </div>
-                                    </div>
-
-                                    <div class="col-sm-12">
-                                        <label for="disponibilidad">¿Tiene disponibilidad para trabajar fuera de su región de residencia? <b style="color:red">(*)</b></label>
-                                        <div class="form-group clearfix">
-                                            <div class="icheck-primary d-inline">
-                                                <input type="radio" id="radioPrimary1" name="disponibilidad" value="si" @if(old('disponibilidad')=='si' ) checked @endif>
-                                                <label for="radioPrimary1">
-                                                    Si
-                                                </label>
-                                            </div>
-
-                                            <div class="icheck-primary d-inline" style="margin-left: 5%;">
-                                                <input type="radio" id="radioPrimary2" name="disponibilidad" value="no" @if(old('disponibilidad')=='no' ) checked @endif>
-                                                <label for="radioPrimary2">
-                                                    No
-                                                </label>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="col-md-12" id="div_regiones" style="display: none;">
-                                        <label for="regiones">Seleccione Regiones : <b style="color:red">(*)</b></label>
-                                        <div class="select2-purple">
-                                            <select name="regiones[]" id="regiones" class="select2" multiple="multiple" ata-placeholder="Seleccione Región" style="width: 100%;">
-                                                @foreach($regiones as $key => $reg)
-                                                <option value="{{$key}}">{{$reg}}</option>
-                                                @endforeach
-
-                                            </select>
-                                        </div>
-                                        <div class="input-group mb-3">
-                                            @if ($errors->has('regiones'))
-                                            <span class="text-danger ml-1">{{ $errors->first('regiones') }}</span>
-                                            @endif
-                                        </div>
-
                                     </div>
 
                                     <div class="col-md-12">
@@ -419,15 +352,9 @@
                             <input type="hidden" id="fechas_input" name="fechas" value="">
                             <input type="hidden" id="horas_input" name="horas" value="">
                             </form>
-
-
                         </div>
-
                     </div>
                 </div>
-                <!-- /.card-body -->
-
-                <!-- /.card-footer-->
             </div>
             <!-- /.card -->
         </div>
@@ -442,7 +369,7 @@
         var add_button = $(".add_fecha"); //Add button ID
         var remove_button = $(".remove_fecha"); //Add button ID
 
-        var horas_totales=0;
+        var horas_totales = 0;
 
         var fechas_formulario = [];
         var x = 1; //initlal text box count
@@ -498,18 +425,19 @@
                     hora_termino: $(this).find('.fila_termino').val()
                 }
 
-var inicio = moment($(this).find('.fila_inicio').val(),'HH:mm');
-var termino = moment($(this).find('.fila_termino').val(),'HH:mm');
+                var inicio = moment($(this).find('.fila_inicio').val(), 'HH:mm');
+                var termino = moment($(this).find('.fila_termino').val(), 'HH:mm');
 
-if(inicio>termino){
-var diff_a=24-inicio.get('hour');
-var diff_b=termino.get('hour');
-horas_totales=horas_totales+diff_a+diff_b;diff_a+diff_b;
-}else{
-horas_totales=horas_totales+parseInt(moment.duration(termino.diff(inicio)).asHours());
-}
+                if (inicio > termino) {
+                    var diff_a = 24 - inicio.get('hour');
+                    var diff_b = termino.get('hour');
+                    horas_totales = horas_totales + diff_a + diff_b;
+                    diff_a + diff_b;
+                } else {
+                    horas_totales = horas_totales + parseInt(moment.duration(termino.diff(inicio)).asHours());
+                }
 
-// console.log(parseInt(moment.duration(termino.diff(inicio), 'milliseconds').asHours()))
+                // console.log(parseInt(moment.duration(termino.diff(inicio), 'milliseconds').asHours()))
 
                 fechas_formulario.push(fila);
             });
@@ -517,9 +445,9 @@ horas_totales=horas_totales+parseInt(moment.duration(termino.diff(inicio)).asHou
             console.log(fechas_formulario);
             console.log(horas_totales);
             $('#fechas_input').val(JSON.stringify(fechas_formulario));
-            fechas_formulario=[];
+            fechas_formulario = [];
             $('#horas_input').val(JSON.stringify(horas_totales));
-            horas_totales=0;
+            horas_totales = 0;
             // $("#formulario_profesional").submit();
             return true;
         });

@@ -7,14 +7,14 @@ use App\Datos\Pais;
 use App\Datos\Titulo;
 use App\Datos\Especialidad;
 use App\Datos\Comuna;
-
+use App\Datos\Establecimiento;
 class LiveSearchController extends Controller
 {
     function getNacionalidades(Request $request)
     {
         $someModel = new Pais();
 
-        //$someModel->setConnection('masterdb'); 
+        //$someModel->setConnection('masterdb');
 
         $data = $someModel->where('tx_descripcion', 'LIKE', '%' . $request->name . '%')
             ->orWhere('cd_pais', 'LIKE', '%' . $request->name . '%')
@@ -28,7 +28,7 @@ class LiveSearchController extends Controller
     {
         $someModel = new Titulo();
 
-        //$someModel->setConnection('masterdb'); 
+        //$someModel->setConnection('masterdb');
 
         $data = $someModel->where('tx_descripcion', 'LIKE', '%' . $request->name . '%')
             ->orWhere('cd_tipo_profesional', 'LIKE', '%' . $request->name . '%')
@@ -42,7 +42,7 @@ class LiveSearchController extends Controller
     {
         $someModel = new Especialidad();
 
-        //$someModel->setConnection('masterdb'); 
+        //$someModel->setConnection('masterdb');
 
         $data = $someModel->where('tx_descripcion', 'LIKE', '%' . $request->name . '%')
             ->orWhere('cd_especialidad_medica', 'LIKE', '%' . $request->name . '%')
@@ -55,7 +55,7 @@ class LiveSearchController extends Controller
     {
         $someModel = new Comuna();
 
-        //$someModel->setConnection('masterdb'); 
+        //$someModel->setConnection('masterdb');
 
         $data = $someModel->where('tx_descripcion', 'LIKE', '%' . $request->name . '%')
             ->orWhere('cd_comuna', 'LIKE', '%' . $request->name . '%')
@@ -64,4 +64,17 @@ class LiveSearchController extends Controller
             });
         return response()->json($data);
     }
+
+    function getEstablecimientos(Request $request)
+    {
+
+        // dd($request)  ;
+        $data = Establecimiento::where('tx_descripcion', 'LIKE', '%' . $request->name . '%')
+            ->orWhere('establecimiento_id', 'LIKE', '%' . $request->name . '%')
+            ->get()->take(10)->map(function ($item) {
+                return ["id" => $item->establecimiento_id, "text" => $item->tx_descripcion];
+            });
+        return response()->json($data);
+    }
+
 }

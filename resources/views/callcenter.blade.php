@@ -67,7 +67,7 @@
                                     <td>Profesion</td>
                                     <td>Titulo</td>
                                     <td>Especialidad</td>
-                                    <td>Horas Sem.</td>
+                                    <td>Horas</td>
                                     <td>Estado</td>
                                     <td>Telefono</td>
                                     <td>E-mail</td>
@@ -78,16 +78,31 @@
                                 @foreach($profesionales as $key => $pro)
                                 <tr>
                                     <td>{{$pro->nombre}}</td>
-                                    <td>{{$pro->tipo_profesional}}</td>
-                                    <td>{{$pro->estado_titulo}}</td>
-                                    <td>{{$pro->especialidad}}</td>
+                                    <td>{{$pro->getTitulo()->tx_descripcion}}</td>
+                                    <td>{{$pro->getEstadoTitulo()->tx_descripcion}}</td>
+                                    @if (isset($pro->getEspecialidad()->tx_descripcion))
+                                        <td>{{$pro->getEspecialidad()->tx_descripcion}}</td>
+                                    @else
+                                        <td></td>
+                                    @endif
                                     <td>{{$pro->horas}}</td>
-                                    <td>{{$pro->estado}}</td>
+                                    {{-- @switch($pro->estado)
+                                        @case("disponible")
+                                            <td >{{strtoupper($pro->estado)}}</td>
+                                            @break
+                                        @case("ya asignado")
+                                            <td>{{$pro->estado}}</td>
+                                            @break
+                                        @case("no ubicable")
+                                            <td >{{$pro->estado}}</td>
+                                            @break
+                                    @endswitch --}}
+                                    <td >{{strtoupper($pro->estado)}}</td>
                                     <td>{{$pro->telefono}}</td>
                                     <td>{{$pro->email}}</td>
                                     <td>
                                         <button type="button" class="btn btn-info btn-sm" name="{{$pro->id}}"  title="Información Profesional" onclick="verInfo(this.name)"><i class="fas fa-info-circle"></i></button>
-                                        <button type="button" class="btn btn-success btn-sm" name="{{$pro->id}}"  title="Asignar Profesional"><i class="fas fa-plus"></i></button>
+                                        <button type="button" class="btn btn-success btn-sm" name="{{$pro->id}}"  onclick="asignarProfesional(this.name)"title="Asignar Profesional"><i class="fas fa-plus"></i></button>
                                     </td>
                                 </tr>
                                 @endforeach
@@ -147,7 +162,19 @@
             $('#modalInfo').modal('show');
         });
 
-   };
+    };
+    function asignarProfesional(id) {
+        ruta = @json(route('callcenter.asignarProfesional', ['id' => 'id']));
+        ruta = ruta.replace('id', id);
+        console.log(ruta);
+
+        $('.modal').modal('hide');
+        $.get(ruta, function(data) {
+            $('#modal').html(data);
+            $('#modalAsignacion').modal('show');
+        });
+
+    };
 
 
 </script>

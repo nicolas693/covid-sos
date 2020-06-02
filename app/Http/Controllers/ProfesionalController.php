@@ -27,7 +27,7 @@ class ProfesionalController extends Controller
         $region = $region->pluck('tx_descripcion', 'id');
         $comunas = $comunas->where('id', '!=', '0');
         $comunas = $comunas->pluck('tx_descripcion', 'id');
-        $estado_titulo = EstadoTitulo::all()->pluck('tx_descripcion','id')->toArray();
+        $estado_titulo = EstadoTitulo::orderBy('id','asc')->pluck('tx_descripcion','id')->toArray();
         return view('profesional')->with('comunas',  $comunas)->with('regiones',  $region)->with('estado_titulo',$estado_titulo);
     }
     public function enviarSolicitud(Request $request)
@@ -54,7 +54,6 @@ class ProfesionalController extends Controller
                 'profesion' => 'required|max:30',
                 'especialidad' => 'required_if:profesion,32|max:30',
                 'pais' => 'required_if:extranjero,1',
-                'regiones' => 'required_if:disponibilidad,si',
                 'observacion' => 'max:190|regex:' . $regLatinoNum,
             ],
             [
@@ -90,7 +89,7 @@ class ProfesionalController extends Controller
             $profesional->direccion = $d['direccion'];
             $profesional->tipo_profesional = $d['profesion'];
             $profesional->especialidad = $d['especialidad'];
-            $profesional->disponibilidad = $d['disponibilidad'];
+            // $profesional->disponibilidad = $d['disponibilidad'];
             $profesional->comuna_residencia = $d['comuna_residencia'];
             $profesional->estado_titulo = $d['estudios'];
             if($d['extranjero']=='0'){

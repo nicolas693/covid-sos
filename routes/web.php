@@ -29,8 +29,11 @@ route::get('/live_search/nacionalidades', 'LiveSearchController@getNacionalidade
 route::get('/live_search/profesiones', 'LiveSearchController@getProfesiones')->name('live_search.profesiones');
 route::get('/live_search/especialidades', 'LiveSearchController@getEspecialidades')->name('live_search.especialidades');
 route::get('/live_search/comunas', 'LiveSearchController@getComunas')->name('live_search.comunas');
-
+route::get('/live_search/establecimientos', 'LiveSearchController@getEstablecimientos')->name('live_search.establecimientos');
 
 route::get('/reclutador', 'ReclutadorController@index')->name('reclutador.index');
 route::get('/callcenter', 'CallCenterController@index')->name('callcenter.index');
 route::get('/callcenter/verinfo/{id}', 'CallCenterController@verInfo')->name('callcenter.verinfo');
+route::get('/callcenter/asignarProfesional/{id}', 'CallCenterController@asignarProfesional')->name('callcenter.asignarProfesional');
+
+Route::post('/enviarAsignacion','AsignacionController@guardar')->name('asignacion.guardar');

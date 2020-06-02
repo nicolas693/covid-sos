@@ -83,7 +83,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
                             <a href="{{route('profesional.index')}}" class="nav-link">Profesional</a>
                         </li>
                         <li class="nav-item">
-                            <a href="{{route('reclutador.index')}}" class="nav-link">Reclutador</a>
+                            <!-- <a href="{{route('reclutador.index')}}" class="nav-link">Reclutador</a> -->
+                            <a href="#" class="nav-link">Reclutador</a>
                         </li>
                         <li class="nav-item">
                             <a href="{{route('callcenter.index')}}" class="nav-link">Call Center</a>
@@ -107,7 +108,11 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 <!-- Right navbar links -->
                 <ul class="order-1 order-md-3 navbar-nav navbar-no-expand ml-auto">
                     <li class="nav-item">
-                        <a href="#" class="nav-link">Login</a>
+                        <a href="{{route('login')}}" class="nav-link">Login</a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a href="{{route('register')}}" class="nav-link">Register</a>
                     </li>
 
 

@@ -144,7 +144,9 @@
     }
   </style>
   <script>
-
+$(document).ready(function() {
+    $(".asignar").attr('disabled', false);
+  });
 
 // $(document).ready(function() {
 

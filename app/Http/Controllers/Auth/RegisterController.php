@@ -31,7 +31,7 @@ class RegisterController extends Controller
      * @var string
      */
     // protected $redirectTo = RouteServiceProvider::HOME;
-     protected $redirectTo = '/';
+     protected $redirectTo = '/home';
 
     /**
      * Create a new controller instance.
@@ -56,7 +56,7 @@ class RegisterController extends Controller
         return Validator::make(
             $data,
             [
-                'rut' => ['regex:' . $rut,new RutValido(request('rut')),'max:11', 'nullable'],
+                'email' => 'required|email',
                 'name' => ['required', 'string', 'max:255'],
                 'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
                 'password' => ['required', 'string', 'min:8', 'confirmed'],
@@ -67,7 +67,8 @@ class RegisterController extends Controller
                 'rut.regex' => 'El RUT debe ser ingresado sin puntos!',
                
                 'password.confirmed' => 'Las contraseñas no coinciden!',
-                'max' => 'Este campo no debe tener mas de :max caracteres !'
+                'max' => 'Este campo no debe tener mas de :max caracteres !',
+                'min' => 'Este campo debe tener al menos :min caracteres !'
             ]
         );
     }
@@ -90,9 +91,10 @@ class RegisterController extends Controller
 
         // return view('auth/login');
         return User::create([
-            'rut' => $data['rut'],
+            'email' => $data['email'],
             'name' => $data['name'],
             'email' => $data['email'],
+            'user_type' => '1',
             'password' => Hash::make($data['password']),
         ]);
     }

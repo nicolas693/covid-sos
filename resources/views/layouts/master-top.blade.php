@@ -10,7 +10,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
 
-    <title>COVID-SOS</title>
+    <title>PRAM</title>
 
     <!-- Font Awesome -->
     <link rel="stylesheet" href="{{URL::asset('/plugins/fontawesome-free/css/all.min.css')}}">
@@ -44,7 +44,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <link rel="stylesheet" href="{{asset('/plugins/datatables/Responsive/css/responsive.bootstrap.min.css')}}">
 
 
-    <link rel="stylesheet" href="../../plugins/icheck-bootstrap/icheck-bootstrap.min.css">
+    <link rel="stylesheet" href="{{asset('/plugins/icheck-bootstrap/icheck-bootstrap.min.css')}}">
     <!-- Toastr -->
     <link rel="stylesheet" href="{{asset('/plugins/toastr/toastr.min.css')}}">
     <!-- Toastr -->
@@ -56,8 +56,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <!-- Select2 -->
     <script src="{{asset('/plugins/select2/js/select2.full.min.js')}}"></script>
 
-     <!-- Moment -->
-     <script src="{{asset('/plugins/moment/moment.min.js')}}"></script>
+    <!-- Moment -->
+    <script src="{{asset('/plugins/moment/moment.min.js')}}"></script>
 
 </head>
 
@@ -67,9 +67,9 @@ scratch. This page gets rid of all links and provides the needed markup only.
         <!-- Navbar -->
         <nav class="main-header navbar navbar-expand-md navbar-light navbar-white">
             <div class="container">
-                <a href="../../index3.html" class="navbar-brand">
-                    <img src="../../dist/img/AdminLTELogo.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
-                    <span class="brand-text font-weight-light">COVID-SOS</span>
+                <a href="{{route('home')}}" class="navbar-brand">
+                    <img src="{{asset('/images/PRAM_login.png')}}" alt="Logo" style="max-height: 35px;">
+                    <!-- <span class="brand-text font-weight-light">PRAM</span> -->
                 </a>
 
                 <button class="navbar-toggler order-1" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
@@ -77,35 +77,31 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 </button>
 
                 <div class="collapse navbar-collapse order-3" id="navbarCollapse">
+                    @php $usuario = Auth::user(); @endphp
                     <!-- Left navbar links -->
                     <ul class="navbar-nav">
+                        @if($usuario->obtenerTipoUsuario()=='Profesional')
                         <li class="nav-item">
-                            <a href="{{route('profesional.index')}}" class="nav-link">Profesional</a>
+                            <a href="{{route('home')}}" class="nav-link">Postulante</a>
                         </li>
+                        @endif
+                        @if($usuario->obtenerTipoUsuario()=='CallCenter')
+                        <li class="nav-item">
+                            <a href="{{route('callcenter.index')}}" class="nav-link">Call Center</a>
+                        </li>
+                        @endif
+                        @if($usuario->obtenerTipoUsuario()=='Reclutador')
                         <li class="nav-item">
                             <!-- <a href="{{route('reclutador.index')}}" class="nav-link">Reclutador</a> -->
                             <a href="#" class="nav-link">Reclutador</a>
                         </li>
-                        <li class="nav-item">
-                            <a href="{{route('callcenter.index')}}" class="nav-link">Call Center</a>
-                        </li>
+                        @endif
 
                     </ul>
-
-                    <!-- SEARCH FORM -->
-                    <!-- <form class="form-inline ml-0 ml-md-3">
-                        <div class="input-group input-group-sm">
-                            <input class="form-control form-control-navbar" type="search" placeholder="Search" aria-label="Search">
-                            <div class="input-group-append">
-                                <button class="btn btn-navbar" type="submit">
-                                    <i class="fas fa-search"></i>
-                                </button>
-                            </div>
-                        </div>
-                    </form> -->
                 </div>
 
                 <!-- Right navbar links -->
+                @guest
                 <ul class="order-1 order-md-3 navbar-nav navbar-no-expand ml-auto">
                     <li class="nav-item">
                         <a href="{{route('login')}}" class="nav-link">Login</a>
@@ -120,6 +116,29 @@ scratch. This page gets rid of all links and provides the needed markup only.
                         <a class="nav-link" data-widget="control-sidebar" data-slide="true" href="#" role="button"><i class="fas fa-th-large"></i></a>
                     </li>
                 </ul>
+                @else
+                <ul class="order-1 order-md-3 navbar-nav navbar-no-expand ml-auto">
+                    <li class="nav-item dropdown">
+                        <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                            {{ Auth::user()->name }} <span class="caret"></span>
+                        </a>
+
+                        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                            <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault();
+                                                     document.getElementById('logout-form').submit();">
+                                {{ __('Logout') }}
+                            </a>
+
+
+
+                            <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                                @csrf
+                            </form>
+                        </div>
+                    </li>
+                </ul>
+
+                @endguest
             </div>
         </nav>
         <!-- /.navbar -->
@@ -147,7 +166,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 Servicio de Salud Metropolitano Occidente
             </div>
             <!-- Default to the left -->
-            <strong>COVID-SOS</strong>
+            <strong>PRAM</strong>
         </footer>
     </div>
     <!-- ./wrapper -->

@@ -24,7 +24,8 @@ class CreateProfesionalsTable extends Migration
             $table->string('pais',30);
             $table->string('tipo_profesional',30);
             $table->string('especialidad',30)->nullable();
-            $table->string('disponibilidad',3)->nullable();
+            $table->unsignedBigInteger('disponibilidad')->nullable();
+            $table->unsignedBigInteger('modalidad')->nullable();
             $table->timestamps();
 
             // CÓDIGO PARA LLAVE FORANEA DE TABLA DISPONIBILIDAD

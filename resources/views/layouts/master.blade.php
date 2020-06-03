@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>COVID-SOS Occidente</title>
+    <title>PRAM Occidente</title>
     <!-- Tell the browser to be responsive to screen width -->
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -95,7 +95,7 @@
             <div class="float-right d-none d-sm-block">
                 <b>Version</b> 3.0.4
             </div>
-            <strong>COVID-SOS</strong>
+            <strong>PRAM</strong>
         </footer>
 
        

@@ -32,7 +32,7 @@
     <div class="container-fluid">
         <div class="row">
             <div class="col-md-8 offset-md-2">
-                <section class="content-header">
+                <!-- <section class="content-header">
                     <div class="container-fluid">
                         <div class="row mb-2">
                             <div class="col-sm-6">
@@ -46,10 +46,10 @@
                                 </ol>
                             </div>
                         </div>
-                    </div><!-- /.container-fluid -->
-                </section>
+                    </div>
+                </section> -->
 
-                <div class="card">
+                <div class="card mt-5">
                     <div class="card-header">
                         <h3 class="card-title">VISTA CALL CENTER</h3>
 
@@ -69,9 +69,9 @@
                                     {{-- <td>Especialidad</td> --}}
                                     <td>Preferencia laboral</td>
                                     {{-- <td>Horas</td>  --}}
-                                    {{-- disponibilidad --}}
+                                    <td>Disponibilidad</td>
                                     <td>Estado</td>
-
+                                    <td>Telefono</td>
                                     <td>Acción</td>
                                 </tr>
                             </thead>
@@ -88,6 +88,16 @@
                                     @endif --}}
                                     {{-- <td>{{$pro->horas}}</td> --}}
                                     <td>{{$pro->getComunasPreferenciaString()}}</td>
+
+                                    <td>
+                                        @php $d = $pro->getDisponibilidad(); $m=$pro->getModalidad(); @endphp
+                                        @if($d!='' && $m!='')
+                                            {{$pro->getDisponibilidad()}} de {{$pro->getModalidad()}} horas
+                                        @else
+
+                                        @endif
+                                    </td>
+
                                     @switch($pro->estado)
                                         @case("disponible")
                                             <td class="text-success">{{strtoupper($pro->estado)}}</td>
@@ -99,9 +109,10 @@
                                             <td class="text-warning">{{strtoupper($pro->estado)}}</td>
                                             @break
                                     @endswitch
+                                    <td>{{$pro->telefono}}</td>
                                     <td>
-                                        <button type="button" class="btn btn-info btn-sm" name="{{$pro->id}}"  title="Información Profesional" onclick="verInfo(this.name)"><i class="fas fa-info-circle"></i></button>
-                                        <button type="button" class="btn btn-success btn-sm" name="{{$pro->id}}"  onclick="asignarProfesional(this.name)"title="Asignar Profesional"><i class="fas fa-plus"></i></button>
+                                        <button type="button" class="btn btn-info btn-sm verinfo" name="{{$pro->id}}"  title="Información Profesional" onclick="verInfo(this.name)"><i class="fas fa-info-circle"></i></button>
+                                        <button type="button" class="btn btn-success btn-sm asignar" name="{{$pro->id}}"  onclick="asignarProfesional(this.name)"title="Asignar Profesional"><i class="fas fa-plus"></i></button>
                                     </td>
                                 </tr>
                                 @endforeach
@@ -148,7 +159,7 @@
         });
     });
     function verInfo(id) {
-        $(".CC").attr('disabled', true);
+        $(".verinfo").attr('disabled', true);
         ruta = @json(route('callcenter.verinfo', ['id' => 'id']));
         ruta = ruta.replace('id', id);
         console.log(ruta);
@@ -160,6 +171,7 @@
 
     };
     function asignarProfesional(id) {
+        $(".asignar").attr('disabled', true);
         ruta = @json(route('callcenter.asignarProfesional', ['id' => 'id']));
         ruta = ruta.replace('id', id);
 

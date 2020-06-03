@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
+use App\Rules\RutValido;
+use Auth;
 
 class LoginController extends Controller
 {
@@ -43,22 +45,35 @@ class LoginController extends Controller
     public function login(Request $request)
     {
 
+        $rut = '/^([0-9])+\-([kK0-9])+$/';
         $input = $request->all();
 
         $validatedData = $request->validate(
             [
-                'email' => 'required',
+                'email' => 'required|email',
                 'password' => 'required',
             ],
             [
-                'email.required' => 'Este campo es obligatorio!',
+                'rut.required' => 'Este campo es obligatorio!',
+                'rut.regex' => 'El RUT debe ser ingresado sin puntos y con digito verificador!',
                 'password.required' => 'Este campo es obligatorio!',
             ]
         );
 
-        $fieldType = filter_var($request->email, FILTER_VALIDATE_EMAIL) ? 'email' : 'username';
+        // $fieldType = filter_var($request->rut, FILTER_VALIDATE_EMAIL) ? 'rut' : 'username';
+        $fieldType = 'email';
         if (auth()->attempt(array($fieldType => $input['email'], 'password' => $input['password']))) {
-            return redirect()->route('home');
+            $user = Auth::user();
+            if($user->user_type=='1'){
+                return redirect()->route('home');
+            }
+            if($user->user_type=='2'){
+                return redirect()->route('reclutador.index');
+            }
+            if($user->user_type=='3'){
+                return redirect()->route('callcenter.index');
+            }
+           
         } else {
             return redirect()->route('login')
                 ->with('error', 'Las credenciales no coinciden con los resgistros en la base de datos!');

@@ -16,7 +16,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'rut','name', 'email', 'password',
+        'rut','name', 'email','user_type', 'password',
     ];
 
     /**
@@ -36,4 +36,16 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function getProfesional()
+    {
+        $profesional = $this->hasOne('App\Profesional', 'user_id','id')->first();
+        return $profesional;
+    }
+
+    public function obtenerTipoUsuario()
+    {
+        $profesional = $this->hasOne('App\UserType', 'id','user_type')->first()->tx_descripcion;
+        return $profesional;
+    }
 }

@@ -23,57 +23,84 @@ class Profesional extends Model
 
     public function getTitulo()
     {
-        return $this->hasOne('App\Datos\Titulo', 'id','tipo_profesional')->first();
+        return $this->hasOne('App\Datos\Titulo', 'id', 'tipo_profesional')->first();
     }
 
     public function getEspecialidad()
     {
-        $especialidad =$this->hasOne('App\Datos\Especialidad', 'id','especialidad')->first();
-        if($especialidad == null){
+        $especialidad = $this->hasOne('App\Datos\Especialidad', 'id', 'especialidad')->first();
+        if ($especialidad == null) {
             return 'vacio';
-        }else{
+        } else {
             return $especialidad;
         }
     }
 
     public function getPais()
     {
-        return $this->hasOne('App\Datos\Pais', 'id','pais')->first();
+        return $this->hasOne('App\Datos\Pais', 'id', 'pais')->first();
     }
 
     public function getComunasPreferencia()
     {
-        $comunasPreferencia =$this->hasMany('App\ComunaPreferencia', 'profesional_id','id')->get();
+        $comunasPreferencia = $this->hasMany('App\ComunaPreferencia', 'profesional_id', 'id')->get();
         $data = [];
-        foreach($comunasPreferencia as $cp){
-            $comuna =$cp->getComuna();
+        foreach ($comunasPreferencia as $cp) {
+            $comuna = $cp->getComuna();
             $data[$comuna->id] = $comuna->tx_descripcion;
-
         }
         return $data;
     }
 
+    public function getComunasResidencia()
+    {
+        $comunasResidencia = $this->hasMany('App\Datos\Comuna', 'id', 'comuna_residencia')->first();
+        return $comunasResidencia;
+    }
+
     public function getComunasPreferenciaString()
     {
-        $comunasPreferencia =$this->hasMany('App\ComunaPreferencia', 'profesional_id','id')->get();
+        $comunasPreferencia = $this->hasMany('App\ComunaPreferencia', 'profesional_id', 'id')->get();
         $data = [];
-        foreach($comunasPreferencia as $cp){
-            $comuna =$cp->getComuna();
+        foreach ($comunasPreferencia as $cp) {
+            $comuna = $cp->getComuna();
             $data[$comuna->id] = $comuna->tx_descripcion;
-
         }
-        return join( ',', $data);
+        return join(',', $data);
     }
 
     public function getEstadoTitulo()
     {
-        $estado =$this->hasOne('App\Datos\EstadoTitulo', 'id','estado_titulo')->first();
-        if($estado==null){
-            $estado=new EstadoTitulo();
-            $estado->tx_descripcion="N/A";
+        $estado = $this->hasOne('App\Datos\EstadoTitulo', 'id', 'estado_titulo')->first();
+        if ($estado == null) {
+            $estado = new EstadoTitulo();
+            $estado->tx_descripcion = "N/A";
         }
         return $estado;
-
     }
 
+    public function getDisponibilidad()
+    {
+        $disponibilidad = $this->hasOne('App\Datos\Disponibilidad', 'id', 'disponibilidad')->first();
+        if ($disponibilidad != null) {
+            return $disponibilidad->tx_descripcion;
+        } else {
+            return '';
+        }
+    }
+
+    public function getModalidad()
+    {
+        $modalidad = $this->hasOne('App\Datos\ModalidadDisponibilidad', 'id', 'modalidad')->first();
+        if ($modalidad != null) {
+            return $modalidad->tx_descripcion;
+        } else {
+            return '';
+        }
+    }
+
+    public function tieneFormulario()
+    {
+        dd($this);
+    }
 }

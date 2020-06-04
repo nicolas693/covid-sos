@@ -42,6 +42,7 @@ route::group(['middleware' => 'auth'], function () {
     route::get('/callcenter', 'CallCenterController@index')->name('callcenter.index');
     route::get('/callcenter/verinfo/{id}', 'CallCenterController@verInfo')->name('callcenter.verinfo');
     route::get('/callcenter/asignarProfesional/{id}', 'CallCenterController@asignarProfesional')->name('callcenter.asignarProfesional');
+    route::get('/callcenter/complementarProfesional/{id}', 'CallCenterController@complementarProfesional')->name('callcenter.complementarProfesional');
 
     Route::post('/enviarAsignacion', 'AsignacionController@guardar')->name('asignacion.guardar');
 

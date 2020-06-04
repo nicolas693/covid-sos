@@ -112,7 +112,10 @@
                                     <td>{{$pro->telefono}}</td>
                                     <td>
                                         <button type="button" class="btn btn-info btn-sm verinfo" name="{{$pro->id}}"  title="Información Profesional" onclick="verInfo(this.name)"><i class="fas fa-info-circle"></i></button>
+                                        <button type="button" class="btn btn-primary btn-sm complementar" name="{{$pro->id}}"  onclick="complementarProfesional(this.name)"title="Asignar Profesional"><i class="fas fa-user-md"></i></button>
+
                                         <button type="button" class="btn btn-success btn-sm asignar" name="{{$pro->id}}"  onclick="asignarProfesional(this.name)"title="Asignar Profesional"><i class="fas fa-plus"></i></button>
+                                        {{-- <button type="button" class="btn btn-success btn-sm asignar" name="{{$pro->id}}"  onclick="asignarProfesional(this.name)"title="Asignar Profesional"> <i class="fas fa-hospital-user"></i></button> --}}
                                     </td>
                                 </tr>
                                 @endforeach
@@ -150,7 +153,8 @@
         null,
         null,
         null,
-        // null,
+        null,
+        null,
         null,
         null, //Added New
 
@@ -184,7 +188,20 @@
         });
 
     };
+    function complementarProfesional(id) {
+        $(".complementar").attr('disabled', true);
+        ruta = @json(route('callcenter.complementarProfesional', ['id' => 'id']));
+        ruta = ruta.replace('id', id);
+        console.log("aprete",ruta);
 
+         $('.modal').modal('hide');
+            $.get(ruta, function(data) {
+            //   console.log(data);
+            $('#modal').html(data);
+            $('#modalComplementar').modal('show');
+        });
+
+    };
 
 </script>
 @endsection

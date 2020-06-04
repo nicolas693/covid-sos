@@ -63,4 +63,9 @@ class CallCenterController extends Controller
         $profesional = Profesional::find($id);
         return view('modals/modalAsignacion')->with('profesional',$profesional);
     }
+
+    public function complementarProfesional($id){
+        $profesional = Profesional::find($id);
+        return view('modals/modalComplementar')->with('profesional',$profesional);
+    }
 }

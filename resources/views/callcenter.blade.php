@@ -59,7 +59,30 @@
                         </div>
                     </div>
                     <div class="card-body">
+                        <div class="col-md-12">
+                            @if (session('status')=='created')
+                            <div class="alert alert-success alert-dismissible">
+                                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                                <h5><i class="icon fas fa-check"></i> Atención!</h5>
+                                El registro ha sido ingresado exitosamente!
+                            </div>
+                            @endif
 
+                            @if (session('status')=='updated')
+                            <div class="alert alert-success alert-dismissible">
+                                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                                <h5><i class="icon fas fa-check"></i> Atención!</h5>
+                                El registro ha sido actualizado exitosamente!
+                            </div>
+                            @endif
+                            @if (session('status')=='complementario')
+                            <div class="alert alert-success alert-dismissible">
+                                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                                <h5><i class="icon fas fa-check"></i> Atención!</h5>
+                                Los datos complementarios han sido actualizado exitosamente!
+                            </div>
+                            @endif
+                        </div>
                         <table class="table table-sm nowrap" id="tabla_reclutador" style="width: 100%;">
                             <thead class="bold">
                                 <tr>

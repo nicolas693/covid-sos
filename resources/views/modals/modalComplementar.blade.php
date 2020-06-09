@@ -35,9 +35,15 @@
         <!-- Modal body -->
         <div class="modal-body">
 
+
+                @if(isset($complementario))
+                    {{$complementario}}
+                @endif
+
             {{-- DATOS PERSONALES --}}
             <div class="col-md-12" style="padding:0px">
                 <div class="row" >
+
                     <div class="col-md-6">
                         <label>Datos del Profesional:</label>
                         <div class=" border" style="height: 80px">
@@ -101,9 +107,9 @@
                             <label for="eunacom" class="col-md-2 col-form-label" style="font-weight: normal">Eunacom</label>
                             <div class="col-md-3" id="eunacom">
                                 <select id="eunacom" class="form-control form-control-sm" name="eunacom">
-                                <option>No lo tiene</option>
-                                <option>Lo tiene</option>
-                                <option>En proceso</option>
+                                <option @if( isset($complementario) && $complementario->eunacom=="No lo tiene") selected @endif>No lo tiene</option>
+                                <option @if( isset($complementario) && $complementario->eunacom=="Lo tiene") selected @endif>Lo tiene</option>
+                                <option @if( isset($complementario) && $complementario->eunacom=="En proceso") selected @endif>En proceso</option>
                             </select>
                             </div>
                         </div>
@@ -126,9 +132,9 @@
                             <label for="conacem" class="col-sm-2 col-form-label" style="font-weight: normal">Conacem</label>
                             <div class="col-md-3" id="conacem">
                                 <select id="conacem" class="form-control form-control-sm" name="conacem">
-                                <option>No lo tiene</option>
-                                <option>Lo tiene</option>
-                                <option>En proceso</option>
+                                <option @if( isset($complementario) && $complementario->conacem=="No lo tiene") selected @endif>No lo tiene</option>
+                                <option @if( isset($complementario) && $complementario->conacem=="Lo tiene") selected @endif>Lo tiene</option>
+                                <option @if( isset($complementario) && $complementario->conacem=="En proceso") selected @endif>En proceso</option>
                             </select>
                             </div>
                         </div>
@@ -137,8 +143,8 @@
                             <label for="supersalud" class="col-sm-2 col-form-label" style="font-weight: normal">Super salud</label>
                             <div class="col-md-3" id="supersalud">
                                 <select id="supersalud" class="form-control form-control-sm" name="supersalud">
-                                <option>Inscrito</option>
-                                <option>No inscrito</option>
+                                <option @if( isset($complementario) && $complementario->supersalud=="Inscrito") selected @endif>Inscrito</option>
+                                <option @if( isset($complementario) && $complementario->supersalud=="No inscrito") selected @endif>No inscrito</option>
                             </select>
                             </div>
                         </div>
@@ -244,8 +250,8 @@
                             <label for="iaas" class="col-md-5 col-form-label" style="font-weight: normal;margin-top:-3px">Curso IAAS</label>
                             <div class="col-md-2">
                                 <select id="iaas" name="iaas" class="form-control form-control-sm " >
-                                <option value="si">Si</option>
-                                <option value="no" selected>No</option>
+                                    <option value="no"  @if( isset($complementario) && $complementario->iaas=="no") selected @endif>No</option>
+                                    <option value="si"  @if( isset($complementario) && $complementario->iaas=="si") selected @endif>Si</option>
                                 </select>
                             </div>
                             <div class="col-md-3">
@@ -260,8 +266,8 @@
                             <label for="rcp" class="col-md-5 col-form-label" style="font-weight: normal;margin-top:-3px">Curso RCP</label>
                             <div class="col-md-2" >
                                 <select id="rcp" name="rcp" class="form-control form-control-sm ">
-                                <option value="si">Si</option>
-                                <option value="no" selected>No</option>
+                                    <option value="no"  @if( isset($complementario) && $complementario->rcp=="no") selected @endif>No</option>
+                                    <option value="si"  @if( isset($complementario) && $complementario->rcp=="si") selected @endif>Si</option>
                                 </select>
                             </div>
                             <div class="col-md-3">
@@ -276,8 +282,8 @@
                             <label for="pacienteCritico" class="col-md-5 col-form-label" style="font-weight: normal;margin-top:-3px">Manejo paciente critico</label>
                             <div class="col-md-2">
                                 <select id="pacienteCritico" name="pacienteCritico" class="form-control form-control-sm">
-                                <option value="si">Si</option>
-                                <option value="no" selected>No</option>
+                                    <option value="no"  @if( isset($complementario) && $complementario->pacienteCritico=="no") selected @endif>No</option>
+                                    <option value="si"  @if( isset($complementario) && $complementario->pacienteCritico=="si") selected @endif>Si</option>
                                 </select>
                             </div>
                             <div class="col-md-3">
@@ -292,8 +298,8 @@
                             <label for="ventilacion" class="col-md-5 col-form-label" style="font-weight: normal;margin-top:-3px">Manejo ventilador mecanico</label>
                             <div class="col-md-2" >
                                 <select id="ventilacion" name="ventilacion" class="form-control form-control-sm">
-                                <option value="si">Si</option>
-                                <option value="no" selected>No</option>
+                                    <option value="no"  @if( isset($complementario) && $complementario->ventilacion=="no") selected @endif>No</option>
+                                    <option value="si"  @if( isset($complementario) && $complementario->ventilacion=="si") selected @endif>Si</option>
                                 </select>
                             </div>
                             <div class="col-md-3">

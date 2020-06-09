@@ -68,10 +68,11 @@ class CallCenterController extends Controller
 
     public function complementarProfesional($id){
 
-        $comple=Complementario::where('profesional_id',$id);
-        if($comple){
+        $complementario=Complementario::where('profesional_id',$id)->first();
+        if(isset($complementario)){
+            // dd($comple);
             $profesional = Profesional::find($id);
-            return view('modals/modalComplementar')->with('profesional',$profesional)->with('complementario',$comple);
+            return view('modals/modalComplementar')->with('profesional',$profesional)->with('complementario',$complementario);
         }else{
             $profesional = Profesional::find($id);
             return view('modals/modalComplementar')->with('profesional',$profesional);
@@ -82,11 +83,11 @@ class CallCenterController extends Controller
          //dd(json_decode($request->experiencias, true), $request->all(),$request->observaciones);
 
         $expeOld=Experiencia::where('profesional_id',$request->profesional_id);
+
         $expCallcenter=json_decode($request->experiencias, true);
-
-
         foreach ($expCallcenter as $key => $exp) {
             $expeNew=new Experiencia();
+            $expeNew->profesional_id=$request->profesional_id;
             $expeNew->tiempoTipo=$exp["tiempoTipo"];
             $expeNew->tiempoPeriodo=$exp["tiempoPeriodo"];
             $expeNew->servicioClinico=$exp["servicioClinico"];

@@ -36,9 +36,9 @@
         <div class="modal-body">
 
 
-                @if(isset($complementario))
+                {{-- @if(isset($complementario))
                     {{$complementario}}
-                @endif
+                @endif --}}
 
             {{-- DATOS PERSONALES --}}
             <div class="col-md-12" style="padding:0px">
@@ -89,7 +89,7 @@
                     <input type="hidden" id="modo" name="modo" value="">
                     <input type="hidden" id="experiencias_input" name="experiencias" value="">
                     <input type="hidden" id="observaciones_input" name="observaciones" value="">
-                    <input type="hidden" id="modo_input" name="modo" value="{{$profesional->modo}}">
+                    <input type="hidden" id="modo_input" name="modo" value="{{$modo}}">
 
 
                     {{-- INSCRIPCIONES --}}
@@ -486,6 +486,7 @@
 
         $(".boton_remove").hide();
 
+        console.log($('#modo_input').val())
 
         if($('#iaas').val()=="si"){
             $('#iaasCurso').fadeIn();
@@ -619,12 +620,12 @@
                 $('#iaasCurso').fadeOut();
             }
         });
-        $('#iaas').change(function(e) {
+        $('#rcp').change(function(e) {
             value = e.target.value;
             if (value=='si') {
-                $('#iaasCurso').fadeIn();
+                $('#rcpCurso').fadeIn();
             } else {
-                $('#iaasCurso').fadeOut();
+                $('#rcpCurso').fadeOut();
             }
         });
 

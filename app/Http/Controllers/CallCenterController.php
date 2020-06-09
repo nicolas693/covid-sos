@@ -71,34 +71,34 @@ class CallCenterController extends Controller
         $complementario=Complementario::where('profesional_id',$id)->first();
         $exp = Experiencia::where('profesional_id',$id)->get();
         if(isset($complementario)){
-            // dd($comple);
+            $modo='editar';
             $profesional = Profesional::find($id);
             return view('modals/modalComplementar')->with('profesional',$profesional)
             ->with('complementario',$complementario)
             ->with('exp',$exp)
-            ->with('modo','editar');
+            ->with('modo',$modo);
         }else{
             $profesional = Profesional::find($id);
+            $modo='crear';
             return view('modals/modalComplementar')->with('profesional',$profesional)
             ->with('complementario',new Complementario())
             ->with('exp',$exp)
-            ->with('modo','crear');
+            ->with('modo',$modo);
         }
     }
     public function complementarProfesionalEnviar(Request $request){
 
-        //dd(json_decode($request->experiencias, true), $request->all(),$request->observaciones);
 
-        if($requet->modo=='editar'){
+        if($request->modo=='editar'){
             $expeOld=Experiencia::where('profesional_id',$request->profesional_id);
-            $comple=Complementario::where('profesional_id',$request->profesional_id);
+            $comple=Complementario::where('profesional_id',$request->profesional_id)->first();
             // borro las experiencias viejas
             foreach ($expeOld as $key => $exp) {
                 $exp->delete();
             }
         }
 
-        if($request->modo='crear'){
+        if($request->modo=='crear'){
             $comple=new Complementario();
         }
 
@@ -113,7 +113,7 @@ class CallCenterController extends Controller
             $expeNew->save();
         }
 
-       // dd(json_decode($request->experiencias, true), $request->all(),$request->observaciones);
+        // dd(json_decode($request->experiencias, true), $request->all(),$request->observaciones);
 
         //$expeNew=new Experiencia();
 
@@ -148,6 +148,7 @@ class CallCenterController extends Controller
         $comple->otroCurso=$request->otroCurso;
         $comple->save();
 
+        // dd(json_decode($request->experiencias, true), $request->all(),$request->observaciones, $comple);
         return redirect('/callcenter')->with('status','complementario');
     }
 }

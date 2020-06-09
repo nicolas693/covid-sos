@@ -8,5 +8,5 @@ class DocumentosProfesional extends Model
 {
     protected $table = 'documentos_profesionales';
 
-   
+
 }

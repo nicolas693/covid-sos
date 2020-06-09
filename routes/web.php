@@ -44,10 +44,12 @@ route::group(['middleware' => 'auth'], function () {
     route::get('/callcenter/asignarProfesional/{id}', 'CallCenterController@asignarProfesional')->name('callcenter.asignarProfesional');
     route::get('/callcenter/complementarProfesional/{id}', 'CallCenterController@complementarProfesional')->name('callcenter.complementarProfesional');
 
+    route::post('/enviarComplementar', 'CallCenterController@complementarProfesionalEnviar')->name('callcenter.complementarProfesionalEnviar');
     Route::post('/enviarAsignacion', 'AsignacionController@guardar')->name('asignacion.guardar');
 
 
     route::get('/descargar_certificado/{id}', 'DescargarDocumentosController@certificadoTitulo')->name('descargar.certificado');
     route::get('/descargar_cedula/{id}', 'DescargarDocumentosController@cedulaIdentidad')->name('descargar.cedula');
     route::get('/descargar_curriculum/{id}', 'DescargarDocumentosController@curriculum')->name('descargar.curriculum');
+
 });

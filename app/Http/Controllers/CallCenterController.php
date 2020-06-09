@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use App\Profesional;
 use App\DocumentosProfesional;
 use App\Asignacion;
+use App\Complementario;
+use App\Experiencia;
 use DB;
 
 class CallCenterController extends Controller
@@ -65,7 +67,69 @@ class CallCenterController extends Controller
     }
 
     public function complementarProfesional($id){
-        $profesional = Profesional::find($id);
-        return view('modals/modalComplementar')->with('profesional',$profesional);
+
+        $comple=Complementario::where('profesional_id',$id);
+        if($comple){
+            $profesional = Profesional::find($id);
+            return view('modals/modalComplementar')->with('profesional',$profesional)->with('complementario',$comple);
+        }else{
+            $profesional = Profesional::find($id);
+            return view('modals/modalComplementar')->with('profesional',$profesional);
+        }
+    }
+    public function complementarProfesionalEnviar(Request $request){
+
+         //dd(json_decode($request->experiencias, true), $request->all(),$request->observaciones);
+
+        $expeOld=Experiencia::where('profesional_id',$request->profesional_id);
+        $expCallcenter=json_decode($request->experiencias, true);
+
+
+        foreach ($expCallcenter as $key => $exp) {
+            $expeNew=new Experiencia();
+            $expeNew->tiempoTipo=$exp["tiempoTipo"];
+            $expeNew->tiempoPeriodo=$exp["tiempoPeriodo"];
+            $expeNew->servicioClinico=$exp["servicioClinico"];
+            $expeNew->lugarTrabajo=$exp["lugarTrabajo"];
+            $expeNew->save();
+        }
+
+       // dd(json_decode($request->experiencias, true), $request->all(),$request->observaciones);
+
+        //$expeNew=new Experiencia();
+
+        $comple=new Complementario();
+        $comple->profesional_id=$request->profesional_id;
+        $comple->eunacom=$request->eunacom;
+        $comple->conacem=$request->conacem;
+        $comple->supersalud=$request->supersalud;
+        $comple->observaciones=$request->observaciones;
+        $comple->iaas=$request->iaas;
+        $comple->iaasCurso=$request->iaas;
+        $comple->rcp=$request->rcp;
+        $comple->rcpCurso=$request->rcpCurso;
+        $comple->pacienteCritico=$request->pacienteCritico;
+        $comple->pacienteCriticoCurso=$request->pacienteCriticoCurso;
+        $comple->ventilacionMecanica=$request->ventilacion;
+        $comple->ventilacionMecanicaCurso=$request->ventilacionCurso;
+        $comple->adminEstado=$request->adminEstado;
+        $comple->adminEstadoCurso=$request->adminEstadoCurso;
+        $comple->urgenciaDesastres=$request->urgenciaDesastres;
+        $comple->urgenciaDesastresCurso=$request->urgenciaDesastresCurso;
+        $comple->adultoMayor=$request->adultoMayor;
+        $comple->adultoMayorCurso=$request->adultoMayorCurso;
+        $comple->infeccionesRespiratorias=$request->infeccionesRespiratorias;
+        $comple->infeccionesRespiratoriasCurso=$request->infeccionesRespiratoriasCurso;
+        $comple->ira=$request->ira;
+        $comple->iraCurso=$request->iraCurso;
+        $comple->era=$request->era;
+        $comple->eraCurso=$request->eraCurso;
+        $comple->covid19=$request->covid19;
+        $comple->covid19Curso=$request->covid19Curso;
+        $comple->otro=$request->otro;
+        $comple->otroCurso=$request->otroCurso;
+        $comple->save();
+
+        return redirect('/callcenter')->with('status','complementario');
     }
 }

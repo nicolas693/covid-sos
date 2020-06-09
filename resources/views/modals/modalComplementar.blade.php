@@ -89,6 +89,7 @@
                     <input type="hidden" id="modo" name="modo" value="">
                     <input type="hidden" id="experiencias_input" name="experiencias" value="">
                     <input type="hidden" id="observaciones_input" name="observaciones" value="">
+                    <input type="hidden" id="modo_input" name="modo" value="{{$profesional->modo}}">
 
 
                     {{-- INSCRIPCIONES --}}
@@ -256,8 +257,8 @@
                             </div>
                             <div class="col-md-3">
                                 <select id="iaasCurso" name="iaasCurso" class="form-control form-control-sm " style="display: none">
-                                <option value="curso">Curso</option>
-                                <option value="diplomado">Diplomado</option>
+                                <option value="curso" @if( isset($complementario) && $complementario->iaasCurso=="curso") selected @endif>Curso</option>
+                                <option value="diplomado" @if( isset($complementario) && $complementario->iaasCurso=="diplomado") selected @endif>Diplomado</option>
                                 </select>
                             </div>
                         </div>
@@ -272,8 +273,8 @@
                             </div>
                             <div class="col-md-3">
                                 <select id="rcpCurso"  name="rcpCurso" class="form-control form-control-sm " style="display: none">
-                                    <option value="curso">Curso</option>
-                                    <option value="diplomado">Diplomado</option>
+                                    <option value="curso" @if( isset($complementario) && $complementario->rcpCurso=="curso") selected @endif>Curso</option>
+                                    <option value="diplomado" @if( isset($complementario) && $complementario->rcpCurso=="diplomado") selected @endif>Diplomado</option>
                                 </select>
                             </div>
                         </div>
@@ -288,8 +289,8 @@
                             </div>
                             <div class="col-md-3">
                                 <select id="pacienteCriticoCurso" name="pacienteCriticoCurso" class="form-control form-control-sm" style="display: none" >
-                                    <option value="curso">Curso</option>
-                                    <option value="diplomado">Diplomado</option>
+                                    <option value="curso" @if( isset($complementario) && $complementario->pacienteCriticoCurso=="curso") selected @endif>Curso</option>
+                                    <option value="diplomado" @if( isset($complementario) && $complementario->pacienteCriticoCurso=="diplomado") selected @endif>Diplomado</option>
                                 </select>
                             </div>
                         </div>
@@ -298,14 +299,14 @@
                             <label for="ventilacion" class="col-md-5 col-form-label" style="font-weight: normal;margin-top:-3px">Manejo ventilador mecanico</label>
                             <div class="col-md-2" >
                                 <select id="ventilacion" name="ventilacion" class="form-control form-control-sm">
-                                    <option value="no"  @if( isset($complementario) && $complementario->ventilacion=="no") selected @endif>No</option>
-                                    <option value="si"  @if( isset($complementario) && $complementario->ventilacion=="si") selected @endif>Si</option>
+                                    <option value="no"  @if( isset($complementario) && $complementario->ventilacionMecanica=="no") selected @endif>No</option>
+                                    <option value="si"  @if( isset($complementario) && $complementario->ventilacionMecanica=="si") selected @endif>Si</option>
                                 </select>
                             </div>
                             <div class="col-md-3">
                                 <select id="ventilacionCurso" name="ventilacionCurso" class="form-control form-control-sm" style="display: none">
-                                    <option value="curso">Curso</option>
-                                    <option value="diplomado">Diplomado</option>
+                                    <option value="curso" @if( isset($complementario) && $complementario->ventilacionCurso=="curso") selected @endif>Curso</option>
+                                    <option value="diplomado" @if( isset($complementario) && $complementario->ventilacionCurso=="diplomado") selected @endif>Diplomado</option>
                                 </select>
                             </div>
                         </div>
@@ -314,14 +315,14 @@
                             <label for="adminEstado" class="col-md-5 col-form-label" style="font-weight: normal;margin-top:-3px">Induccion a la administracion del estado</label>
                             <div class="col-md-2">
                                 <select id="adminEstado"  name="adminEstado" class="form-control form-control-sm">
-                                <option value="si">Si</option>
-                                <option value="no" selected>No</option>
+                                    <option value="no"  @if( isset($complementario) && $complementario->adminEstado=="no") selected @endif>No</option>
+                                    <option value="si"  @if( isset($complementario) && $complementario->adminEstado=="si") selected @endif>Si</option>
                                 </select>
                             </div>
                             <div class="col-md-3">
                                 <select id="adminEstadoCurso" name="adminEstadoCurso" class="form-control form-control-sm" style="display: none">
-                                    <option value="curso">Curso</option>
-                                    <option value="diplomado">Diplomado</option>
+                                    <option value="curso" @if( isset($complementario) && $complementario->adminEstadoCurso=="curso") selected @endif>Curso</option>
+                                    <option value="diplomado" @if( isset($complementario) && $complementario->adminEstadoCurso=="diplomado") selected @endif>Diplomado</option>
                                 </select>
                             </div>
                         </div>
@@ -330,14 +331,14 @@
                             <label for="urgenciaDesastres" class="col-md-5 col-form-label" style="font-weight: normal;margin-top:-3px">Atencion urgencia emergencia y desastres</label>
                             <div class="col-md-2">
                                 <select id="urgenciaDesastres" name="urgenciaDesastres" class="form-control form-control-sm">
-                                <option value="si">Si</option>
-                                <option value="no" selected>No</option>
+                                    <option value="no"  @if( isset($complementario) && $complementario->urgenciaDesastres=="no") selected @endif>No</option>
+                                    <option value="si"  @if( isset($complementario) && $complementario->urgenciaDesastres=="si") selected @endif>Si</option>
                                 </select>
                             </div>
                             <div class="col-md-3">
                                 <select id="urgenciaDesastresCurso" name="urgenciaDesastresCurso" class="form-control form-control-sm" style="display: none">
-                                    <option value="curso">Curso</option>
-                                    <option value="diplomado">Diplomado</option>
+                                    <option value="curso" @if( isset($complementario) && $complementario->urgenciaDesastresCurso=="curso") selected @endif>Curso</option>
+                                    <option value="diplomado" @if( isset($complementario) && $complementario->urgenciaDesastresCurso=="diplomado") selected @endif>Diplomado</option>
                                 </select>
                             </div>
                         </div>
@@ -346,14 +347,14 @@
                             <label for="adultoMayor" class="col-md-5 col-form-label" style="font-weight: normal;margin-top:-3px">Atencion y cuidados del adulto mayor</label>
                             <div class="col-md-2">
                                 <select id="adultoMayor" name="adultoMayor" class="form-control form-control-sm">
-                                <option value="si">Si</option>
-                                <option value="no" selected>No</option>
+                                    <option value="no"  @if( isset($complementario) && $complementario->adultoMayor=="no") selected @endif>No</option>
+                                    <option value="si"  @if( isset($complementario) && $complementario->adultoMayor=="si") selected @endif>Si</option>
                                 </select>
                             </div>
                             <div class="col-md-3">
                                 <select id="adultoMayorCurso" name="adultoMayorCurso" class="form-control form-control-sm" style="display: none">
-                                    <option value="curso">Curso</option>
-                                    <option value="diplomado">Diplomado</option>
+                                    <option value="curso" @if( isset($complementario) && $complementario->adultoMayorCurso=="curso") selected @endif>Curso</option>
+                                    <option value="diplomado" @if( isset($complementario) && $complementario->adultoMayorCurso=="diplomado") selected @endif>Diplomado</option>
                                 </select>
                             </div>
                         </div>
@@ -362,14 +363,14 @@
                             <label for="infeccionesRespiratorias" class="col-md-5 col-form-label" style="font-weight: normal;margin-top:-3px">Manejo clinico de infecciones respiratorias</label>
                             <div class="col-md-2">
                                 <select id="infeccionesRespiratorias" name="infeccionesRespiratorias" class="form-control form-control-sm">
-                                <option value="si">Si</option>
-                                <option value="no" selected>No</option>
+                                    <option value="no"  @if( isset($complementario) && $complementario->infeccionesRespiratorias=="no") selected @endif>No</option>
+                                    <option value="si"  @if( isset($complementario) && $complementario->infeccionesRespiratorias=="si") selected @endif>Si</option>
                                 </select>
                             </div>
                             <div class="col-md-3">
                                 <select id="infeccionesRespiratoriasCurso" name="infeccionesRespiratoriasCurso" class="form-control form-control-sm" style="display: none">
-                                    <option value="curso">Curso</option>
-                                    <option value="diplomado">Diplomado</option>
+                                    <option value="curso" @if( isset($complementario) && $complementario->infeccionesRespiratoriasCurso=="curso") selected @endif>Curso</option>
+                                    <option value="diplomado" @if( isset($complementario) && $complementario->infeccionesRespiratoriasCurso=="diplomado") selected @endif>Diplomado</option>
                                 </select>
                             </div>
                         </div>
@@ -378,14 +379,14 @@
                             <label for="ira" class="col-md-5 col-form-label" style="font-weight: normal;margin-top:-3px">Infecciones respiratorias del niño</label>
                             <div class="col-md-2">
                                 <select id="ira" name="ira" class="form-control form-control-sm">
-                                <option value="si">Si</option>
-                                <option value="no" selected>No</option>
+                                    <option value="no"  @if( isset($complementario) && $complementario->ira=="no") selected @endif>No</option>
+                                    <option value="si"  @if( isset($complementario) && $complementario->ira=="si") selected @endif>Si</option>
                                 </select>
                             </div>
                             <div class="col-md-3">
                                 <select id="iraCurso" name="iraCurso" class="form-control form-control-sm" style="display: none">
-                                    <option value="curso">Curso</option>
-                                    <option value="diplomado">Diplomado</option>
+                                    <option value="curso" @if( isset($complementario) && $complementario->iraCurso=="curso") selected @endif>Curso</option>
+                                    <option value="diplomado" @if( isset($complementario) && $complementario->iraCurso=="diplomado") selected @endif>Diplomado</option>
                                 </select>
                             </div>
                         </div>
@@ -394,14 +395,14 @@
                             <label for="era" class="col-md-5 col-form-label" style="font-weight: normal;margin-top:-3px">Infecciones respiratorias del adulto</label>
                             <div class="col-md-2">
                                 <select id="era"  name="era" class="form-control form-control-sm">
-                                <option value="si">Si</option>
-                                <option value="no" selected>No</option>
+                                    <option value="no"  @if( isset($complementario) && $complementario->era=="no") selected @endif>No</option>
+                                    <option value="si"  @if( isset($complementario) && $complementario->era=="si") selected @endif>Si</option>
                                 </select>
                             </div>
                             <div class="col-md-3">
                                 <select id="eraCurso" name="eraCurso" class="form-control form-control-sm" style="display: none">
-                                    <option value="curso">Curso</option>
-                                    <option value="diplomado">Diplomado</option>
+                                    <option value="curso" @if( isset($complementario) && $complementario->eraCurso=="curso") selected @endif>Curso</option>
+                                    <option value="diplomado" @if( isset($complementario) && $complementario->eraCurso=="diplomado") selected @endif>Diplomado</option>
                                 </select>
                             </div>
                         </div>
@@ -410,14 +411,14 @@
                             <label for="covid19" class="col-md-5 col-form-label" style="font-weight: normal;margin-top:-3px">Curso COVID-19</label>
                             <div class="col-md-2">
                                 <select id="covid19" name="covid19" class="form-control form-control-sm">
-                                <option value="si">Si</option>
-                                <option value="no" selected>No</option>
+                                    <option value="no"  @if( isset($complementario) && $complementario->covid19=="no") selected @endif>No</option>
+                                    <option value="si"  @if( isset($complementario) && $complementario->covid19=="si") selected @endif>Si</option>
                                 </select>
                             </div>
                             <div class="col-md-3">
                                 <select id="covid19Curso" name="covid19Curso" class="form-control form-control-sm" style="display: none">
-                                    <option value="curso">Curso</option>
-                                    <option value="diplomado">Diplomado</option>
+                                    <option value="curso" @if( isset($complementario) && $complementario->covid19Curso=="curso") selected @endif>Curso</option>
+                                    <option value="diplomado" @if( isset($complementario) && $complementario->covid19Curso=="diplomado") selected @endif>Diplomado</option>
                                 </select>
                             </div>
                         </div>
@@ -426,12 +427,12 @@
                             <label for="otro" class="col-md-5 col-form-label" style="font-weight: normal;margin-top:-3px">Otros</label>
                             <div class="col-md-2">
                                 <select id="otro" name="otro" class="form-control form-control-sm">
-                                <option value="si">Si</option>
-                                <option value="no" selected>No</option>
+                                    <option value="no"  @if( isset($complementario) && $complementario->otro=="no") selected @endif>No</option>
+                                    <option value="si"  @if( isset($complementario) && $complementario->otro=="si") selected @endif>Si</option>
                                 </select>
                             </div>
                             <div class="col-md-3">
-                                <input type="text" class="form-control form-control-sm" id="otroCurso" name="otroCurso" style="display: none">
+                                <input type="text" class="form-control form-control-sm" id="otroCurso" name="otroCurso" style="display: none" @if( isset($complementario) && $complementario->otroCurso!="null") value={{$complementario->otroCurso}} @endif>
                             </div>
                         </div>
 
@@ -484,6 +485,49 @@
         var x = 1;
 
         $(".boton_remove").hide();
+
+
+        if($('#iaas').val()=="si"){
+            $('#iaasCurso').fadeIn();
+        }
+        if($('#rcp').val()=="si"){
+            $('#rcpCurso').fadeIn();
+        }
+        if($('#pacienteCritico').val()=="si"){
+            $('#pacienteCriticoCurso').fadeIn();
+        }
+        if($('#ventilacion').val()=="si"){
+            $('#ventilacionCurso').fadeIn();
+        }
+        if($('#adminEstado').val()=="si"){
+            $('#adminEstadoCurso').fadeIn();
+        }
+        if($('#urgenciaDesastres').val()=="si"){
+            $('#urgenciaDesastresCurso').fadeIn();
+        }
+        if($('#adultoMayor').val()=="si"){
+            $('#adultoMayorCurso').fadeIn();
+        }
+        if($('#infeccionesRespiratorias').val()=="si"){
+            $('#infeccionesRespiratoriasCurso').fadeIn();
+        }
+        if($('#ira').val()=="si"){
+            $('#iraCurso').fadeIn();
+        }
+        if($('#era').val()=="si"){
+            $('#eraCurso').fadeIn();
+        }
+        if($('#covid19').val()=="si"){
+            $('#covid19Curso').fadeIn();
+        }
+        if($('#otro').val()=="si"){
+            $('#otroCurso').fadeIn();
+        }
+
+
+
+
+
 
         original = $('#divRow0');
         $(add_button).click(function(e) { //on add input button click
@@ -575,14 +619,15 @@
                 $('#iaasCurso').fadeOut();
             }
         });
-        $('#rcp').change(function(e) {
+        $('#iaas').change(function(e) {
             value = e.target.value;
             if (value=='si') {
-                $('#rcpCurso').fadeIn();
+                $('#iaasCurso').fadeIn();
             } else {
-                $('#rcpCurso').fadeOut();
+                $('#iaasCurso').fadeOut();
             }
         });
+
         $('#pacienteCritico').change(function(e) {
             value = e.target.value;
             if (value=='si') {

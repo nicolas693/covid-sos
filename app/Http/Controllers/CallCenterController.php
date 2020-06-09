@@ -69,20 +69,38 @@ class CallCenterController extends Controller
     public function complementarProfesional($id){
 
         $complementario=Complementario::where('profesional_id',$id)->first();
+        $exp = Experiencia::where('profesional_id',$id)->get();
         if(isset($complementario)){
             // dd($comple);
             $profesional = Profesional::find($id);
-            return view('modals/modalComplementar')->with('profesional',$profesional)->with('complementario',$complementario);
+            return view('modals/modalComplementar')->with('profesional',$profesional)
+            ->with('complementario',$complementario)
+            ->with('exp',$exp)
+            ->with('modo','editar');
         }else{
             $profesional = Profesional::find($id);
-            return view('modals/modalComplementar')->with('profesional',$profesional);
+            return view('modals/modalComplementar')->with('profesional',$profesional)
+            ->with('complementario',new Complementario())
+            ->with('exp',$exp)
+            ->with('modo','crear');
         }
     }
     public function complementarProfesionalEnviar(Request $request){
 
-         //dd(json_decode($request->experiencias, true), $request->all(),$request->observaciones);
+        //dd(json_decode($request->experiencias, true), $request->all(),$request->observaciones);
 
-        $expeOld=Experiencia::where('profesional_id',$request->profesional_id);
+        if($requet->modo=='editar'){
+            $expeOld=Experiencia::where('profesional_id',$request->profesional_id);
+            $comple=Complementario::where('profesional_id',$request->profesional_id);
+            // borro las experiencias viejas
+            foreach ($expeOld as $key => $exp) {
+                $exp->delete();
+            }
+        }
+
+        if($request->modo='crear'){
+            $comple=new Complementario();
+        }
 
         $expCallcenter=json_decode($request->experiencias, true);
         foreach ($expCallcenter as $key => $exp) {
@@ -99,14 +117,13 @@ class CallCenterController extends Controller
 
         //$expeNew=new Experiencia();
 
-        $comple=new Complementario();
         $comple->profesional_id=$request->profesional_id;
         $comple->eunacom=$request->eunacom;
         $comple->conacem=$request->conacem;
         $comple->supersalud=$request->supersalud;
         $comple->observaciones=$request->observaciones;
         $comple->iaas=$request->iaas;
-        $comple->iaasCurso=$request->iaas;
+        $comple->iaasCurso=$request->iaasCurso;
         $comple->rcp=$request->rcp;
         $comple->rcpCurso=$request->rcpCurso;
         $comple->pacienteCritico=$request->pacienteCritico;

@@ -73,14 +73,14 @@ class CallCenterController extends Controller
         if(isset($complementario)){
             $modo='editar';
             $profesional = Profesional::find($id);
-            return view('modals/modalComplementar')->with('profesional',$profesional)
+            return view('modals/modalComplementar1')->with('profesional',$profesional)
             ->with('complementario',$complementario)
             ->with('exp',$exp)
             ->with('modo',$modo);
         }else{
             $profesional = Profesional::find($id);
             $modo='crear';
-            return view('modals/modalComplementar')->with('profesional',$profesional)
+            return view('modals/modalComplementar1')->with('profesional',$profesional)
             ->with('complementario',new Complementario())
             ->with('exp',$exp)
             ->with('modo',$modo);
@@ -88,9 +88,9 @@ class CallCenterController extends Controller
     }
     public function complementarProfesionalEnviar(Request $request){
 
-
+       
         if($request->modo=='editar'){
-            $expeOld=Experiencia::where('profesional_id',$request->profesional_id);
+            $expeOld=Experiencia::where('profesional_id',$request->profesional_id)->get();
             $comple=Complementario::where('profesional_id',$request->profesional_id)->first();
             // borro las experiencias viejas
             foreach ($expeOld as $key => $exp) {

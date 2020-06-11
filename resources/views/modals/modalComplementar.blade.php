@@ -34,7 +34,7 @@
 
         <!-- Modal body -->
         <div class="modal-body">
-
+            {{$complementario}}
 
                 {{-- @if(isset($complementario))
                     {{$complementario}}

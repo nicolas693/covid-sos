@@ -38,7 +38,7 @@
 
             <!-- Modal body -->
             <div class="modal-body">
-
+{{$complementario}}
                 {{-- DATOS PERSONALES --}}
                 <div class="col-md-12" style="padding:0px">
                     <div class="row">

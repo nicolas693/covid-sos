@@ -38,7 +38,7 @@
 
             <!-- Modal body -->
             <div class="modal-body">
-
+                {{$complementario}}
                 {{-- DATOS PERSONALES --}}
                 <div class="col-md-12" style="padding:0px">
                     <div class="row">
@@ -386,9 +386,13 @@
                                 <label for="iaas" class="col-md-5 col-form-label" style="font-weight: normal;margin-top:-3px">Curso IAAS</label>
                                 <div class="col-md-2">
                                     <select id="iaas" name="iaas" class="form-control form-control-sm ">
-
+                                        @if($complementario->rcp=="si")
+                                        <option value="si" selected>Si</option>
+                                        <option value="no">No</option>
+                                        @else
                                         <option value="si">Si</option>
                                         <option value="no" selected>No</option>
+                                        @endif
                                     </select>
                                 </div>
                                 <div class="col-md-3">
@@ -681,8 +685,8 @@
                                         @endif
                                         @endif
 
-                                        
-                                     
+
+
                                     </select>
                                 </div>
                             </div>
@@ -720,7 +724,7 @@
                                         @endif
 
 
-                                      
+
                                     </select>
                                 </div>
                             </div>
@@ -757,7 +761,7 @@
                                         @endif
                                         @endif
 
-                                     
+
                                     </select>
                                 </div>
                             </div>

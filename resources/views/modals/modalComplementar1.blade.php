@@ -113,12 +113,6 @@
 
 
                         {{-- INSCRIPCIONES --}}
-                        {{-- <div class="row">
-                            <div class="col-md-4" style="margin-top: 10px;">
-                                <label>Inscripciones <a href="#" style='text-decoration : none;color:gray' id="btn_inscripciones" onclick="mostrarInscripciones()"><i class="fas fa-minus-circle text-danger"></i></a> </label>
-                            </div>
-                        </div> --}}
-
                         <div class="row">
                             <div class="col-md-2" style="margin-top: 10px;">
                                 <label >Inscripciones: </label>
@@ -127,8 +121,6 @@
                                 <a href="#"  id="btn_inscripciones"  onclick="mostrarInscripciones()" style="margin-top: 3px">-</a>
                             </div>
                         </div>
-
-
                         <div class="col-md-12 border borde" id="div_inscripciones" style="display: block;">
                             {{-- Eunacom --}}
                             <div class="form-group row" style="margin-bottom:0px">
@@ -548,6 +540,60 @@
                                 </div>
                             </div>
                         </div>
+
+                        {{-- VACUNAS --}}
+                        <div class="row">
+                            <div class="col-md-2" style="margin-top: 10px;">
+                                <label >Vacunas: </label>
+                            </div>
+                            <div class="col-md-2 btn_colapse" style="margin-top: 10px;" >
+                                <a href="#"  id="btn_inscripciones"  onclick="mostrarVacunas()" style="margin-top: 3px">-</a>
+                            </div>
+                        </div>
+                        <div class="col-md-12 border borde" id="div_inscripciones" style="display: block;">
+                            {{-- hepatita a --}}
+                            <div class="form-group row" style="margin-bottom:0px">
+                                <label for="hepatitisA" class="col-md-3 col-form-label" style="font-weight: normal">Hepatitis A</label>
+                                <div class="col-md-2" id="hepatitisA">
+                                    <select id="hepatitisA" class="form-control form-control-sm" name="hepatitisA">
+                                    <option value="no" @if( isset($complementario) && $complementario->hepatitisA=="no") selected @endif>No</option>
+                                    <option value="si" @if( isset($complementario) && $complementario->hepatitisA=="si") selected @endif>Si</option>
+                                </select>
+                                </div>
+                            </div>
+
+                            {{-- hepatita b --}}
+                            <div class="form-group row" style="margin-bottom:0px">
+                                <label for="hepatitisB" class="col-md-3 col-form-label" style="font-weight: normal">Hepatitis B</label>
+                                <div class="col-md-2" id="hepatitisB">
+                                    <select id="hepatitisB" class="form-control form-control-sm" name="hepatitisB">
+                                        <option value="no" @if( isset($complementario) && $complementario->hepatitisB=="no") selected @endif>No</option>
+                                        <option value="si" @if( isset($complementario) && $complementario->hepatitisB=="si") selected @endif>Si</option>
+                                    </select>
+                                </div>
+                            </div>
+                            {{-- hepatita c --}}
+                            <div class="form-group row" style="margin-bottom:0px">
+                                <label for="hepatitisC" class="col-md-3 col-form-label" style="font-weight: normal">Hepatitis C</label>
+                                <div class="col-md-2" id="hepatitisC">
+                                    <select id="hepatitisC" class="form-control form-control-sm" name="hepatitisC">
+                                        <option value="no" @if( isset($complementario) && $complementario->hepatitisC=="no") selected @endif>No</option>
+                                        <option value="si" @if( isset($complementario) && $complementario->hepatitisC=="si") selected @endif>Si</option>
+                                    </select>
+                                </div>
+                            </div>
+                            {{-- influenza en 2020 --}}
+                            <div class="form-group row" style="margin-bottom:0px">
+                                <label for="influeza" class="col-md-3 col-form-label" style="font-weight: normal">Influenza en 2020</label>
+                                <div class="col-md-2" id="influeza">
+                                    <select id="influeza" class="form-control form-control-sm" name="influeza">
+                                        <option value="no" @if( isset($complementario) && $complementario->influenza=="no") selected @endif>No</option>
+                                        <option value="si" @if( isset($complementario) && $complementario->influenza=="si") selected @endif>Si</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
                     </form>
                 </div>
             </div>

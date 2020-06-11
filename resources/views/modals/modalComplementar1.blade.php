@@ -57,8 +57,8 @@
 
             <!-- Modal body -->
             <div class="modal-body">
-                {{$complementario}}
-        {{$exp}}
+                {{-- {{$complementario}}
+        {{$exp}} --}}
 
 
                 {{-- DATOS PERSONALES --}}
@@ -547,10 +547,10 @@
                                 <label >Vacunas: </label>
                             </div>
                             <div class="col-md-2 btn_colapse" style="margin-top: 10px;" >
-                                <a href="#"  id="btn_inscripciones"  onclick="mostrarVacunas()" style="margin-top: 3px">-</a>
+                                <a href="#"  id="btn_vacunas"  onclick="mostrarVacunas()" style="margin-top: 3px">-</a>
                             </div>
                         </div>
-                        <div class="col-md-12 border borde" id="div_inscripciones" style="display: block;">
+                        <div class="col-md-12 border borde" id="div_vacunas" style="display: block;">
                             {{-- hepatita a --}}
                             <div class="form-group row" style="margin-bottom:0px">
                                 <label for="hepatitisA" class="col-md-3 col-form-label" style="font-weight: normal">Hepatitis A</label>
@@ -586,7 +586,7 @@
                             <div class="form-group row" style="margin-bottom:0px">
                                 <label for="influeza" class="col-md-3 col-form-label" style="font-weight: normal">Influenza en 2020</label>
                                 <div class="col-md-2" id="influeza">
-                                    <select id="influeza" class="form-control form-control-sm" name="influeza">
+                                    <select id="influenza" class="form-control form-control-sm" name="influenza">
                                         <option value="no" @if( isset($complementario) && $complementario->influenza=="no") selected @endif>No</option>
                                         <option value="si" @if( isset($complementario) && $complementario->influenza=="si") selected @endif>Si</option>
                                     </select>
@@ -912,6 +912,20 @@
             });
         }
 
+    }
+
+    function mostrarVacunas() {
+        if (!$('#div_vacunas').is(':visible')) {
+            $('#div_vacunas').fadeIn(function(e) {
+                $('#btn_vacunas').text("-");
+                // document.getElementById('btn_vacunas').innerHTML = '<i class="fas fa-minus-circle text-danger"></i>';
+            });
+        } else {
+            $('#div_vacunas').fadeOut(function(e) {
+                $('#btn_vacunas').text("+");
+                // document.getElementById('btn_vacunas').innerHTML = '<i class="fas fa-plus-circle text-success"></i>';
+            });
+        }
     }
 
     function quitarFila(name) {

@@ -146,6 +146,12 @@ class CallCenterController extends Controller
         $comple->covid19Curso=$request->covid19Curso;
         $comple->otro=$request->otro;
         $comple->otroCurso=$request->otroCurso;
+        $comple->hepatitisA=$request->hepatitisA;
+        $comple->hepatitisB=$request->hepatitisB;
+        $comple->hepatitisC=$request->hepatitisC;
+        $comple->influenza=$request->influenza;
+
+
         $comple->save();
 
         // dd(json_decode($request->experiencias, true), $request->all(),$request->observaciones, $comple);

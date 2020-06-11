@@ -88,7 +88,7 @@ class CallCenterController extends Controller
     }
     public function complementarProfesionalEnviar(Request $request){
 
-       
+    //    dd(json_decode($request->experiencias, true), $request->all(),$request->observaciones);
         if($request->modo=='editar'){
             $expeOld=Experiencia::where('profesional_id',$request->profesional_id)->get();
             $comple=Complementario::where('profesional_id',$request->profesional_id)->first();
@@ -113,7 +113,7 @@ class CallCenterController extends Controller
             $expeNew->save();
         }
 
-        // dd(json_decode($request->experiencias, true), $request->all(),$request->observaciones);
+
 
         //$expeNew=new Experiencia();
 

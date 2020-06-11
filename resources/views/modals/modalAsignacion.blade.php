@@ -52,13 +52,14 @@
                 </table>
             </div>
 
-
+{{--
             @if($profesional->estado=="disponible")
                 <label style="margin-top: 15px;">Asignar establecimiento: </label>
             @else
                 <label style="margin-top: 15px;">Cambiar estado: </label>
-            @endif
+            @endif --}}
 
+            <label style="margin-top: 15px;">Cambiar estado: </label>
             <div  class="col-md-12 border">
                 <form action="{{route('asignacion.guardar')}}" method="post" class="formulario_asignacion">
 
@@ -167,19 +168,24 @@ $(document).ready(function() {
 
     var estado_original=$("#estado_id").val();
 
-    if(estado_original=="disponible"){
-        $('#caja_establecimiento').css({"display":"block"});
-        $("#modo").val("establecimiento");
+    // if(estado_original=="disponible"){
+    //     $('#caja_establecimiento').css({"display":"block"});
+    //     $("#modo").val("establecimiento");
 
-    };
-    if(estado_original=="no disponible"){
-        $('#caja_estado').css({"display":"block"});
-        $("#modo").val("estado");
-    }
-    if(estado_original=="contratado"){
-        $('#caja_estado').css({"display":"block"});
-        $("#modo").val("estado");
-    }
+    // };
+    // if(estado_original=="no disponible"){
+    //     $('#caja_estado').css({"display":"block"});
+    //     $("#modo").val("estado");
+    // }
+    // if(estado_original=="contratado"){
+    //     $('#caja_estado').css({"display":"block"});
+    //     $("#modo").val("estado");
+    // }
+
+
+$('#caja_estado').css({"display":"block"});
+$("#modo").val("estado");
+
 
     // $('input[type=radio][name=accion]').change(function() {
     //     if (this.value == 'establecimiento') {

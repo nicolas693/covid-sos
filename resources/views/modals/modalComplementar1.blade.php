@@ -20,9 +20,9 @@
         border: 1px dashed #f00;
     }
 
-    .fas {
+    /* .fas {
         padding-left: 5px;
-    }
+    } */
 
     .btn_colapse a{
     text-align: center;
@@ -58,6 +58,9 @@
             <!-- Modal body -->
             <div class="modal-body">
                 {{$complementario}}
+        {{$exp}}
+
+
                 {{-- DATOS PERSONALES --}}
                 <div class="col-md-12" style="padding:0px">
                     <div class="row">
@@ -89,7 +92,7 @@
                         <div class="col-md-6">
                             <label>Observaciones :</label>
                             <div class="border" style="height: 80px">
-                                <textarea class="form-control" id="observaciones" rows="2" placeholder="Observaciones" style="resize:none;border:none;"></textarea>
+                                <textarea class="form-control"  id="observaciones" rows="2" placeholder="" style="resize:none;border:none;"> @if(isset($complementario)&& $complementario->observaciones!=null){{$complementario->observaciones}} @endif</textarea>
                             </div>
                         </div>
                     </div>
@@ -249,8 +252,8 @@
                                         <div class="col-md-2">
                                             {{-- <select name="tiempoTipo" class="form-control fila_select tiempoTipo"> --}}
                                             <select class="form-control fila_select tiempoTipo">
-                                                <option value="años">Años</option>
-                                                <option value="meses">Meses</option>
+                                                <option value="años" @if($exp[0]->tiempoTipo=="años") selected @endif>Años</option>
+                                                <option value="meses" @if($exp[0]->tiempoTipo=="meses") selected @endif>Meses</option>
                                             </select>
                                         </div>
                                         {{-- CANTIDAD DE TIEMPO --}}
@@ -294,8 +297,8 @@
                                         <div class="col-md-2">
                                             {{-- <select name="tiempoTipo" class="form-control fila_select tiempoTipo"> --}}
                                             <select class="form-control fila_select tiempoTipo">
-                                                <option value="años">Años</option>
-                                                <option value="meses">Meses</option>
+                                                <option value="años" @if($e->tiempoTipo=="años") selected @endif>Años</option>
+                                                <option value="meses" @if($e->tiempoTipo=="meses") selected @endif>Meses</option>
                                             </select>
                                         </div>
                                         {{-- CANTIDAD DE TIEMPO --}}
@@ -659,6 +662,8 @@
         });
 
         $("#btn_enviar").click(function(e) {
+            $('#observaciones_input').val($('#observaciones').val());
+            console.log( $('#observaciones_input').val());
             $('.fila_completa .form-control ').removeClass('error');
             experiencias = [];
 
@@ -708,7 +713,7 @@
                 $('#experiencias_input').val(JSON.stringify(experiencias));
                 console.log("experienncias " + $('#experiencias_input').val());
                 experiencias = [];
-                $(".formulario_complementar").submit();
+                 $(".formulario_complementar").submit();
             }
 
         });

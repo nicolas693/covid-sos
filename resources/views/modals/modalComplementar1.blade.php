@@ -23,6 +23,25 @@
     .fas {
         padding-left: 5px;
     }
+
+    .btn_colapse a{
+    text-align: center;
+	float: left;
+	width: 20px;
+	height: 20px;
+	border: 1px solid #909090;
+	border-radius: 100%;
+	margin-right: 7px; /*space between*/
+    text-decoration:none;
+    font-size: 13px;
+    color: #909090;
+
+    }
+    .btn_colapse a:hover {
+        color: #909090;
+    }
+
+
 </style>
 
 <div id="modalComplementar" class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
@@ -91,99 +110,53 @@
 
 
                         {{-- INSCRIPCIONES --}}
-                        <div class="row">
+                        {{-- <div class="row">
                             <div class="col-md-4" style="margin-top: 10px;">
                                 <label>Inscripciones <a href="#" style='text-decoration : none;color:gray' id="btn_inscripciones" onclick="mostrarInscripciones()"><i class="fas fa-minus-circle text-danger"></i></a> </label>
                             </div>
-                            <!-- <div class="col-md-2" style="margin-top: 10px;">
-                                <a href="#" style='text-decoration : none;color:gray' id="btn_inscripciones" onclick="mostrarInscripciones()"><i class="fas fa-minus-circle text-danger"></i></a>
-                            </div> -->
+                        </div> --}}
+
+                        <div class="row">
+                            <div class="col-md-2" style="margin-top: 10px;">
+                                <label >Inscripciones: </label>
+                            </div>
+                            <div class="col-md-2 btn_colapse" style="margin-top: 10px;" >
+                                <a href="#"  id="btn_inscripciones"  onclick="mostrarInscripciones()" style="margin-top: 3px">-</a>
+                            </div>
                         </div>
-                        {{-- <label style="margin-top: 10px;">Inscripciones: </label> --}}
+
+
                         <div class="col-md-12 border borde" id="div_inscripciones" style="display: block;">
                             {{-- Eunacom --}}
-                            <div class="form-group row" style="margin-bottom:5px">
+                            <div class="form-group row" style="margin-bottom:0px">
                                 <label for="eunacom" class="col-md-2 col-form-label" style="font-weight: normal">Eunacom</label>
                                 <div class="col-md-3" id="eunacom">
                                     <select id="eunacom" class="form-control form-control-sm" name="eunacom">
-                                        @if($complementario->eunacom == 'Lo tiene')
-                                        <option selected>No lo tiene</option>
-                                        @else
-                                        <option>No lo tiene</option>
-                                        @endif
-
-                                        @if($complementario->eunacom == 'Lo tiene')
-                                        <option selected>Lo tiene</option>
-                                        @else
-                                        <option>Lo tiene</option>
-                                        @endif
-
-                                        @if($complementario->eunacom == 'Lo tiene')
-                                        <option selected>En proceso</option>
-                                        @else
-                                        <option>En proceso</option>
-                                        @endif
-
-                                    </select>
+                                    <option @if( isset($complementario) && $complementario->eunacom=="No lo tiene") selected @endif>No lo tiene</option>
+                                    <option @if( isset($complementario) && $complementario->eunacom=="Lo tiene") selected @endif>Lo tiene</option>
+                                    <option @if( isset($complementario) && $complementario->eunacom=="En proceso") selected @endif>En proceso</option>
+                                </select>
                                 </div>
                             </div>
 
-                            {{-- <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1">
-                        <label class="form-check-label" for="inlineRadio1">1</label>
-                        </div>
-                        <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2" value="option2">
-                        <label class="form-check-label" for="inlineRadio2">2</label>
-                        </div>
-                        <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio3" value="option3" disabled>
-                        <label class="form-check-label" for="inlineRadio3">3 (disabled)</label>
-                        </div> --}}
-
                             {{-- conacem --}}
-                            <div class="form-group row" style="margin-bottom:5px">
+                            <div class="form-group row" style="margin-bottom:0px">
                                 <label for="conacem" class="col-sm-2 col-form-label" style="font-weight: normal">Conacem</label>
                                 <div class="col-md-3" id="conacem">
                                     <select id="conacem" class="form-control form-control-sm" name="conacem">
-                                        @if($complementario->conacem == 'Lo tiene')
-                                        <option selected>No lo tiene</option>
-                                        @else
-                                        <option>No lo tiene</option>
-                                        @endif
-
-                                        @if($complementario->conacem == 'Lo tiene')
-                                        <option selected>Lo tiene</option>
-                                        @else
-                                        <option>Lo tiene</option>
-                                        @endif
-
-                                        @if($complementario->conacem == 'Lo tiene')
-                                        <option selected>En proceso</option>
-                                        @else
-                                        <option>En proceso</option>
-                                        @endif
+                                    <option @if( isset($complementario) && $complementario->conacem=="No lo tiene") selected @endif>No lo tiene</option>
+                                    <option @if( isset($complementario) && $complementario->conacem=="Lo tiene") selected @endif>Lo tiene</option>
+                                    <option @if( isset($complementario) && $complementario->conacem=="En proceso") selected @endif>En proceso</option>
                                     </select>
                                 </div>
                             </div>
                             {{-- supersalud --}}
-                            <div class="form-group row" style="margin-bottom:5px">
+                            <div class="form-group row" style="margin-bottom:0px">
                                 <label for="supersalud" class="col-sm-2 col-form-label" style="font-weight: normal">Super salud</label>
                                 <div class="col-md-3" id="supersalud">
                                     <select id="supersalud" class="form-control form-control-sm" name="supersalud">
-                                        @if($complementario->supersalud == 'Inscrito')
-                                        <option selected>Inscrito</option>
-                                        @else
-                                        <option>Inscrito</option>
-                                        @endif
-
-                                        @if($complementario->supersalud == 'No inscrito')
-                                        <option selected>No inscrito</option>
-                                        @else
-                                        <option>No inscrito</option>
-                                        @endif
-
-
+                                        <option @if( isset($complementario) && $complementario->supersalud=="Inscrito") selected @endif>Inscrito</option>
+                                        <option @if( isset($complementario) && $complementario->supersalud=="No inscrito") selected @endif>No inscrito</option>
                                     </select>
                                 </div>
                             </div>
@@ -191,14 +164,16 @@
 
                         {{-- EXPERIENCIA --}}
                         <div class="row">
-                            <div class="col-md-4" style="margin-top: 10px;">
+                            <div class="col-md-2" style="margin-top: 10px;">
                                 <label>Experiencia: </label>
                             </div>
-                            <div class="col-md-2" style="margin-top: 10px;">
-                                <a href="#" style='text-decoration : none;color:gray' id="btn_experiencia" onclick="mostrarExperiencia()"><i class="fas fa-minus-circle text-danger"></i></a>
+                            <div class="col-md-2 btn_colapse" style="margin-top: 10px;" >
+                                <a href="#"  id="btn_experiencias"  onclick="mostrarExperiencia()" style="margin-top: 3px">-</a>
                             </div>
+                            {{-- <div class="col-md-2" style="margin-top: 10px;">
+                                <a href="#" style='text-decoration : none;color:gray' id="btn_experiencia" onclick="mostrarExperiencia()"><i class="fas fa-minus-circle text-danger"></i></a>
+                            </div> --}}
                         </div>
-                        {{-- <label style="margin-top: 10px;">Experiencia: </label> --}}
                         <div class="col-md-12 border borde" id="div_experiencia" style="display: block;">
                             <div class="row" style="margin-bottom: 10px">
                                 <div class="col-md-2">
@@ -367,74 +342,48 @@
                         </div>
 
                         {{-- CAPACITACIONES --}}
-                        {{-- <label style="margin-top: 10px;">Capacitaciones: </label>
-                    <div  class="col-md-12 border borde" >
-                    </div> --}}
-
-                        {{-- CAPACITACIONES --}}
                         <div class="row">
-                            <div class="col-md-4" style="margin-top: 10px;">
+                            <div class="col-md-2" style="margin-top: 10px;">
                                 <label>Capacitaciones: </label>
                             </div>
-                            <div class="col-md-2" style="margin-top: 10px;">
-                                <span class="btn" style='text-decoration : none;color:gray' id="btn_capacitaciones" onclick="mostrarCapacitaciones()"><i class="fas fa-minus-circle text-danger"></i></span>
+                            <div class="col-md-2 btn_colapse" style="margin-top: 10px;" >
+                                <a href="#"  id="btn_capacitaciones"  onclick="mostrarCapacitaciones()" style="margin-top: 3px">-</a>
                             </div>
+
+                            {{-- <div class="col-md-2" style="margin-top: 10px;">
+                                <span class="btn" style='text-decoration : none;color:gray' id="btn_capacitaciones" onclick="mostrarCapacitaciones()"><i class="fas fa-minus-circle text-danger"></i></span>
+                            </div> --}}
                         </div>
                         <div class="col-md-12 border borde" id="div_capacitaciones" style="display: block;">
                             {{-- IAAS --}}
                             <div class="form-group row" style="margin-bottom:5px">
                                 <label for="iaas" class="col-md-5 col-form-label" style="font-weight: normal;margin-top:-3px">Curso IAAS</label>
                                 <div class="col-md-2">
-                                    <select id="iaas" name="iaas" class="form-control form-control-sm ">
-                                        @if($complementario->rcp=="si")
-                                        <option value="si" selected>Si</option>
-                                        <option value="no">No</option>
-                                        @else
-                                        <option value="si">Si</option>
-                                        <option value="no" selected>No</option>
-                                        @endif
+                                    <select id="iaas" name="iaas" class="form-control form-control-sm " >
+                                        <option value="no"  @if( isset($complementario) && $complementario->iaas=="no") selected @endif>No</option>
+                                        <option value="si"  @if( isset($complementario) && $complementario->iaas=="si") selected @endif>Si</option>
                                     </select>
                                 </div>
                                 <div class="col-md-3">
                                     <select id="iaasCurso" name="iaasCurso" class="form-control form-control-sm " style="display: none">
-                                        <option value="curso">Curso</option>
-                                        <option value="diplomado">Diplomado</option>
+                                    <option value="curso" @if( isset($complementario) && $complementario->iaasCurso=="curso") selected @endif>Curso</option>
+                                    <option value="diplomado" @if( isset($complementario) && $complementario->iaasCurso=="diplomado") selected @endif>Diplomado</option>
                                     </select>
                                 </div>
                             </div>
                             {{-- RCP --}}
                             <div class="form-group row" style="margin-bottom:5px">
                                 <label for="rcp" class="col-md-5 col-form-label" style="font-weight: normal;margin-top:-3px">Curso RCP</label>
-                                <div class="col-md-2">
+                                <div class="col-md-2" >
                                     <select id="rcp" name="rcp" class="form-control form-control-sm ">
-                                        @if($complementario->rcp=="si")
-                                        <option value="si" selected>Si</option>
-                                        <option value="no">No</option>
-                                        @else
-                                        <option value="si">Si</option>
-                                        <option value="no" selected>No</option>
-                                        @endif
-
-
+                                        <option value="no"  @if( isset($complementario) && $complementario->rcp=="no") selected @endif>No</option>
+                                        <option value="si"  @if( isset($complementario) && $complementario->rcp=="si") selected @endif>Si</option>
                                     </select>
                                 </div>
                                 <div class="col-md-3">
-                                    <select id="rcpCurso" name="rcpCurso" class="form-control form-control-sm " style="display: none">
-                                        @if($complementario->rcpCurso=='')
-                                        <option value="curso">Curso</option>
-                                        <option value="diplomado">Diplomado</option>
-                                        @else
-                                        @if($complementario->rcpCurso=='curso')
-                                        <option value="curso" selected>Curso</option>
-                                        <option value="diplomado">Diplomado</option>
-                                        @endif
-                                        @if($complementario->rcpCurso=='diplomado')
-                                        <option value="curso">Curso</option>
-                                        <option value="diplomado" selected>Diplomado</option>
-                                        @endif
-                                        @endif
-
-
+                                    <select id="rcpCurso"  name="rcpCurso" class="form-control form-control-sm " style="display: none">
+                                        <option value="curso" @if( isset($complementario) && $complementario->rcpCurso=="curso") selected @endif>Curso</option>
+                                        <option value="diplomado" @if( isset($complementario) && $complementario->rcpCurso=="diplomado") selected @endif>Diplomado</option>
                                     </select>
                                 </div>
                             </div>
@@ -443,68 +392,30 @@
                                 <label for="pacienteCritico" class="col-md-5 col-form-label" style="font-weight: normal;margin-top:-3px">Manejo paciente critico</label>
                                 <div class="col-md-2">
                                     <select id="pacienteCritico" name="pacienteCritico" class="form-control form-control-sm">
-                                        @if($complementario->pacienteCritico=="si")
-                                        <option value="si" selected>Si</option>
-                                        <option value="no">No</option>
-                                        @else
-                                        <option value="si">Si</option>
-                                        <option value="no" selected>No</option>
-                                        @endif
-
+                                        <option value="no"  @if( isset($complementario) && $complementario->pacienteCritico=="no") selected @endif>No</option>
+                                        <option value="si"  @if( isset($complementario) && $complementario->pacienteCritico=="si") selected @endif>Si</option>
                                     </select>
                                 </div>
                                 <div class="col-md-3">
-                                    <select id="pacienteCriticoCurso" name="pacienteCriticoCurso" class="form-control form-control-sm" style="display: none">
-                                        @if($complementario->pacienteCriticoCurso=='')
-                                        <option value="curso">Curso</option>
-                                        <option value="diplomado">Diplomado</option>
-                                        @else
-                                        @if($complementario->pacienteCriticoCurso=='curso')
-                                        <option value="curso" selected>Curso</option>
-                                        <option value="diplomado">Diplomado</option>
-                                        @endif
-                                        @if($complementario->pacienteCriticoCurso=='diplomado')
-                                        <option value="curso">Curso</option>
-                                        <option value="diplomado" selected>Diplomado</option>
-                                        @endif
-                                        @endif
-
-
+                                    <select id="pacienteCriticoCurso" name="pacienteCriticoCurso" class="form-control form-control-sm" style="display: none" >
+                                        <option value="curso" @if( isset($complementario) && $complementario->pacienteCriticoCurso=="curso") selected @endif>Curso</option>
+                                        <option value="diplomado" @if( isset($complementario) && $complementario->pacienteCriticoCurso=="diplomado") selected @endif>Diplomado</option>
                                     </select>
                                 </div>
                             </div>
                             {{-- MANEJO VENTILADOR MECANICO --}}
                             <div class="form-group row" style="margin-bottom:5px">
                                 <label for="ventilacion" class="col-md-5 col-form-label" style="font-weight: normal;margin-top:-3px">Manejo ventilador mecanico</label>
-                                <div class="col-md-2">
+                                <div class="col-md-2" >
                                     <select id="ventilacion" name="ventilacion" class="form-control form-control-sm">
-                                        @if($complementario->ventilacionMecanica=="si")
-                                        <option value="si" selected>Si</option>
-                                        <option value="no">No</option>
-                                        @else
-                                        <option value="si">Si</option>
-                                        <option value="no" selected>No</option>
-                                        @endif
+                                        <option value="no"  @if( isset($complementario) && $complementario->ventilacionMecanica=="no") selected @endif>No</option>
+                                        <option value="si"  @if( isset($complementario) && $complementario->ventilacionMecanica=="si") selected @endif>Si</option>
                                     </select>
                                 </div>
                                 <div class="col-md-3">
                                     <select id="ventilacionCurso" name="ventilacionCurso" class="form-control form-control-sm" style="display: none">
-
-                                        @if($complementario->ventilacionMecanicaCurso=='')
-                                        <option value="curso">Curso</option>
-                                        <option value="diplomado">Diplomado</option>
-                                        @else
-                                        @if($complementario->ventilacionMecanicaCurso=='curso')
-                                        <option value="curso" selected>Curso</option>
-                                        <option value="diplomado">Diplomado</option>
-                                        @endif
-                                        @if($complementario->ventilacionMecanicaCurso=='diplomado')
-                                        <option value="curso">Curso</option>
-                                        <option value="diplomado" selected>Diplomado</option>
-                                        @endif
-                                        @endif
-
-
+                                        <option value="curso" @if( isset($complementario) && $complementario->ventilacionCurso=="curso") selected @endif>Curso</option>
+                                        <option value="diplomado" @if( isset($complementario) && $complementario->ventilacionCurso=="diplomado") selected @endif>Diplomado</option>
                                     </select>
                                 </div>
                             </div>
@@ -512,33 +423,15 @@
                             <div class="form-group row" style="margin-bottom:5px">
                                 <label for="adminEstado" class="col-md-5 col-form-label" style="font-weight: normal;margin-top:-3px">Induccion a la administracion del estado</label>
                                 <div class="col-md-2">
-                                    <select id="adminEstado" name="adminEstado" class="form-control form-control-sm">
-                                        @if($complementario->adminEstado=="si")
-                                        <option value="si" selected>Si</option>
-                                        <option value="no">No</option>
-                                        @else
-                                        <option value="si">Si</option>
-                                        <option value="no" selected>No</option>
-                                        @endif
+                                    <select id="adminEstado"  name="adminEstado" class="form-control form-control-sm">
+                                        <option value="no"  @if( isset($complementario) && $complementario->adminEstado=="no") selected @endif>No</option>
+                                        <option value="si"  @if( isset($complementario) && $complementario->adminEstado=="si") selected @endif>Si</option>
                                     </select>
                                 </div>
                                 <div class="col-md-3">
                                     <select id="adminEstadoCurso" name="adminEstadoCurso" class="form-control form-control-sm" style="display: none">
-
-                                        @if($complementario->adminEstadoCurso=='')
-                                        <option value="curso">Curso</option>
-                                        <option value="diplomado">Diplomado</option>
-                                        @else
-                                        @if($complementario->adminEstadoCurso=='curso')
-                                        <option value="curso" selected>Curso</option>
-                                        <option value="diplomado">Diplomado</option>
-                                        @endif
-                                        @if($complementario->adminEstadoCurso=='diplomado')
-                                        <option value="curso">Curso</option>
-                                        <option value="diplomado" selected>Diplomado</option>
-                                        @endif
-                                        @endif
-
+                                        <option value="curso" @if( isset($complementario) && $complementario->adminEstadoCurso=="curso") selected @endif>Curso</option>
+                                        <option value="diplomado" @if( isset($complementario) && $complementario->adminEstadoCurso=="diplomado") selected @endif>Diplomado</option>
                                     </select>
                                 </div>
                             </div>
@@ -547,34 +440,14 @@
                                 <label for="urgenciaDesastres" class="col-md-5 col-form-label" style="font-weight: normal;margin-top:-3px">Atencion urgencia emergencia y desastres</label>
                                 <div class="col-md-2">
                                     <select id="urgenciaDesastres" name="urgenciaDesastres" class="form-control form-control-sm">
-                                        @if($complementario->urgenciaDesastres=="si")
-                                        <option value="si" selected>Si</option>
-                                        <option value="no">No</option>
-                                        @else
-                                        <option value="si">Si</option>
-                                        <option value="no" selected>No</option>
-                                        @endif
+                                        <option value="no"  @if( isset($complementario) && $complementario->urgenciaDesastres=="no") selected @endif>No</option>
+                                        <option value="si"  @if( isset($complementario) && $complementario->urgenciaDesastres=="si") selected @endif>Si</option>
                                     </select>
                                 </div>
                                 <div class="col-md-3">
                                     <select id="urgenciaDesastresCurso" name="urgenciaDesastresCurso" class="form-control form-control-sm" style="display: none">
-
-                                        @if($complementario->urgenciaDesastresCurso=='')
-                                        <option value="curso">Curso</option>
-                                        <option value="diplomado">Diplomado</option>
-                                        @else
-
-                                        @if($complementario->urgenciaDesastresCurso=='curso')
-                                        <option value="curso" selected>Curso</option>
-                                        <option value="diplomado">Diplomado</option>
-                                        @endif
-                                        @if($complementario->urgenciaDesastresCurso=='diplomado')
-                                        <option value="curso">Curso</option>
-                                        <option value="diplomado" selected>Diplomado</option>
-                                        @endif
-                                        @endif
-
-
+                                        <option value="curso" @if( isset($complementario) && $complementario->urgenciaDesastresCurso=="curso") selected @endif>Curso</option>
+                                        <option value="diplomado" @if( isset($complementario) && $complementario->urgenciaDesastresCurso=="diplomado") selected @endif>Diplomado</option>
                                     </select>
                                 </div>
                             </div>
@@ -583,35 +456,14 @@
                                 <label for="adultoMayor" class="col-md-5 col-form-label" style="font-weight: normal;margin-top:-3px">Atencion y cuidados del adulto mayor</label>
                                 <div class="col-md-2">
                                     <select id="adultoMayor" name="adultoMayor" class="form-control form-control-sm">
-                                        @if($complementario->adultoMayor=="si")
-                                        <option value="si" selected>Si</option>
-                                        <option value="no">No</option>
-                                        @else
-                                        <option value="si">Si</option>
-                                        <option value="no" selected>No</option>
-                                        @endif
+                                        <option value="no"  @if( isset($complementario) && $complementario->adultoMayor=="no") selected @endif>No</option>
+                                        <option value="si"  @if( isset($complementario) && $complementario->adultoMayor=="si") selected @endif>Si</option>
                                     </select>
                                 </div>
                                 <div class="col-md-3">
                                     <select id="adultoMayorCurso" name="adultoMayorCurso" class="form-control form-control-sm" style="display: none">
-
-
-                                        @if($complementario->adultoMayorCurso=='')
-                                        <option value="curso">Curso</option>
-                                        <option value="diplomado">Diplomado</option>
-                                        @else
-
-                                        @if($complementario->adultoMayorCurso=='curso')
-                                        <option value="curso" selected>Curso</option>
-                                        <option value="diplomado">Diplomado</option>
-                                        @endif
-                                        @if($complementario->adultoMayorCurso=='diplomado')
-                                        <option value="curso">Curso</option>
-                                        <option value="diplomado" selected>Diplomado</option>
-                                        @endif
-                                        @endif
-
-
+                                        <option value="curso" @if( isset($complementario) && $complementario->adultoMayorCurso=="curso") selected @endif>Curso</option>
+                                        <option value="diplomado" @if( isset($complementario) && $complementario->adultoMayorCurso=="diplomado") selected @endif>Diplomado</option>
                                     </select>
                                 </div>
                             </div>
@@ -620,35 +472,14 @@
                                 <label for="infeccionesRespiratorias" class="col-md-5 col-form-label" style="font-weight: normal;margin-top:-3px">Manejo clinico de infecciones respiratorias</label>
                                 <div class="col-md-2">
                                     <select id="infeccionesRespiratorias" name="infeccionesRespiratorias" class="form-control form-control-sm">
-                                        @if($complementario->infeccionesRespiratorias=="si")
-                                        <option value="si" selected>Si</option>
-                                        <option value="no">No</option>
-                                        @else
-                                        <option value="si">Si</option>
-                                        <option value="no" selected>No</option>
-                                        @endif
+                                        <option value="no"  @if( isset($complementario) && $complementario->infeccionesRespiratorias=="no") selected @endif>No</option>
+                                        <option value="si"  @if( isset($complementario) && $complementario->infeccionesRespiratorias=="si") selected @endif>Si</option>
                                     </select>
                                 </div>
                                 <div class="col-md-3">
                                     <select id="infeccionesRespiratoriasCurso" name="infeccionesRespiratoriasCurso" class="form-control form-control-sm" style="display: none">
-
-                                        @if($complementario->infeccionesRespiratoriasCurso=='')
-                                        <option value="curso">Curso</option>
-                                        <option value="diplomado">Diplomado</option>
-                                        @else
-
-
-                                        @if($complementario->infeccionesRespiratoriasCurso=='curso')
-                                        <option value="curso" selected>Curso</option>
-                                        <option value="diplomado">Diplomado</option>
-                                        @endif
-                                        @if($complementario->infeccionesRespiratoriasCurso=='diplomado')
-                                        <option value="curso">Curso</option>
-                                        <option value="diplomado" selected>Diplomado</option>
-                                        @endif
-                                        @endif
-
-
+                                        <option value="curso" @if( isset($complementario) && $complementario->infeccionesRespiratoriasCurso=="curso") selected @endif>Curso</option>
+                                        <option value="diplomado" @if( isset($complementario) && $complementario->infeccionesRespiratoriasCurso=="diplomado") selected @endif>Diplomado</option>
                                     </select>
                                 </div>
                             </div>
@@ -657,36 +488,14 @@
                                 <label for="ira" class="col-md-5 col-form-label" style="font-weight: normal;margin-top:-3px">Infecciones respiratorias del niño</label>
                                 <div class="col-md-2">
                                     <select id="ira" name="ira" class="form-control form-control-sm">
-                                        @if($complementario->ira=="si")
-                                        <option value="si" selected>Si</option>
-                                        <option value="no">No</option>
-                                        @else
-                                        <option value="si">Si</option>
-                                        <option value="no" selected>No</option>
-                                        @endif
+                                        <option value="no"  @if( isset($complementario) && $complementario->ira=="no") selected @endif>No</option>
+                                        <option value="si"  @if( isset($complementario) && $complementario->ira=="si") selected @endif>Si</option>
                                     </select>
                                 </div>
                                 <div class="col-md-3">
                                     <select id="iraCurso" name="iraCurso" class="form-control form-control-sm" style="display: none">
-
-                                    @if($complementario->iraCurso=='')
-                                        <option value="curso">Curso</option>
-                                        <option value="diplomado">Diplomado</option>
-                                        @else
-
-
-                                        @if($complementario->iraCurso=='curso')
-                                        <option value="curso" selected>Curso</option>
-                                        <option value="diplomado">Diplomado</option>
-                                        @endif
-                                        @if($complementario->iraCurso=='diplomado')
-                                        <option value="curso">Curso</option>
-                                        <option value="diplomado" selected>Diplomado</option>
-                                        @endif
-                                        @endif
-
-
-
+                                        <option value="curso" @if( isset($complementario) && $complementario->iraCurso=="curso") selected @endif>Curso</option>
+                                        <option value="diplomado" @if( isset($complementario) && $complementario->iraCurso=="diplomado") selected @endif>Diplomado</option>
                                     </select>
                                 </div>
                             </div>
@@ -694,37 +503,15 @@
                             <div class="form-group row" style="margin-bottom:5px">
                                 <label for="era" class="col-md-5 col-form-label" style="font-weight: normal;margin-top:-3px">Infecciones respiratorias del adulto</label>
                                 <div class="col-md-2">
-                                    <select id="era" name="era" class="form-control form-control-sm">
-                                        @if($complementario->era=="si")
-                                        <option value="si" selected>Si</option>
-                                        <option value="no">No</option>
-                                        @else
-                                        <option value="si">Si</option>
-                                        <option value="no" selected>No</option>
-                                        @endif
+                                    <select id="era"  name="era" class="form-control form-control-sm">
+                                        <option value="no"  @if( isset($complementario) && $complementario->era=="no") selected @endif>No</option>
+                                        <option value="si"  @if( isset($complementario) && $complementario->era=="si") selected @endif>Si</option>
                                     </select>
                                 </div>
                                 <div class="col-md-3">
                                     <select id="eraCurso" name="eraCurso" class="form-control form-control-sm" style="display: none">
-
-                                    @if($complementario->eraCurso=='')
-                                        <option value="curso">Curso</option>
-                                        <option value="diplomado">Diplomado</option>
-                                        @else
-
-
-                                        @if($complementario->eraCurso=='curso')
-                                        <option value="curso" selected>Curso</option>
-                                        <option value="diplomado">Diplomado</option>
-                                        @endif
-                                        @if($complementario->eraCurso=='diplomado')
-                                        <option value="curso">Curso</option>
-                                        <option value="diplomado" selected>Diplomado</option>
-                                        @endif
-                                        @endif
-
-
-
+                                        <option value="curso" @if( isset($complementario) && $complementario->eraCurso=="curso") selected @endif>Curso</option>
+                                        <option value="diplomado" @if( isset($complementario) && $complementario->eraCurso=="diplomado") selected @endif>Diplomado</option>
                                     </select>
                                 </div>
                             </div>
@@ -733,35 +520,14 @@
                                 <label for="covid19" class="col-md-5 col-form-label" style="font-weight: normal;margin-top:-3px">Curso COVID-19</label>
                                 <div class="col-md-2">
                                     <select id="covid19" name="covid19" class="form-control form-control-sm">
-                                        @if($complementario->covid19=="si")
-                                        <option value="si" selected>Si</option>
-                                        <option value="no">No</option>
-                                        @else
-                                        <option value="si">Si</option>
-                                        <option value="no" selected>No</option>
-                                        @endif
+                                        <option value="no"  @if( isset($complementario) && $complementario->covid19=="no") selected @endif>No</option>
+                                        <option value="si"  @if( isset($complementario) && $complementario->covid19=="si") selected @endif>Si</option>
                                     </select>
                                 </div>
                                 <div class="col-md-3">
                                     <select id="covid19Curso" name="covid19Curso" class="form-control form-control-sm" style="display: none">
-
-                                    @if($complementario->covid19Curso=='')
-                                        <option value="curso">Curso</option>
-                                        <option value="diplomado">Diplomado</option>
-                                        @else
-
-
-                                        @if($complementario->covid19Curso=='curso')
-                                        <option value="curso" selected>Curso</option>
-                                        <option value="diplomado">Diplomado</option>
-                                        @endif
-                                        @if($complementario->covid19Curso=='diplomado')
-                                        <option value="curso">Curso</option>
-                                        <option value="diplomado" selected>Diplomado</option>
-                                        @endif
-                                        @endif
-
-
+                                        <option value="curso" @if( isset($complementario) && $complementario->covid19Curso=="curso") selected @endif>Curso</option>
+                                        <option value="diplomado" @if( isset($complementario) && $complementario->covid19Curso=="diplomado") selected @endif>Diplomado</option>
                                     </select>
                                 </div>
                             </div>
@@ -770,33 +536,15 @@
                                 <label for="otro" class="col-md-5 col-form-label" style="font-weight: normal;margin-top:-3px">Otros</label>
                                 <div class="col-md-2">
                                     <select id="otro" name="otro" class="form-control form-control-sm">
-                                        @if($complementario->otro=="si")
-                                        <option value="si" selected>Si</option>
-                                        <option value="no">No</option>
-                                        @else
-                                        <option value="si">Si</option>
-                                        <option value="no" selected>No</option>
-                                        @endif
+                                        <option value="no"  @if( isset($complementario) && $complementario->otro=="no") selected @endif>No</option>
+                                        <option value="si"  @if( isset($complementario) && $complementario->otro=="si") selected @endif>Si</option>
                                     </select>
                                 </div>
                                 <div class="col-md-3">
-
-                                    @if($complementario->otroCurso!='')
-                                    <input type="text" class="form-control form-control-sm" id="otroCurso" name="otroCurso" style="display: none" value="{{$complementario->otroCurso}}">
-                                    @else
-                                    <input type="text" class="form-control form-control-sm" id="otroCurso" name="otroCurso" style="display: none">
-                                    @endif
+                                    <input type="text" class="form-control form-control-sm" id="otroCurso" name="otroCurso" style="display: none" @if( isset($complementario) && $complementario->otroCurso!="null") value={{$complementario->otroCurso}} @endif>
                                 </div>
                             </div>
-
                         </div>
-
-                        {{-- OBSERVACIONES --}}
-                        {{-- <div style="margin-bottom: 10px">
-                        <label for="observaciones">Observaciones</label>
-                        <textarea class="form-control" name="observaciones" id="observaciones" rows="5" placeholder="Observaciones"></textarea>
-                    </div> --}}
-
                     </form>
                 </div>
             </div>
@@ -827,50 +575,40 @@
     }
     $(document).ready(function() {
 
-        comple = @json($complementario);
-
-        if (comple['rcp'] == 'si') {
+        if($('#iaas').val()=="si"){
+            $('#iaasCurso').fadeIn();
+        }
+        if($('#rcp').val()=="si"){
             $('#rcpCurso').fadeIn();
         }
-
-        if (comple['pacienteCritico']  == 'si') {
+        if($('#pacienteCritico').val()=="si"){
             $('#pacienteCriticoCurso').fadeIn();
         }
-
-        if (comple['ventilacionMecanica']  == 'si') {
+        if($('#ventilacion').val()=="si"){
             $('#ventilacionCurso').fadeIn();
         }
-
-        if (comple['adminEstado']  == 'si') {
+        if($('#adminEstado').val()=="si"){
             $('#adminEstadoCurso').fadeIn();
         }
-
-        if (comple['urgenciaDesastres']  == 'si') {
+        if($('#urgenciaDesastres').val()=="si"){
             $('#urgenciaDesastresCurso').fadeIn();
         }
-
-        if (comple['adultoMayor']  == 'si') {
+        if($('#adultoMayor').val()=="si"){
             $('#adultoMayorCurso').fadeIn();
         }
-
-        if (comple['infeccionesRespiratorias']  == 'si') {
+        if($('#infeccionesRespiratorias').val()=="si"){
             $('#infeccionesRespiratoriasCurso').fadeIn();
         }
-
-        if (comple['ira']  == 'si') {
+        if($('#ira').val()=="si"){
             $('#iraCurso').fadeIn();
         }
-
-        if (comple['era']  == 'si') {
+        if($('#era').val()=="si"){
             $('#eraCurso').fadeIn();
         }
-
-
-        if (comple['covid19']  == 'si') {
+        if($('#covid19').val()=="si"){
             $('#covid19Curso').fadeIn();
         }
-
-        if (comple['otro']  == 'si') {
+        if($('#otro').val()=="si"){
             $('#otroCurso').fadeIn();
         }
 
@@ -1081,10 +819,12 @@
         if (!$('#div_inscripciones').is(':visible')) {
 
             $('#div_inscripciones').fadeIn();
-            document.getElementById('btn_inscripciones').innerHTML = '<i class="fas fa-minus-circle text-danger"></i>';
+            $('#btn_inscripciones').text("-");
+            // document.getElementById('btn_inscripciones').innerHTML = '<i class="fas fa-minus-circle text-danger"></i>';
         } else {
             $('#div_inscripciones').fadeOut();
-            document.getElementById('btn_inscripciones').innerHTML = '<i class="fas fa-plus-circle text-success"></i>';
+            $('#btn_inscripciones').text("+");
+            // document.getElementById('btn_inscripciones').innerHTML = '<i class="fas fa-plus-circle text-success"></i>';
         }
 
     }
@@ -1094,11 +834,13 @@
         if (!$('#div_experiencia').is(':visible')) {
 
             $('#div_experiencia').fadeIn(function(e) {
-                document.getElementById('btn_experiencia').innerHTML = '<i class="fas fa-minus-circle text-danger"></i>';
+                $('#btn_experiencias').text("-");
+                // document.getElementById('btn_experiencia').innerHTML = '<i class="fas fa-minus-circle text-danger"></i>';
             });
         } else {
             $('#div_experiencia').fadeOut(function(e) {
-                document.getElementById('btn_experiencia').innerHTML = '<i class="fas fa-plus-circle text-success"></i>';
+                $('#btn_experiencias').text("+");
+                // document.getElementById('btn_experiencia').innerHTML = '<i class="fas fa-plus-circle text-success"></i>';
             });
         }
 
@@ -1109,11 +851,13 @@
         if (!$('#div_capacitaciones').is(':visible')) {
 
             $('#div_capacitaciones').fadeIn(function(e) {
-                document.getElementById('btn_capacitaciones').innerHTML = '<i class="fas fa-minus-circle text-danger"></i>';
+                $('#btn_capacitaciones').text("-");
+                // document.getElementById('btn_capacitaciones').innerHTML = '<i class="fas fa-minus-circle text-danger"></i>';
             });
         } else {
             $('#div_capacitaciones').fadeOut(function(e) {
-                document.getElementById('btn_capacitaciones').innerHTML = '<i class="fas fa-plus-circle text-success"></i>';
+                $('#btn_capacitaciones').text("+");
+                // document.getElementById('btn_capacitaciones').innerHTML = '<i class="fas fa-plus-circle text-success"></i>';
             });
         }
 

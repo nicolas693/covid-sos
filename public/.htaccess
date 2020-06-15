@@ -4,7 +4,7 @@
     </IfModule>
 
     RewriteEngine On
-    RewriteBase /pram
+    #RewriteBase /pram
     # Handle Authorization Header
     RewriteCond %{HTTP:Authorization} .
     RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
@@ -18,4 +18,6 @@
     RewriteCond %{REQUEST_FILENAME} !-d
     RewriteCond %{REQUEST_FILENAME} !-f
     RewriteRule ^ index.php [L]
+Header always set x-Frame-Options "DENY"
+Header always set Content-Security-Policy "default-src 'self' https://www.google.com/; font-src 'self' https://fonts.gstatic.com;img-src 'self' data: www.gstatic.com; script-src 'self' https://www.google.com/recaptcha/api.js https://www.google.com/recaptcha/api.js https://www.gstatic.com/ 'unsafe-inline' 'unsafe-eval'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com;"
 </IfModule>

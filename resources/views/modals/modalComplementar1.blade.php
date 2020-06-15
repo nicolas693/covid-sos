@@ -57,20 +57,19 @@
 
             <!-- Modal body -->
             <div class="modal-body">
-                {{-- {{$complementario}}
-        {{$exp}} --}}
+        
 
 
                 {{-- DATOS PERSONALES --}}
                 <div class="col-md-12" style="padding:0px">
                     <div class="row">
                         <div class="col-md-6">
-                            <label>Datos del Profesional:</label>
+                            <label>Datos del profesional:</label>
                             <div class=" border" style="height: 80px">
                                 <table style="width: 100%; ">
                                     <tbody>
                                         <tr>
-                                            <td>Título Profesional :</td>
+                                            <td>Título profesional :</td>
                                             <td>{{$profesional->getTitulo()->tx_descripcion}}</td>
                                         </tr>
                                         <tr>
@@ -82,7 +81,7 @@
                                             @endif
                                         </tr>
                                         <tr>
-                                            <td>Número Telefónico :</td>
+                                            <td>Número telefónico :</td>
                                             <td>{{$profesional->telefono}}</td>
                                         </tr>
                                     </tbody>
@@ -124,7 +123,7 @@
                         <div class="col-md-12 border borde" id="div_inscripciones" style="display: block;">
                             {{-- Eunacom --}}
                             <div class="form-group row" style="margin-bottom:0px">
-                                <label for="eunacom" class="col-md-2 col-form-label" style="font-weight: normal">Eunacom</label>
+                                <label for="eunacom" class="col-md-2 col-form-label" style="font-weight: normal" title="Examen Único Nacional de Conocimientos de Medicina">Eunacom</label>
                                 <div class="col-md-3" id="eunacom">
                                     <select id="eunacom" class="form-control form-control-sm" name="eunacom">
                                     <option @if( isset($complementario) && $complementario->eunacom=="No lo tiene") selected @endif>No lo tiene</option>
@@ -136,7 +135,7 @@
 
                             {{-- conacem --}}
                             <div class="form-group row" style="margin-bottom:0px">
-                                <label for="conacem" class="col-sm-2 col-form-label" style="font-weight: normal">Conacem</label>
+                                <label for="conacem" class="col-sm-2 col-form-label" style="font-weight: normal" title="Corporación Nacional de Certificación de Especialidades Médicas (Es una Certificación)">Conacem</label>
                                 <div class="col-md-3" id="conacem">
                                     <select id="conacem" class="form-control form-control-sm" name="conacem">
                                     <option @if( isset($complementario) && $complementario->conacem=="No lo tiene") selected @endif>No lo tiene</option>
@@ -147,7 +146,7 @@
                             </div>
                             {{-- supersalud --}}
                             <div class="form-group row" style="margin-bottom:0px">
-                                <label for="supersalud" class="col-sm-2 col-form-label" style="font-weight: normal">Super salud</label>
+                                <label for="supersalud" class="col-sm-2 col-form-label" style="font-weight: normal" title="Superintendencia de Salud">Super salud</label>
                                 <div class="col-md-3" id="supersalud">
                                     <select id="supersalud" class="form-control form-control-sm" name="supersalud">
                                         <option @if( isset($complementario) && $complementario->supersalud=="Inscrito") selected @endif>Inscrito</option>
@@ -177,11 +176,11 @@
                                 <div class="col-md-2">
                                     Periodo
                                 </div>
-                                <div class="col">
-                                    Servicio clinico de desempeño
+                                <div class="col" title="Nombre de la unidad clínica o área clínica en que se desempeñaron">
+                                    Servicio clínico de desempeño
                                 </div>
                                 <div class="col">
-                                    Lugar de Trabajo
+                                    Lugar de trabajo
                                 </div>
                                 <div class="col-xs-3">
                                     <div>
@@ -352,7 +351,7 @@
                         <div class="col-md-12 border borde" id="div_capacitaciones" style="display: block;">
                             {{-- IAAS --}}
                             <div class="form-group row" style="margin-bottom:5px">
-                                <label for="iaas" class="col-md-5 col-form-label" style="font-weight: normal;margin-top:-3px">Curso IAAS</label>
+                                <label for="iaas" class="col-md-5 col-form-label" style="font-weight: normal;margin-top:-3px" title="Infecciones Asociadas a la Atención en Salud">Curso IAAS</label>
                                 <div class="col-md-2">
                                     <select id="iaas" name="iaas" class="form-control form-control-sm " >
                                         <option value="no"  @if( isset($complementario) && $complementario->iaas=="no") selected @endif>No</option>
@@ -368,7 +367,7 @@
                             </div>
                             {{-- RCP --}}
                             <div class="form-group row" style="margin-bottom:5px">
-                                <label for="rcp" class="col-md-5 col-form-label" style="font-weight: normal;margin-top:-3px">Curso RCP</label>
+                                <label for="rcp" class="col-md-5 col-form-label" style="font-weight: normal;margin-top:-3px" title="Reanimación CardioPulmonar">Curso RCP</label>
                                 <div class="col-md-2" >
                                     <select id="rcp" name="rcp" class="form-control form-control-sm ">
                                         <option value="no"  @if( isset($complementario) && $complementario->rcp=="no") selected @endif>No</option>
@@ -384,7 +383,7 @@
                             </div>
                             {{-- MANEJO PACIENTE CRITICO --}}
                             <div class="form-group row" style="margin-bottom:5px">
-                                <label for="pacienteCritico" class="col-md-5 col-form-label" style="font-weight: normal;margin-top:-3px">Manejo paciente critico</label>
+                                <label for="pacienteCritico" class="col-md-5 col-form-label" style="font-weight: normal;margin-top:-3px">Manejo paciente crítico</label>
                                 <div class="col-md-2">
                                     <select id="pacienteCritico" name="pacienteCritico" class="form-control form-control-sm">
                                         <option value="no"  @if( isset($complementario) && $complementario->pacienteCritico=="no") selected @endif>No</option>
@@ -400,7 +399,7 @@
                             </div>
                             {{-- MANEJO VENTILADOR MECANICO --}}
                             <div class="form-group row" style="margin-bottom:5px">
-                                <label for="ventilacion" class="col-md-5 col-form-label" style="font-weight: normal;margin-top:-3px">Manejo ventilador mecanico</label>
+                                <label for="ventilacion" class="col-md-5 col-form-label" style="font-weight: normal;margin-top:-3px">Manejo ventilador mecánico</label>
                                 <div class="col-md-2" >
                                     <select id="ventilacion" name="ventilacion" class="form-control form-control-sm">
                                         <option value="no"  @if( isset($complementario) && $complementario->ventilacionMecanica=="no") selected @endif>No</option>
@@ -416,7 +415,7 @@
                             </div>
                             {{-- INDUCCION GENERAL A LA ADMINISTRACION DEL ESTADO --}}
                             <div class="form-group row" style="margin-bottom:5px">
-                                <label for="adminEstado" class="col-md-5 col-form-label" style="font-weight: normal;margin-top:-3px">Induccion a la administracion del estado</label>
+                                <label for="adminEstado" class="col-md-5 col-form-label" style="font-weight: normal;margin-top:-3px">Inducción a la administración del estado</label>
                                 <div class="col-md-2">
                                     <select id="adminEstado"  name="adminEstado" class="form-control form-control-sm">
                                         <option value="no"  @if( isset($complementario) && $complementario->adminEstado=="no") selected @endif>No</option>
@@ -432,7 +431,7 @@
                             </div>
                             {{-- ATENCION EN URGENCIA EMERGENCIA Y DESASTRES --}}
                             <div class="form-group row" style="margin-bottom:5px">
-                                <label for="urgenciaDesastres" class="col-md-5 col-form-label" style="font-weight: normal;margin-top:-3px">Atencion urgencia emergencia y desastres</label>
+                                <label for="urgenciaDesastres" class="col-md-5 col-form-label" style="font-weight: normal;margin-top:-3px">Atención urgencia emergencia y desastres</label>
                                 <div class="col-md-2">
                                     <select id="urgenciaDesastres" name="urgenciaDesastres" class="form-control form-control-sm">
                                         <option value="no"  @if( isset($complementario) && $complementario->urgenciaDesastres=="no") selected @endif>No</option>
@@ -448,7 +447,7 @@
                             </div>
                             {{-- ATENCION Y CUIDADOS DEL ADULTO MAYOR --}}
                             <div class="form-group row" style="margin-bottom:5px">
-                                <label for="adultoMayor" class="col-md-5 col-form-label" style="font-weight: normal;margin-top:-3px">Atencion y cuidados del adulto mayor</label>
+                                <label for="adultoMayor" class="col-md-5 col-form-label" style="font-weight: normal;margin-top:-3px">Atención y cuidados del adulto mayor</label>
                                 <div class="col-md-2">
                                     <select id="adultoMayor" name="adultoMayor" class="form-control form-control-sm">
                                         <option value="no"  @if( isset($complementario) && $complementario->adultoMayor=="no") selected @endif>No</option>
@@ -464,7 +463,7 @@
                             </div>
                             {{-- MANEJO CLINICO DE INFECCIONES RESPIRATORIAS --}}
                             <div class="form-group row" style="margin-bottom:5px">
-                                <label for="infeccionesRespiratorias" class="col-md-5 col-form-label" style="font-weight: normal;margin-top:-3px">Manejo clinico de infecciones respiratorias</label>
+                                <label for="infeccionesRespiratorias" class="col-md-5 col-form-label" style="font-weight: normal;margin-top:-3px">Manejo clínico de infecciones respiratorias</label>
                                 <div class="col-md-2">
                                     <select id="infeccionesRespiratorias" name="infeccionesRespiratorias" class="form-control form-control-sm">
                                         <option value="no"  @if( isset($complementario) && $complementario->infeccionesRespiratorias=="no") selected @endif>No</option>
@@ -584,8 +583,8 @@
                             </div>
                             {{-- influenza en 2020 --}}
                             <div class="form-group row" style="margin-bottom:0px">
-                                <label for="influeza" class="col-md-3 col-form-label" style="font-weight: normal">Influenza en 2020</label>
-                                <div class="col-md-2" id="influeza">
+                                <label for="influenza" class="col-md-3 col-form-label" style="font-weight: normal">Influenza en 2020</label>
+                                <div class="col-md-2" id="influenza">
                                     <select id="influenza" class="form-control form-control-sm" name="influenza">
                                         <option value="no" @if( isset($complementario) && $complementario->influenza=="no") selected @endif>No</option>
                                         <option value="si" @if( isset($complementario) && $complementario->influenza=="si") selected @endif>Si</option>
@@ -913,7 +912,6 @@
         }
 
     }
-
     function mostrarVacunas() {
         if (!$('#div_vacunas').is(':visible')) {
             $('#div_vacunas').fadeIn(function(e) {
@@ -927,7 +925,6 @@
             });
         }
     }
-
     function quitarFila(name) {
         console.log('divRow' + name.split('_')['0']);
         document.getElementById('divRow' + name.split('_')['1']).remove();

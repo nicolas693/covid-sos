@@ -8,21 +8,24 @@
     <!-- Tell the browser to be responsive to screen width -->
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-     <!-- Font Awesome -->
-     <link rel="stylesheet" href="{{asset('plugins/fontawesome-free/css/all.min.css')}}">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="{{asset('plugins/fontawesome-free/css/all.min.css')}}">
     <!-- Ionicons -->
-    <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+    <link rel="stylesheet" href="{{asset('plugins/ionicons/css/ionicons.min.css')}}">
     <!-- icheck bootstrap -->
     <link rel="stylesheet" href="{{asset('plugins/icheck-bootstrap/icheck-bootstrap.min.css')}}">
     <!-- Theme style -->
     <link rel="stylesheet" href="{{asset('dist/css/adminlte.min.css')}}">
     <!-- Google Font: Source Sans Pro -->
     <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
+
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+    {!! htmlScriptTagJsApi() !!}
 </head>
 
-<body class="hold-transition register-page"style="background-color: white;">
-    <div class="register-box" style="margin-top: -10%;" >
-       
+<body class="hold-transition register-page" style="background-color: white;">
+    <div class="register-box" style="margin-top: -10%;">
+
         <div class="login-logo">
             <img src="{{asset('/images/PRAM_login.png')}}" alt="Logo" style="max-width: 100%;">
         </div><!-- /.login-logo -->
@@ -37,7 +40,7 @@
                 <form action="{{route('register')}}" method="post">
                     @csrf
                     <div class="row">
-                    <div class="col-md-12">
+                        <div class="col-md-12">
                             <input type="email" class="form-control" name="email" placeholder="Email" value="{{old('email')}}">
 
                             <div class="input-group mb-3">
@@ -54,7 +57,7 @@
                                 @endif
                             </div>
                         </div>
-                       
+
                         <div class="col-md-12">
                             <input type="password" class="form-control" name="password" placeholder="Contraseña">
                             <div class="input-group mb-3">
@@ -63,7 +66,7 @@
                                 @endif
                             </div>
                         </div>
-                        <div class="col-md-12">
+                        <div class="col-md-12 mb-3">
                             <input type="password" class="form-control" name="password_confirmation" placeholder="Repita Contraseña">
                             <!-- <div class="input-group-append">
                                 <div class="input-group-text">
@@ -71,10 +74,22 @@
                                 </div>
                             </div> -->
                         </div>
+
+                        <div class="col-md-12 mb-3">
+                            <div class="input-group mb-3 ml-2">
+                                {!! htmlFormSnippet() !!}
+
+                                @if ($errors->has('g-recaptcha-response'))
+                                <span class="text-danger">{{ $errors->first('g-recaptcha-response') }}</span>
+                                @endif
+                            </div>
+                        </div>
+
+
                     </div>
 
                     <div class="row">
-                        
+
                         <!-- /.col -->
                         <div class="col-md-6 offset-md-3 mt-3">
                             <button type="submit" class="btn btn-info btn-block btn-flat">Registrar</button>

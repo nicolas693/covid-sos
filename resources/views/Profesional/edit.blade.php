@@ -81,13 +81,13 @@
                                         </label>
                                         <div class="form-group clearfix">
                                             <div class="icheck-primary d-inline" style="margin-right:5%">
-                                                <input type="radio" id="ex_si" name="extranjero" value="1" @if(old('extranjero')) @if(old('extranjero')=="1" ) checked @endif @else @if($profesional['extranjero']=='1') checked @endif @endif>
+                                                <input type="radio" id="ex_si" name="extranjero" value="1" @if(old('extranjero')) @if(old('extranjero')=="1" ) checked @endif @else @if($profesional['extranjero']=='1' ) checked @endif @endif>
                                                 <label for="ex_si">
                                                     Si
                                                 </label>
                                             </div>
                                             <div class="icheck-primary d-inline" style="margin-right:5%">
-                                                <input type="radio" id="ex_no" name="extranjero" value="0" @if(old('extranjero')) @if(old('extranjero')=="0" ) checked @endif @else @if($profesional['extranjero']=='0') checked @endif @endif>
+                                                <input type="radio" id="ex_no" name="extranjero" value="0" @if(old('extranjero')) @if(old('extranjero')=="0" ) checked @endif @else @if($profesional['extranjero']=='0' ) checked @endif @endif>
                                                 <label for="ex_no">
                                                     No
                                                 </label>
@@ -104,19 +104,19 @@
                                             </label>
                                             <div class="form-group clearfix">
                                                 <div class="icheck-primary d-inline" style="margin-right:5%">
-                                                    <input type="radio" id="rut_r" name="tipo_identificacion" value="1" @if(old('tipo_identificacion')) @if(old('tipo_identificacion')=="1" ) checked @endif @else @if($profesional['tipo_identificacion']=='1') checked @endif @endif>
+                                                    <input type="radio" id="rut_r" name="tipo_identificacion" value="1" @if(old('tipo_identificacion')) @if(old('tipo_identificacion')=="1" ) checked @endif @else @if($profesional['tipo_identificacion']=='1' ) checked @endif @endif>
                                                     <label for="rut_r">
                                                         RUT
                                                     </label>
                                                 </div>
                                                 <div class="icheck-primary d-inline" style="margin-right:5%">
-                                                    <input type="radio" id="rut_provisorio_r" name="tipo_identificacion" value="2" @if(old('tipo_identificacion')) @if(old('tipo_identificacion')=="2" ) checked @endif @else @if($profesional['tipo_identificacion']=='2') checked @endif @endif>
+                                                    <input type="radio" id="rut_provisorio_r" name="tipo_identificacion" value="2" @if(old('tipo_identificacion')) @if(old('tipo_identificacion')=="2" ) checked @endif @else @if($profesional['tipo_identificacion']=='2' ) checked @endif @endif>
                                                     <label for="rut_provisorio_r">
                                                         RUT PROVISORIO
                                                     </label>
                                                 </div>
                                                 <div class="icheck-primary d-inline" style="margin-right:5%">
-                                                    <input type="radio" id="pasaporte_r" name="tipo_identificacion" value="3" @if(old('tipo_identificacion')) @if(old('tipo_identificacion')=="3" ) checked @endif @else @if($profesional['tipo_identificacion']=='3') checked @endif @endif>
+                                                    <input type="radio" id="pasaporte_r" name="tipo_identificacion" value="3" @if(old('tipo_identificacion')) @if(old('tipo_identificacion')=="3" ) checked @endif @else @if($profesional['tipo_identificacion']=='3' ) checked @endif @endif>
                                                     <label for="pasaporte_r">
                                                         PASAPORTE
                                                     </label>
@@ -159,7 +159,7 @@
                                     <div class="col-md-12" style="display: none;" id="div_provisorio">
                                         <label for="provisorio">Rut provisorio : <b style="color:red">(*)</b></label>
                                         <div class="form-group input-group" style="margin-bottom:0">
-                                            <input type="text" class="form-control" id="provisorio" name="provisorio" placeholder="Ej: 11222333-0"  @if(old('provisorio')) value="{{ old('provisorio') }}" @else value="{{$profesional->provisorio}}" @endif>
+                                            <input type="text" class="form-control" id="provisorio" name="provisorio" placeholder="Ej: 11222333-0" @if(old('provisorio')) value="{{ old('provisorio') }}" @else value="{{$profesional->provisorio}}" @endif>
                                             <span class="input-group-btn">
                                         </div>
                                         <div class="input-group mb-3">
@@ -173,7 +173,7 @@
                                     <div class="col-md-12" style="display: none;" id="div_pasaporte">
                                         <label for="pasaporte">Pasaporte : <b style="color:red">(*)</b></label>
                                         <div class="form-group input-group" style="margin-bottom:0">
-                                            <input type="text" class="form-control" id="pasaporte" name="pasaporte" placeholder="Ej: 11222333-0"  @if(old('pasaporte')) value="{{ old('pasaporte') }}" @else value="{{$profesional->pasaporte}}" @endif>
+                                            <input type="text" class="form-control" id="pasaporte" name="pasaporte" placeholder="Ej: 11222333-0" @if(old('pasaporte')) value="{{ old('pasaporte') }}" @else value="{{$profesional->pasaporte}}" @endif>
                                             <span class="input-group-btn">
                                             </span>
                                         </div>
@@ -193,10 +193,10 @@
                                             @endif
                                         </div>
                                     </div>
-                                   
+
                                     <div class="col-md-12">
                                         <label for="correo">Correo electrónico : <b style="color:red">(*)</b></label>
-                                        <input type="text" class="form-control" name="correo" id="correo" value="{{ old('correo') }}">
+                                        <input type="text" class="form-control" name="correo" id="correo" value="{{ old('correo') }}" readonly>
                                         <div class="input-group mb-3">
                                             @if ($errors->has('correo'))
                                             <span class="text-danger ml-1">{{ $errors->first('correo') }}</span>
@@ -206,7 +206,7 @@
 
                                     <div class="col-md-12">
                                         <label for="telefono">Teléfono de contacto : <b style="color:red">(*)</b></label>
-                                        <input type="text" class="form-control" name="telefono" id="telefono" @if(old('telefono')) value="{{ old('telefono') }}" @else value="{{$profesional->telefono}}" @endif >
+                                        <input type="text" class="form-control" name="telefono" id="telefono" @if(old('telefono')) value="{{ old('telefono') }}" @else value="{{$profesional->telefono}}" @endif>
                                         <div class="input-group mb-3">
                                             @if ($errors->has('telefono'))
                                             <span class="text-danger ml-1">{{ $errors->first('telefono') }}</span>
@@ -216,7 +216,7 @@
 
                                     <div class="col-md-12">
                                         <label for="direccion">Dirección : <b style="color:red">(*)</b></label>
-                                        <input type="text" class="form-control" name="direccion" id="direccion" @if(old('direccion')) value="{{ old('direccion') }}" @else value="{{$profesional->direccion}}" @endif >
+                                        <input type="text" class="form-control" name="direccion" id="direccion" @if(old('direccion')) value="{{ old('direccion') }}" @else value="{{$profesional->direccion}}" @endif>
                                         <div class="input-group mb-3">
                                             @if ($errors->has('direccion'))
                                             <span class="text-danger ml-1">{{ $errors->first('direccion') }}</span>
@@ -238,26 +238,30 @@
                                                     @endif
                                                 </div>
                                             </div>
+
+                                            <div class="col-md-6" id="div_comuna_preferencia">
+                                                <label for="comuna_preferencia">Comuna preferencia para trabajar : <b style="color:red">(*)</b></label>
+                                                <div class="select2-purple">
+                                                    <select class="form-control select2" name="comuna_preferencia[]" id="comuna_preferencia" multiple="multiple" value="">
+                                                        @foreach($comunas as $key => $comuna)
+                                                        @if(in_array($key, $comunas_pref))
+                                                        <option value="{{$key}}" selected>{{$comuna}}</option>
+                                                        @else
+                                                        <option value="{{$key}}">{{$comuna}}</option>
+                                                        @endif
+                                                        @endforeach
+                                                    </select>
+                                                </div>
+                                                <input type="hidden" name="cod_comuna_preferencia" id="cod_comuna_preferencia" value="{{old('cod_comuna_preferencia')}}">
+                                                <div class="input-group mb-3">
+                                                    @if ($errors->has('comuna_preferencia'))
+                                                    <span class="text-danger ml-1">{{ $errors->first('comuna_preferencia') }}</span>
+                                                    @endif
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
-                                   
-                                    <div class="col-md-12">
-                                        <label for="estudios">Estado de estudios : <b style="color:red">(*)</b></label>
-                                        <select class="form-control select2" name="estudios" id="estudios" value="">
-                                            @foreach($estado_titulo as $key => $et)
-                                            @if($key == $profesional->estado_titulo)
-                                            <option value="{{$key}}" selected>{{$et}}</option>
-                                            @else
-                                            <option value="{{$key}}">{{$et}}</option>
-                                            @endif
-                                            @endforeach
-                                        </select>
-                                        <div class="input-group mb-3">
-                                            @if ($errors->has('estudios'))
-                                            <span class="text-danger ml-1">{{ $errors->first('estudios') }}</span>
-                                            @endif
-                                        </div>
-                                    </div>
+
                                     <div class="col-md-12">
                                         <label for="profesion">Tipo profesional : <b style="color:red">(*)</b></label>
                                         <select name="profesion" id="profesion" class="form-control select2">
@@ -272,7 +276,7 @@
                                     </div>
 
                                     <div class="col-md-12" id="div_especialidad" style="display: none;">
-                                        <label for="especialidad">eEspecialidad : <b style="color:red">(*)</b></label>
+                                        <label for="especialidad">Especialidad : <b style="color:red">(*)</b></label>
                                         <select name="especialidad" id="especialidad" class="form-control select2 multiple" value="{{ old('especialidad') }}">
                                         </select>
                                         <input type="hidden" name="cod_es" id="cod_es" value="{{ old('cod_es') }}">
@@ -284,24 +288,139 @@
                                         </div>
                                     </div>
 
-                                   
+                                    <div class="col-md-12">
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <label for="estudios">Estado de estudios : <b style="color:red">(*)</b></label>
+                                                <select class="form-control select2" name="estudios" id="estudios" value="">
+                                                    @foreach($estado_titulo as $key => $et)
+                                                    @if($key == $profesional->estado_titulo)
+                                                    <option value="{{$key}}" selected>{{$et}}</option>
+                                                    @else
+                                                    <option value="{{$key}}">{{$et}}</option>
+                                                    @endif
+                                                    @endforeach
+                                                </select>
+                                                <div class="input-group mb-3">
+                                                    @if ($errors->has('estudios'))
+                                                    <span class="text-danger ml-1">{{ $errors->first('estudios') }}</span>
+                                                    @endif
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-6">
+                                                <label for="postgrado">PostGrado : <b style="color:red"></b></label>
+                                                <select class="form-control select2" name="postgrado" id="postgrado" value="">
+                                                    <option value="" selected>Seleccione Grado</option>
+                                                    @foreach($postgrado as $key => $p)
+                                                    @if($key == $profesional->postgrado)
+                                                    <option value="{{$key}}" selected>{{$p}}</option>
+                                                    @else
+                                                    <option value="{{$key}}">{{$p}}</option>
+                                                    @endif
+                                                    @endforeach
+                                                </select>
+                                                <div class="input-group mb-3">
+                                                    @if ($errors->has('postgrado'))
+                                                    <span class="text-danger ml-1">{{ $errors->first('postgrado') }}</span>
+                                                    @endif
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+
 
                                     <div class="col-md-12">
                                         <div class="row">
-                                            <div class="col-md-4 mt-3">
-                                                <label for="cert">Foto certificado título : <b style="color:red">(*)</b></label>
-                                                <input type="file" class="form-control-file" name="cert" id="cert" aria-describedby="fileHelp">
+                                            <div class="col-md-4">
+                                                <label for="">Turnos : <b style="color:red">(*)</b></label>
+                                                <select class="form-control select2" id="disponibilidad" name="disponibilidad">
+                                                    <option value="">Seleccione disponibilidad</option>
+                                                    @foreach($disponibilidad as $key => $d)
+                                                    @if($profesional->disponibilidad==$d->id)
+                                                    <option value="{{$d->id}}" selected>{{$d->tx_descripcion}}</option>
+                                                    @else
+                                                    <option value="{{$d->id}}">{{$d->tx_descripcion}}</option>
+                                                    @endif
+
+                                                    @endforeach
+                                                </select>
+                                            </div>
+
+                                            <div class="col-md-4" id="div_modalidad" style="display: none;">
+                                                <label for="">Turnos : <b style="color:red">(*)</b></label>
+
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                    <div class="col-md-12 mt-3">
+                                        <label for="">Disponibilidad Semanal : <b style="color:red">(*)</b></label>
+                                        <div class="fechas">
+                                            <div id="divRow0" class="clonerow">
+
+                                                <div class="row fila_completa" id="innerDivRow0">
+
+                                                    <div class="col">
+                                                        {{-- <label for="example-time-input" class="col-form-label" >Dia: </label> --}}
+                                                        <select class="form-control fila_select">
+                                                            <option value="lunes">Lunes</option>
+                                                            <option value="martes">Martes</option>
+                                                            <option value="miercoles">Miercoles</option>
+                                                            <option value="jueves">Jueves</option>
+                                                            <option value="viernes">Viernes</option>
+                                                            <option value="sabado">Sabado</option>
+                                                            <option value="domingo">Domingo</option>
+                                                        </select>
+                                                    </div>
+                                                    <div class="col">
+                                                        {{-- <label for="example-time-input" >Inicio: </label> --}}
+                                                        {{-- style="margin-left:5px;margin-right:5px" --}}
+                                                        <input class="form-control fila_inicio" type="time" value="08:00" placeholder="Hora Inicio">
+                                                    </div>
+                                                    <div class="col">
+                                                        {{-- <label for="example-time-input" >Termino: </label> --}}
+                                                        <input class="form-control fila_termino" type="time" value="16:00">
+                                                    </div>
+                                                    <div class="col">
+                                                        <div class="form-group boton_add">
+                                                            <span style="font-size: 20px; color: Dodgerblue;">
+                                                                <i class="fas fa-plus-circle add_fecha"></i>
+                                                            </span>
+                                                        </div>
+                                                        <div class="form-group boton_remove">
+                                                            <span style="font-size: 20px; color: rgb(255, 30, 30);">
+                                                                <i class="fas fa-minus-circle remove_fecha text-danger"></i>
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-12">
+                                        <label for="observaciones">Observaciones</label>
+                                        <textarea class="form-control" name="observaciones" id="observaciones" rows="5" placeholder="Observaciones">{{$profesional->observaciones}}</textarea>
+                                    </div>
+
+                                    <div class="col-md-12">
+                                        <div class="row">
+
+                                            <div class="col-md-6 mt-4">
+                                                <label for="cedula">Foto cédula identidad o pasaporte: <b style="color:red"></b></label>
+                                                <input type="file" class="form-control-file" name="cedula" id="cedula" aria-describedby="fileHelp">
 
                                                 <div class="input-group mb-3">
-                                                    @if ($errors->has('cert'))
-                                                    <span class="text-danger ml-1">{{ $errors->first('cert') }}</span>
+                                                    @if ($errors->has('cedula'))
+                                                    <span class="text-danger ml-1">{{ $errors->first('cedula') }}</span>
                                                     @endif
                                                 </div>
 
                                             </div>
-
-                                            <div class="col-md-4 mt-3">
-                                                <label for="cv">Curriculum : <b style="color:red">(*)</b></label>
+                                            <div class="col-md-6 mt-4">
+                                                <label for="cv">Curriculum : <b style="color:red"></b></label>
                                                 <input type="file" class="form-control-file" name="cv" id="cv" aria-describedby="fileHelp">
 
                                                 <div class="input-group mb-3">
@@ -312,13 +431,26 @@
 
                                             </div>
 
-                                            <div class="col-md-4 mt-3">
-                                                <label for="cedula">Foto cédula identidad o pasaporte: <b style="color:red">(*)</b></label>
-                                                <input type="file" class="form-control-file" name="cedula" id="cedula" aria-describedby="fileHelp">
+
+                                            <div class="col-md-6 mt-4">
+                                                <label for="cert">Foto certificado título : <b style="color:red"></b></label>
+                                                <input type="file" class="form-control-file" name="cert" id="cert" aria-describedby="fileHelp">
 
                                                 <div class="input-group mb-3">
-                                                    @if ($errors->has('cedula'))
-                                                    <span class="text-danger ml-1">{{ $errors->first('cedula') }}</span>
+                                                    @if ($errors->has('cert'))
+                                                    <span class="text-danger ml-1">{{ $errors->first('cert') }}</span>
+                                                    @endif
+                                                </div>
+
+                                            </div>
+
+                                            <div class="col-md-6 mt-4">
+                                                <label for="cedula">Capacitaciones: <b style="color:red"></b></label>
+                                                <input type="file" class="form-control-file" name="capacitacion" id="capacitacion" aria-describedby="fileHelp">
+
+                                                <div class="input-group mb-3">
+                                                    @if ($errors->has('capacitacion'))
+                                                    <span class="text-danger ml-1">{{ $errors->first('capacitacion') }}</span>
                                                     @endif
                                                 </div>
 
@@ -345,25 +477,66 @@
     </div>
 </section>
 <script>
+    var horas_totales = 0;
+    var fechas_formulario = [];
     $(document).ready(function() {
-        console.log(@json($errors->all()));
         var max_fields = 10; //maximum input boxes allowed
         var wrapper = $(".fechas"); //Fields wrapper
         var add_button = $(".add_fecha"); //Add button ID
         var remove_button = $(".remove_fecha"); //Add button ID
 
-        var horas_totales = 0;
-
-        var fechas_formulario = [];
         var x = 1; //initlal text box count
         // var div_nuevo=$("#clonar").clone();
         var div_nuevo = $("#nuevo");
         // console.log(x);
+        original = $('#divRow0');
 
         $(".boton_remove").hide();
 
+        fechas_p = @json($fechas);
+        for (i = 0; i < fechas_p.length; i++) {
+            if (fechas_p[i]['hora_inicio'] == '08:00' && fechas_p[i]['hora_termino'] == '16:00' && fechas_p[i]['dia'] == 'lunes') {} else {
+                indice = i + 1;
+                clone = $(original).clone(true, true);
+                clone.find('.boton_add').remove();
+                clone.find('.boton_remove').show();
 
-        original = $('#divRow0');
+                clone.find('#divRow0').prop('id', 'divRow' + indice);
+                clone.find('#innerDivRow0').prop('id', 'innerDivRow' + indice);
+                clone.id = 'divRow' + indice;
+                clone[0].id = 'divRow' + indice;
+                clone[0].innerHTML = clone[0].innerHTML.replace('fila_inicio" type="time" value="08:00"', 'fila_inicio" type="time" value="' + fechas_p[i]['hora_inicio'] + '"');
+                clone[0].innerHTML = clone[0].innerHTML.replace('fila_termino" type="time" value="16:00"', 'fila_termino" type="time" value="' + fechas_p[i]['hora_termino'] + '"');
+                if (fechas_p[i]['dia'] == 'lunes') {
+                    clone[0].innerHTML = clone[0].innerHTML.replace('value="lunes">Lunes</option>', 'value="lunes" selected>Lunes</option>');
+                }
+                if (fechas_p[i]['dia'] == 'martes') {
+                    clone[0].innerHTML = clone[0].innerHTML.replace('value="martes">Martes</option>', 'value="martes" selected>Martes</option>');
+                }
+                if (fechas_p[i]['dia'] == 'miercoles') {
+                    clone[0].innerHTML = clone[0].innerHTML.replace('value="miercoles">Miercoles</option>', 'value="miercoles" selected>Miercoles</option>');
+                }
+                if (fechas_p[i]['dia'] == 'jueves') {
+                    clone[0].innerHTML = clone[0].innerHTML.replace('value="jueves">Jueves</option>', 'value="jueves" selected>Jueves</option>');
+                }
+                if (fechas_p[i]['dia'] == 'viernes') {
+                    clone[0].innerHTML = clone[0].innerHTML.replace('value="viernes">Viernes</option>', 'value="viernes" selected>Viernes</option>');
+                }
+                if (fechas_p[i]['dia'] == 'sabado') {
+                    clone[0].innerHTML = clone[0].innerHTML.replace('value="sabado">Sabado</option>', 'value="sabado" selected>Sabado</option>');
+                }
+                if (fechas_p[i]['dia'] == 'domingo') {
+                    clone[0].innerHTML = clone[0].innerHTML.replace('value="domingo">Domingo</option>', 'value="domingo" selected>Domingo</option>');
+                }
+                clone[0].innerHTML = clone[0].innerHTML.replace('<i class="fas fa-minus-circle remove_fecha text-danger"></i>', '<i class="fas fa-minus-circle remove_fecha text-danger" name ="' + 'divRow' + indice + '"onclick="eliminarFila(this)"></i>');
+
+                $(wrapper).append(clone); //add input box
+                // console.log(clone[0].innerHTML);
+            }
+        }
+
+
+
         $(add_button).click(function(e) { //on add input button click
             clone = $(original).clone(true, true);
             clone.find('.boton_add').remove();
@@ -395,7 +568,7 @@
 
         })
 
-        
+
         valor = document.querySelector('input[name="extranjero"]:checked');
         if (valor != null) {
             valor = valor.value;
@@ -463,8 +636,50 @@
         user = @json(Auth::user());
         document.getElementById('nombre').value = user.name;
         document.getElementById('correo').value = user.email;
+        abrirModalidad('');
+
     });
 
+    function eliminarFila(e) {
+        document.getElementById(e.getAttribute("name")).remove();
+    }
+    $(".formulario_profesional").submit(function(e) {
+        //e.preventDefault();
+
+        $('.fila_completa').each(function(index, element) {
+            //  console.log( $( this ).find('.fila_select').val() );
+            //  console.log( $( this ).find('.fila_inicio').val() );
+            //  console.log( $( this ).find('.fila_termino').val() );
+            var fila = {
+                dia: $(this).find('.fila_select').val(),
+                hora_inicio: $(this).find('.fila_inicio').val(),
+                hora_termino: $(this).find('.fila_termino').val()
+            }
+
+            var inicio = moment($(this).find('.fila_inicio').val(), 'HH:mm');
+            var termino = moment($(this).find('.fila_termino').val(), 'HH:mm');
+
+            if (inicio > termino) {
+                var diff_a = 24 - inicio.get('hour');
+                var diff_b = termino.get('hour');
+                horas_totales = horas_totales + diff_a + diff_b;
+                diff_a + diff_b;
+            } else {
+                horas_totales = horas_totales + parseInt(moment.duration(termino.diff(inicio)).asHours());
+            }
+
+            // console.log(parseInt(moment.duration(termino.diff(inicio), 'milliseconds').asHours()))
+
+            fechas_formulario.push(fila);
+        });
+
+        $('#fechas_input').val(JSON.stringify(fechas_formulario));
+        fechas_formulario = [];
+        $('#horas_input').val(JSON.stringify(horas_totales));
+        horas_totales = 0;
+        // $("#formulario_profesional").submit();
+        return true;
+    });
     $('.select2').select2({});
 
     $("#pais").select2({
@@ -587,7 +802,6 @@
 
     $("#comuna_preferencia").on('change', function(e) {
         document.getElementById('cod_comuna_preferencia').value = $('#comuna_preferencia').val();
-        console.log($('#comuna_preferencia').val());
     });
 
 
@@ -682,7 +896,7 @@
     $("#profesion").select2("trigger", "select", {
         data: {
             id: titulo.id,
-            text:titulo.tx_descripcion
+            text: titulo.tx_descripcion
         }
     });
 
@@ -701,6 +915,17 @@
             text: comuna.tx_descripcion
         }
     });
+
+    especialidad = @json($profesional->getEspecialidad());
+    if (especialidad != 'vacio') {
+        $("#especialidad").select2("trigger", "select", {
+            data: {
+                id: especialidad.id,
+                text: especialidad.tx_descripcion
+            }
+        });
+    }
+
 
 
     function buscarProfesional(value) {
@@ -751,6 +976,35 @@
                 }
             }
         });
+    }
+
+    $('#disponibilidad').on('change', function(e) {
+
+        abrirModalidad(e.target.value);
+
+    });
+
+    function abrirModalidad(valor_disp) {
+        if (valor_disp == '') {
+            valor_disp = document.getElementById('disponibilidad').value;
+        }
+        disponibilidad = @json($disponibilidad);
+        profesional = @json($profesional);
+        modalidades = disponibilidad.find(el => el.id == valor_disp).modalidades;
+        select = '  <label for="">Modalidad (en horas) : <b style="color:red">(*)</b></label> <select class="form-control select2s" name="modalidad">';
+        for (i = 0; i < modalidades.length; i++) {
+            if (profesional.modalidad == modalidades[i]['id']) {
+                opt = '<option value="' + modalidades[i]['id'] + '" selected>' + modalidades[i]['tx_descripcion'] + '</option>';
+            } else {
+                opt = '<option value="' + modalidades[i]['id'] + '">' + modalidades[i]['tx_descripcion'] + '</option>';
+            }
+            select = select + opt;
+        }
+        select = select + '</select>';
+        document.getElementById('div_modalidad').innerHTML = select;
+        $('.select2s').select2({});
+        $('.select2-selection--single').css('height', 'calc(2.25rem + 2px)');
+        $('#div_modalidad').fadeIn();
     }
     $('.select2-selection--single').css('height', 'calc(2.25rem + 2px)');
 </script>

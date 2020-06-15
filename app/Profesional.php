@@ -68,7 +68,19 @@ class Profesional extends Model
         }
         return join(',', $data);
     }
-
+      public function getComunasPreferenciaStringRes()
+    {
+        $comunasPreferencia = $this->hasMany('App\ComunaPreferencia', 'profesional_id', 'id')->get();
+        $data = [];
+        foreach ($comunasPreferencia as $cp) {
+            if(count($data)<3){
+                $comuna = $cp->getComuna();
+                $data[$comuna->id] = $comuna->tx_descripcion;
+            }
+           
+        }
+        return join(',', $data);
+    }
     public function getEstadoTitulo()
     {
         $estado = $this->hasOne('App\Datos\EstadoTitulo', 'id', 'estado_titulo')->first();
@@ -97,6 +109,10 @@ class Profesional extends Model
         } else {
             return '';
         }
+    }
+    public function getAsignacion(){
+        $asignacion = $this->hasOne('App\Asignacion', 'profesional_id', 'id')->first();
+        return $asignacion;
     }
 
     public function tieneFormulario()

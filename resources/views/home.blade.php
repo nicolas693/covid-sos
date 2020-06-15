@@ -1,9 +1,6 @@
 @extends('layouts.master-top')
 @section('content')
-<!-- SweetAlerts 2 -->
-<script src="{{asset('plugins/sweetalert2/sweetalert2.all.min.js')}}"></script>
-<!-- Optional: include a polyfill for ES6 Promises for IE11 -->
-<script src="{{asset('plugins/sweetalert2/polyfill.js')}}"></script>
+
 
 <section class="content">
     <div class="container-fluid">
@@ -27,7 +24,7 @@
                 <!-- Default box -->
                 <div class="card mt-5">
                     <div class="card-header">
-                        <h3 class="card-title">Postulantes</h3>
+                        <h3 class="card-title">Información de postulación</h3>
 
                         <div class="card-tools">
                             <button type="button" class="btn btn-tool" data-card-widget="collapse" data-toggle="tooltip" title="Collapse">
@@ -36,8 +33,7 @@
                     </div>
                     <div class="card-body">
                         <div class="row">
-                            <div class="col-md-1"></div>
-                            <div class="col-md-5">
+                            <div class="col-md-7">
                                 <div class="card card-widget widget-user">
                                     @php $user = Auth::user(); $profesional = $user->getProfesional(); @endphp
                                     <!-- Add the bg color to the header using any of the bg-* classes -->
@@ -45,7 +41,7 @@
                                     <div class="widget-user-header bg-info">
                                         <h3 class="widget-user-username">{{$user->name}}</h3>
                                         @if($profesional!=null)
-                                        <h5 class="widget-user-desc">{{$user->getProfesional()->getTitulo()->tx_descripcion}}</h5>
+                                        <h5 class="widget-user-desc">{{$profesional->getTitulo()->tx_descripcion}}</h5>
                                         @else
                                         <h5 class="widget-user-desc">SIN INFORMACIÓN</h5>
                                         @endif
@@ -59,18 +55,21 @@
                                         <div class="row">
                                             <div class="col-sm-4 border-right">
                                                 <div class="description-block">
-                                                    <h5 class="description-header">Correo electrónico</h5>
-
-                                                    <span class="description-text">{{$user->email}}</span>
+                                                    <h5 class="description-header">Estado actual :</h5>
+                                                    @if($profesional!=null)
+                                                    <span class="description-text">{{$profesional->estado}}</span>
+                                                    @else
+                                                    <span class="description-text">Sin información</span>
+                                                    @endif
                                                 </div>
                                                 <!-- /.description-block -->
                                             </div>
                                             <!-- /.col -->
                                             <div class="col-sm-4 border-right">
                                                 <div class="description-block">
-                                                    <h5 class="description-header">Teléfono</h5>
-                                                    @if($profesional!=null)
-                                                    <span class="description-text">{{$user->getProfesional()->telefono}}</span>
+                                                    <h5 class="description-header">Lugar de trabajo:</h5>
+                                                    @if($profesional!=null && $profesional->getAsignacion()!=null)
+                                                    <span class="description-text">{{$profesional->getAsignacion()->getNombreEstablecimiento()}}</span>
                                                     @else
                                                     <span class="description-text">SIN INFORMACIÓN</span>
                                                     @endif
@@ -81,9 +80,9 @@
                                             <!-- /.col -->
                                             <div class="col-sm-4">
                                                 <div class="description-block">
-                                                    <h5 class="description-header">Domicilio</h5>
+                                                    <h5 class="description-header">Correo electrónico</h5>
                                                     @if($profesional!=null)
-                                                    <span class="description-text"><span class="description-text">{{$user->getProfesional()->direccion}}</span></span>
+                                                    <span class="description-text"><span class="description-text">{{$user->email}}</span></span>
                                                     @else
                                                     <span class="description-text">SIN INFORMACIÓN</span>
                                                     @endif
@@ -141,7 +140,6 @@
 
                                 </div>
                             </div>
-                            <div class="col-md-1"></div>
                         </div>
                     </div>
                 </div>
@@ -152,6 +150,35 @@
     </div>
 </section>
 <script>
+    $(document).ready(function() {
+        mensaje = @json(session()->get('message'));
+        if (mensaje == 'creado') {
+            Swal.fire({
+                type: 'success',
+                title: 'Postulante creado exitosamente!',
+                showConfirmButton: false,
+                timer: 2500,
+                onClose: function() {
+                    $('.modal').modal('hide');
+                    $(".REV").attr('disabled', false);
+                },
+            });
+        }
+
+        if (mensaje == 'actualizado') {
+            Swal.fire({
+                type: 'success',
+                title: 'Postulante actualizado exitosamente!',
+                showConfirmButton: false,
+                timer: 2500,
+                onClose: function() {
+                    $('.modal').modal('hide');
+                    $(".REV").attr('disabled', false);
+                },
+            });
+        }
+    });
+
     function profesionalVacio() {
         Swal.fire({
             type: 'warning',
@@ -177,6 +204,5 @@
             },
         });
     }
-    
 </script>
 @endsection

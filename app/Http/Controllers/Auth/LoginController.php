@@ -52,11 +52,14 @@ class LoginController extends Controller
             [
                 'email' => 'required|email',
                 'password' => 'required',
+                recaptchaFieldName() => recaptchaRuleName()
             ],
             [
                 'rut.required' => 'Este campo es obligatorio!',
+                'email.required' => 'Este campo es obligatorio!',
                 'rut.regex' => 'El RUT debe ser ingresado sin puntos y con digito verificador!',
                 'password.required' => 'Este campo es obligatorio!',
+                'recaptcha' => 'Debe demostrar que no eres un robot!'
             ]
         );
 
@@ -73,10 +76,22 @@ class LoginController extends Controller
             if($user->user_type=='3'){
                 return redirect()->route('callcenter.index');
             }
+            if($user->user_type=='4'){
+                return redirect()->route('admin.index');
+            }
            
         } else {
             return redirect()->route('login')
                 ->with('error', 'Las credenciales no coinciden con los resgistros en la base de datos!');
         }
+    }
+
+    public function logout(Request $request)
+    {
+        $this->guard()->logoutCurrentDevice();
+
+        $request->session()->invalidate();
+
+        return $this->loggedOut($request) ?: redirect('/');
     }
 }

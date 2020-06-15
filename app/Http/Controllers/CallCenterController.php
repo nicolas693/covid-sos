@@ -8,7 +8,9 @@ use App\DocumentosProfesional;
 use App\Asignacion;
 use App\Complementario;
 use App\Experiencia;
+use App\Fecha;
 use DB;
+use Auth;
 
 class CallCenterController extends Controller
 {
@@ -25,19 +27,20 @@ class CallCenterController extends Controller
         $comunas = DB::table('gen_comuna')->pluck('tx_descripcion', 'id')->toArray();
 
 
-        $profesionales = Profesional::all();
+        $profesionales = Profesional::where('callcenter_id',Auth::user()->id)->get();
 
         return view('/callcenter')->with('profesionales', $profesionales);
     }
     public function verInfo($id)
     {
         $profesional = Profesional::find($id);
-        $documentos = DocumentosProfesional::where('profesional_id', $id)->first();
-
+        $documentos = DocumentosProfesional::where('profesional_id', $id)->orderBy('created_at','desc')->first();
+        $fechas = Fecha::where('profesional_id', $id)->get();
         $tiene_doc = 0;
         $tiene_cv = 0;
         $tiene_ci = 0;
         $tiene_cert = 0;
+        $tiene_cap = 0;
         if ($documentos != null) {
             $tiene_doc = 1;
             if ($documentos->curriculum != null) {
@@ -49,8 +52,10 @@ class CallCenterController extends Controller
             if ($documentos->certificado_titulo != null) {
                 $tiene_cert = 1;
             }
+            if ($documentos->capacitacion != null) {
+                $tiene_cap = 1;
+            }
         }
-
         //ultima asignacion
         $asignacion=Asignacion::where('profesional_id', $profesional->id)->orderBy('created_at', 'desc')->first();
 
@@ -59,6 +64,8 @@ class CallCenterController extends Controller
             ->with('tiene_cv', $tiene_cv)
             ->with('tiene_ci', $tiene_ci)
             ->with('tiene_cert', $tiene_cert)
+            ->with('tiene_cap', $tiene_cap)
+            ->with('fechas', $fechas)
             ->with('asignacion',$asignacion);
     }
     public function asignarProfesional($id){
@@ -150,8 +157,6 @@ class CallCenterController extends Controller
         $comple->hepatitisB=$request->hepatitisB;
         $comple->hepatitisC=$request->hepatitisC;
         $comple->influenza=$request->influenza;
-
-
         $comple->save();
 
         // dd(json_decode($request->experiencias, true), $request->all(),$request->observaciones, $comple);

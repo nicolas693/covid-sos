@@ -105,11 +105,13 @@ input, select, textarea {
 		font-size: 15pt;
 	}
 
-	h1, h2, h3, h4, h5, h6 {
+	h1, h3, h4, h5, h6 {
 		font-weight: 600;
 		text-transform: uppercase;
 		color: #4d88e2;
 	}
+	
+	
 
 	h1 a, h2 a, h3 a, h4 a, h5 a, h6 a {
 		color: inherit;
@@ -118,11 +120,13 @@ input, select, textarea {
 	}
 
 	h2 {
-		font-size: 1.65em;
+		font-size: 1.25em;
 		font-weight: 400;
 		letter-spacing: 4px;
 		margin: 0 0 1.5em 0;
 		line-height: 1.75em;
+		color: #01a9e0;
+		font-weight:bold;
 	}
 
 	h3 {
@@ -1730,6 +1734,11 @@ input, select, textarea {
 
 	table {
 		width: 100%;
+		border-collapse: collapse; 
+		display: block;
+        overflow-x: auto;
+		border:1;
+		
 	}
 
 		table tbody tr {
@@ -1737,27 +1746,32 @@ input, select, textarea {
 		}
 
 			table tbody tr:first-child {
-				border-top: 0;
+				border-top: 1;
 			}
 
 		table td {
 			padding: 0.75em 1em 0.75em 1em;
+			text-align:center;
+			font-size:15px;
+			
 		}
 
 		table th {
 			text-align: left;
 			font-weight: bold;
 			padding: 0.75em 1em 0.75em 1em;
+			text-align:center;
 		}
 
 		table thead {
-			background: #878787;
-			color: #fff;
+			background: #e4f0fa;
+			color: #0069b9;
 			font-weight: 400;
 			text-transform: uppercase;
-			border: 0;
+			border: 1;
+			
 			box-shadow: 0.125em 0.175em 0 0 rgba(0, 0, 0, 0.125);
-			font-size: 0.85em;
+			font-size: 0.75em;
 			letter-spacing: 2px;
 		}
 
@@ -2666,7 +2680,8 @@ input, select, textarea {
 		/* Banner */
 
 			#banner {
-				padding: 5em 0;
+				/*padding: 5em 0 -0;*/
+				padding: 25px 50px 75px 100px;
 			}
 
 				#banner > .container {

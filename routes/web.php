@@ -30,6 +30,8 @@ route::group(['middleware' => 'auth'], function () {
     Route::get('/profesional', 'ProfesionalController@index')->name('profesional.index');
     Route::get('/profesional_edit/{id}', 'ProfesionalController@edit')->name('profesional.edit');
     Route::post('/profesional_edit', 'ProfesionalController@update')->name('profesional.update');
+    route::get('/user_change/{id}','UserController@getCambiarPassword')->name('user.cambiar');
+    route::post('/user/change','UserController@cambiarPassword')->name('user.cambiarpassword');
 
     route::get('/live_search/nacionalidades', 'LiveSearchController@getNacionalidades')->name('live_search.nacionalidades');
     route::get('/live_search/profesiones', 'LiveSearchController@getProfesiones')->name('live_search.profesiones');
@@ -51,5 +53,9 @@ route::group(['middleware' => 'auth'], function () {
     route::get('/descargar_certificado/{id}', 'DescargarDocumentosController@certificadoTitulo')->name('descargar.certificado');
     route::get('/descargar_cedula/{id}', 'DescargarDocumentosController@cedulaIdentidad')->name('descargar.cedula');
     route::get('/descargar_curriculum/{id}', 'DescargarDocumentosController@curriculum')->name('descargar.curriculum');
+    route::get('/descargar_capacitacion/{id}', 'DescargarDocumentosController@capacitacion')->name('descargar.capacitacion');
 
+    route::get('/admin/index','AdministradorController@index')->name('admin.index');
+    route::get('/admin_edit/{id}','AdministradorController@edit')->name('admin.edit');
+    route::post('/admin/update','AdministradorController@update')->name('admin.update');
 });

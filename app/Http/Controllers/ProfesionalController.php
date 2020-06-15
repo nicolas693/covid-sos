@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Profesional;
 use App\ComunaPreferencia;
 use App\Fecha;
+use App\ColaCallCenter;
 use App\Datos\Pais;
 use App\Datos\Titulo;
 use App\Datos\Especialidad;
@@ -14,10 +15,12 @@ use App\Datos\Region;
 use App\Datos\EstadoTitulo;
 use App\Datos\Disponibilidad;
 use App\Datos\ModalidadDisponibilidad;
+use App\Datos\PosGrado;
 use App\Rules\RutValido;
 use App\Rules\ValidarLiveSearch;
 use App\DocumentosProfesional;
 use Auth;
+use DateTime;
 use Validator, Redirect, Response, File;
 use App\Document;
 
@@ -25,7 +28,7 @@ class ProfesionalController extends Controller
 {
     public function __construct(Request $request)
     {
-        $this->middleware('Roles:1')->only(['index','enviarSolicitud','obtenerProfesional','edit','update']);
+        $this->middleware('Roles:1')->only(['index', 'enviarSolicitud', 'obtenerProfesional', 'edit', 'update']);
     }
 
     public function index()
@@ -39,12 +42,17 @@ class ProfesionalController extends Controller
         $comunas = $comunas->where('id', '!=', '0');
         $comunas = $comunas->pluck('tx_descripcion', 'id');
         $estado_titulo = EstadoTitulo::orderBy('id', 'asc')->pluck('tx_descripcion', 'id')->toArray();
-        $disponibilidad = Disponibilidad::select('id','tx_descripcion')->get();
-        foreach($disponibilidad as $key => $d){
+        $disponibilidad = Disponibilidad::select('id', 'tx_descripcion')->get();
+        $postgrado = PosGrado::pluck('tx_descripcion', 'id')->toArray();
+        foreach ($disponibilidad as $key => $d) {
             $disponibilidad[$key]['modalidades'] = $disponibilidad[$key]->getModalidades();
         }
-        
-        return view('Profesional/profesional')->with('comunas',  $comunas)->with('regiones',  $region)->with('estado_titulo', $estado_titulo)->with('disponibilidad', $disponibilidad);
+
+        return view('Profesional/profesional')->with('comunas',  $comunas)
+            ->with('regiones',  $region)
+            ->with('estado_titulo', $estado_titulo)
+            ->with('disponibilidad', $disponibilidad)
+            ->with('postgrado', $postgrado);
     }
     public function enviarSolicitud(Request $request)
     {
@@ -69,10 +77,11 @@ class ProfesionalController extends Controller
                 'profesion' => 'required|max:30',
                 'especialidad' => 'required_if:profesion,32|max:30',
                 'pais' => 'required_if:extranjero,1',
-                'observacion' => 'max:190|regex:' . $regLatinoNum,
-                'cert'      =>   'required|mimes:jpeg,png,jpg,bmp|max:2048',
-                'cv'      =>   'required|mimes:pdf,docx|max:2048',
+                'observaciones' => ['max:190', 'regex:' . $regLatinoNum, 'nullable'],
+                'cert'      =>   'mimes:jpeg,png,jpg,bmp|max:2048',
+                'cv'      =>   'required|mimes:pdf,docx,doc|max:2048',
                 'cedula'      =>   'required|mimes:jpeg,png,jpg,bmp|max:2048',
+                'capacitacion'      =>   'mimes:jpeg,png,jpg,bmp,pdf|max:2048'
             ],
             [
                 'required' => 'Este campo es obligatorio!',
@@ -92,75 +101,114 @@ class ProfesionalController extends Controller
                 'max' => 'Este campo no debe tener mas de :max caracteres !',
                 'cedula.mimes' => 'Este archivo debe ser formato jpeg, png, jpg o bmp',
                 'cert.mimes' => 'Este archivo debe ser formato jpeg, png, jpg o bmp',
-                'cv.mimes' => 'Este archivo debe ser formato pdf, docx'
+                'cv.mimes' => 'Este archivo debe ser formato pdf, docx',
+                'capacitacion.mimes' => 'Este archivo debe ser formato jpeg, png, jpg, bmp o pdf',
             ]
         );
-        $d = $request->all();
-        $d['fechas'] = json_decode($d['fechas']);
+        $datos = $request->all();
+        $datos['fechas'] = json_decode($datos['fechas']);
 
+        $actual = ColaCallCenter::where('indice', '1')->first();
+        $siguiente =  ColaCallCenter::where('lugar_cola', $actual->lugar_cola + 1)->first();
+        if($siguiente == null){
+            $siguiente =  ColaCallCenter::where('lugar_cola', 1)->first();
+        }
 
-        $profesional = Profesional::where('rut', $d['rut'])->first();
+        $profesional = Profesional::where('rut', $datos['rut'])->first();
         $profesional = null;
         if ($profesional == null) {
             $profesional = new Profesional();
-            $profesional->rut = $d['rut'];
-            $profesional->nombre = $d['nombre'];
-            $profesional->email = $d['correo'];
-            $profesional->telefono = $d['telefono'];
-            $profesional->direccion = $d['direccion'];
-            $profesional->tipo_profesional = $d['profesion'];
-            $profesional->especialidad = $d['especialidad'];
-            $profesional->tipo_identificacion = $d['tipo_identificacion'];
-            $profesional->extranjero = $d['extranjero'];
-            // $profesional->disponibilidad = $d['disponibilidad'];
-            $profesional->comuna_residencia = $d['comuna_residencia'];
-            $profesional->estado_titulo = $d['estudios'];
-            if ($d['extranjero'] == '0') {
+            $profesional->rut = $datos['rut'];
+            $profesional->nombre = $datos['nombre'];
+            $profesional->email = $datos['correo'];
+            $profesional->telefono = $datos['telefono'];
+            $profesional->direccion = $datos['direccion'];
+            $profesional->tipo_profesional = $datos['profesion'];
+            $profesional->especialidad = $datos['especialidad'];
+            $profesional->tipo_identificacion = $datos['tipo_identificacion'];
+            $profesional->extranjero = $datos['extranjero'];
+            // $profesional->disponibilidad = $datos['disponibilidad'];
+            $profesional->comuna_residencia = $datos['comuna_residencia'];
+            $profesional->estado_titulo = $datos['estudios'];
+            $profesional->postgrado = $datos['postgrado'];
+            if ($datos['extranjero'] == '0') {
                 $profesional->pais = '43';
             } else {
-                $profesional->pais = $d['pais'];
+                $profesional->pais = $datos['pais'];
             }
             $profesional->user_id = Auth::user()->id;
 
-            $profesional->disponibilidad = $d['disponibilidad'];
-            $profesional->modalidad = $d['modalidad'];
+            $profesional->disponibilidad = $datos['disponibilidad'];
+            $profesional->modalidad = $datos['modalidad'];
 
-            $profesional->horas = $d['horas'];
+            $profesional->horas = $datos['horas'];
             //dd($profesional,$d);
+            $profesional->observaciones = $datos['observaciones'];
+
+            $profesional->callcenter_id = $siguiente->user_id;
+            $actual->indice = 0;
+            $actual->save();
+            $siguiente->indice = 1;
+            $siguiente->save();
+
             $profesional->save();
-            foreach ($d['comuna_preferencia'] as $key => $c) {
+            foreach ($datos['comuna_preferencia'] as $key => $c) {
                 $com = new ComunaPreferencia();
                 $com->profesional_id = $profesional->id;
                 $com->comuna_id = $c;
                 $com->save();
             }
 
-            foreach ($d['fechas'] as $key => $value) {
+            foreach ($datos['fechas'] as $key => $value) {
                 $fecha = new Fecha();
                 $fecha->profesional_id = $profesional->id;
-                $fecha->dia = $d['fechas'][$key]->dia;
-                $fecha->hora_inicio = $d['fechas'][$key]->hora_inicio;
-                $fecha->hora_termino = $d['fechas'][$key]->hora_termino;
+                $fecha->dia = $datos['fechas'][$key]->dia;
+                $fecha->hora_inicio = $datos['fechas'][$key]->hora_inicio;
+                $fecha->hora_termino = $datos['fechas'][$key]->hora_termino;
                 $fecha->save();
             }
-            // dd($d['fechas'],$d['horas']);
+            // dd($datos['fechas'],$datos['horas']);
             $doc = new DocumentosProfesional();
             $doc->profesional_id = $profesional->id;
+        
 
-            $fileName = explode('-', $d['rut'])[0] . '_' . time() . '(CERT).' . $request->cert->extension();
-            $request->cert->move(public_path('file'), $fileName);
-            $doc->certificado_titulo = $fileName;
+            $fecha = new DateTime();
+            $time = $fecha->format('Y-m-d His');
+    
+         
+            if (isset($datos['cert'])) {
+                
+                $fileName = explode('-', $datos['rut'])[0] . '_' .  $time . '(CERT).' . $request->cert->extension();
+                $request->cert->move(public_path('file'), $fileName);
+                $doc->certificado_titulo = $fileName;
+            }
+    
+            if (isset($datos['cv'])) {
+               
+                $fileName = explode('-', $datos['rut'])[0] . '_' .  $time . '(CV).' . $request->cv->extension();
+                $request->cv->move(public_path('file'), $fileName);
+                $doc->curriculum = $fileName;
+            }
+    
+    
+            if (isset($datos['cedula'])) {
+               
+                $fileName = explode('-', $datos['rut'])[0] . '_' .  $time . '(CI).' . $request->cedula->extension();
+                $request->cedula->move(public_path('file'), $fileName);
+                $doc->cedula_identidad = $fileName;
+            }
+    
+            if (isset($datos['capacitacion'])) {
+                
+                $fileName = explode('-', $datos['rut'])[0] . '_' .  $time . '(CAP).' . $request->capacitacion->extension();
+                $request->capacitacion->move(public_path('file'), $fileName);
+                $doc->capacitacion = $fileName;
+            }
+    
 
-            $fileName = explode('-', $d['rut'])[0] . '_' . time() . '(CV).' . $request->cv->extension();
-            $request->cv->move(public_path('file'), $fileName);
-            $doc->curriculum = $fileName;
-
-            $fileName = explode('-', $d['rut'])[0] . '_' . time() . '(CI).' . $request->cedula->extension();
-            $request->cedula->move(public_path('file'), $fileName);
-            $doc->cedula_identidad = $fileName;
             $doc->save();
 
-            return redirect('/home')->with('status', 'created');
+            return redirect('/home')->with('status', 'created')->with('message', 'creado');
         } else {
             $profesional->save();
 
@@ -197,19 +245,34 @@ class ProfesionalController extends Controller
         $profesional = Profesional::find($id);
         $region = new Region();
         $comunas = new Comuna();
+        $comunas_pref = new ComunaPreferencia();
         // TEST NUEVO REPO
         //$region->setConnection('masterdb');
         $region = $region->where('id', '!=', '0');
         $region = $region->pluck('tx_descripcion', 'id');
         $comunas = $comunas->where('id', '!=', '0');
         $comunas = $comunas->pluck('tx_descripcion', 'id');
+        $comunas_pref = $comunas_pref->where('profesional_id', $profesional->id)->pluck('comuna_id')->toArray();
         $estado_titulo = EstadoTitulo::orderBy('id', 'asc')->pluck('tx_descripcion', 'id')->toArray();
-        return view('Profesional/edit')->with('comunas',  $comunas)->with('regiones',  $region)->with('estado_titulo', $estado_titulo)->with('profesional', $profesional);
+        $disponibilidad = Disponibilidad::select('id', 'tx_descripcion')->get();
+        $postgrado = PosGrado::pluck('tx_descripcion', 'id')->toArray();
+        $fechas = Fecha::where('profesional_id', $profesional->id)->get();
+        foreach ($disponibilidad as $key => $d) {
+            $disponibilidad[$key]['modalidades'] = $disponibilidad[$key]->getModalidades();
+        }
+        return view('Profesional/edit')->with('comunas',  $comunas)
+            ->with('regiones',  $region)
+            ->with('estado_titulo', $estado_titulo)
+            ->with('profesional', $profesional)
+            ->with('disponibilidad', $disponibilidad)
+            ->with('comunas_pref', $comunas_pref)
+            ->with('fechas', $fechas)
+            ->with('postgrado', $postgrado);
     }
 
     public function update(Request $request)
     {
-       
+
         $regLatino = '/^([A-Za-zÑñáéíóúÁÉÍÓÚ ]+)$/';
         $regLatinoNum = '/^([A-Za-z0-9ÑñáéíóúÁÉÍÓÚ ]+)$/';
         $rut = '/^([0-9])+\-([kK0-9])+$/';
@@ -228,7 +291,12 @@ class ProfesionalController extends Controller
                 'comuna_residencia' => 'required|max:6',
                 'profesion' => 'required|max:30',
                 'especialidad' => 'required_if:profesion,32|max:30',
-                'pais' => 'required_if:extranjero,1'
+                'observaciones' => ['max:190', 'regex:' . $regLatinoNum, 'nullable'],
+                'pais' => 'required_if:extranjero,1',
+                'cert'      =>   'mimes:jpeg,png,jpg,bmp|max:2048',
+                'cv'      =>   'mimes:pdf,docx|max:2048',
+                'cedula'      =>   'mimes:jpeg,png,jpg,bmp|max:2048',
+                'capacitacion'      =>   'mimes:jpeg,png,jpg,bmp,pdf|max:2048',
             ],
             [
                 'required' => 'Este campo es obligatorio!',
@@ -245,10 +313,27 @@ class ProfesionalController extends Controller
                 'especialidad.required_if' => 'Este campo es obligatorio si usted es Médico!',
                 'pais.required_if' => 'Este campo es obligatorio si usted es extranjero!',
                 'regiones.required_if' => 'Este campo es obligatorio si usted tiene disponibilidad!',
-                'max' => 'Este campo no debe tener mas de :max caracteres !'
+                'max' => 'Este campo no debe tener mas de :max caracteres !',
+                'cedula.mimes' => 'Este archivo debe ser formato jpeg, png, jpg o bmp',
+                'cert.mimes' => 'Este archivo debe ser formato jpeg, png, jpg o bmp',
+                'cv.mimes' => 'Este archivo debe ser formato pdf, docx',
+                'capacitacion.mimes' => 'Este archivo debe ser formato jpeg, png, jpg, bmp o pdf'
             ]
         );
+
         $datos = $request->all();
+
+        $datos['fechas'] = json_decode($datos['fechas'], true);
+        foreach ($datos['fechas'] as $key => $f) {
+            $datos['fechas'][$key] = join('-', $f);
+        }
+        $datos['fechas'] = array_unique($datos['fechas']);
+        foreach ($datos['fechas'] as $key => $f) {
+            $datos['fechas'][$key] = explode('-', $f);
+        }
+
+
+        //dd($datos);
         $profesional = Profesional::find($datos['profesional_id']);
         $profesional->nombre = $datos['nombre'];
         $profesional->email = $datos['correo'];
@@ -257,27 +342,98 @@ class ProfesionalController extends Controller
         $profesional->tipo_profesional = $datos['profesion'];
         $profesional->especialidad = $datos['especialidad'];
         $profesional->tipo_identificacion = $datos['tipo_identificacion'];
-        if($profesional->tipo_identificacion == 1){
+        if ($profesional->tipo_identificacion == 1) {
             $profesional->rut = $datos['rut'];
-        }elseif($profesional->tipo_identificacion == 2){
+        } elseif ($profesional->tipo_identificacion == 2) {
             $profesional->rut_provisorio = $datos['provisorio'];
-        }elseif($profesional->tipo_identificacion == 3){
+        } elseif ($profesional->tipo_identificacion == 3) {
             $profesional->pasaporte = $datos['pasaporte'];
         }
         $profesional->extranjero = $datos['extranjero'];
-        // $profesional->disponibilidad = $d['disponibilidad'];
+        // $profesional->disponibilidad = $datos['disponibilidad'];
         $profesional->comuna_residencia = $datos['comuna_residencia'];
         $profesional->estado_titulo = $datos['estudios'];
+        $profesional->postgrado = $datos['postgrado'];
+        $profesional->observaciones = $datos['observaciones'];
         if ($datos['extranjero'] == '0') {
             $profesional->pais = '43';
         } else {
             $profesional->pais = $datos['pais'];
         }
+        $profesional->user_id = Auth::user()->id;
 
-      
-         $profesional->save();
+        $profesional->disponibilidad = $datos['disponibilidad'];
+        $profesional->modalidad = $datos['modalidad'];
 
-         return view('/home')->with('status', 'updated');
+        $profesional->horas = $datos['horas'];
+        //dd($profesional,$datos);
+        Fecha::where('profesional_id', $profesional->id)->delete();
+        foreach ($datos['fechas'] as $key => $value) {
+            $fecha = new Fecha();
+            $fecha->profesional_id = $profesional->id;
+            $fecha->dia = $value[0];
+            $fecha->hora_inicio = $value[1];
+            $fecha->hora_termino = $value[2];
+            $fecha->save();
+        }
+        //$profesional->save();
+        $comunas_preferencia = array_keys($profesional->getComunasPreferencia());
+        foreach ($comunas_preferencia as $key => $cp) {
+            $com = ComunaPreferencia::where('profesional_id', $profesional->id)->where('comuna_id', $cp)->first();
+            $com->delete();
+        }
+
+        foreach ($datos['comuna_preferencia'] as $key => $c) {
+            $com = new ComunaPreferencia();
+            $com->profesional_id = $profesional->id;
+            $com->comuna_id = $c;
+            $com->save();
+        }
+
+        //dd($datos, $datos['horas']);
+
+        $doc = DocumentosProfesional::where('profesional_id', $datos['profesional_id'])->orderBy('created_at', 'desc')->first();
+        $doc = $doc->replicate();
+        $doc->profesional_id = $profesional->id;
+        $fecha = new DateTime();
+        $time = $fecha->format('Y-m-d His');
+
+        $ct_docs = 0;
+        if (isset($datos['cert'])) {
+            $ct_docs++;
+            $fileName = explode('-', $datos['rut'])[0] . '_' .  $time . '(CERT).' . $request->cert->extension();
+            $request->cert->move(public_path('file'), $fileName);
+            $doc->certificado_titulo = $fileName;
+        }
+
+        if (isset($datos['cv'])) {
+            $ct_docs++;
+            $fileName = explode('-', $datos['rut'])[0] . '_' .  $time . '(CV).' . $request->cv->extension();
+            $request->cv->move(public_path('file'), $fileName);
+            $doc->curriculum = $fileName;
+        }
+
+
+        if (isset($datos['cedula'])) {
+            $ct_docs++;
+            $fileName = explode('-', $datos['rut'])[0] . '_' .  $time . '(CI).' . $request->cedula->extension();
+            $request->cedula->move(public_path('file'), $fileName);
+            $doc->cedula_identidad = $fileName;
+        }
+
+        if (isset($datos['capacitacion'])) {
+            $ct_docs++;
+            $fileName = explode('-', $datos['rut'])[0] . '_' .  $time . '(CAP).' . $request->capacitacion->extension();
+            $request->capacitacion->move(public_path('file'), $fileName);
+            $doc->capacitacion = $fileName;
+        }
+
+        if ($ct_docs > 0) {
+            $doc->save();
+        }
+        $profesional->save();
+
+        return redirect('/home')->with('message', 'actualizado');
     }
 
     private  function calcularDv($rut)

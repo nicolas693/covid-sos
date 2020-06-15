@@ -15,13 +15,16 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <!-- Font Awesome -->
     <link rel="stylesheet" href="{{URL::asset('/plugins/fontawesome-free/css/all.min.css')}}">
     <!-- Ionicons -->
-    <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+    <link rel="stylesheet" href="{{asset('plugins/ionicons/css/ionicons.min.css')}}">
     <!-- Theme style -->
     <link rel="stylesheet" href="{{URL::asset('/dist/css/adminlte.min.css')}}">
     <!-- Google Font: Source Sans Pro -->
     <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
 
-
+    <!-- SweetAlerts 2 -->
+    <script src="{{asset('plugins/sweetalert2/sweetalert2.all.min.js')}}"></script>
+    <!-- Optional: include a polyfill for ES6 Promises for IE11 -->
+    <script src="{{asset('plugins/sweetalert2/polyfill.js')}}"></script>
     <!-- jQuery -->
     <script src="{{ URL::asset('/plugins/jquery/jquery.min.js') }}"></script>
     <!-- Bootstrap 4 -->
@@ -81,19 +84,25 @@ scratch. This page gets rid of all links and provides the needed markup only.
                     <!-- Left navbar links -->
                     <ul class="navbar-nav">
                         @if($usuario->obtenerTipoUsuario()=='Profesional')
-                        <li class="nav-item">
-                            <a href="{{route('home')}}" class="nav-link">Postulante</a>
+                        <li class="nav-item" style="margin-bottom: 20%;">
+                            <a href="{{route('home')}}" class="nav-link"><i class="fas fa-home fa-2x" style="vertical-align: middle;"></i></a>
                         </li>
                         @endif
                         @if($usuario->obtenerTipoUsuario()=='CallCenter')
-                        <li class="nav-item">
-                            <a href="{{route('callcenter.index')}}" class="nav-link">Call Center</a>
+                        <li class="nav-item" style="margin-bottom: 20%;">
+                            <a href="{{route('callcenter.index')}}" class="nav-link"><i class="fas fa-home fa-2x" style="vertical-align: middle;"></i></a>
                         </li>
                         @endif
                         @if($usuario->obtenerTipoUsuario()=='Reclutador')
                         <li class="nav-item">
                             <!-- <a href="{{route('reclutador.index')}}" class="nav-link">Reclutador</a> -->
                             <a href="#" class="nav-link">Reclutador</a>
+                        </li>
+                        @endif
+                        @if($usuario->obtenerTipoUsuario()=='Administrador')
+                        <li class="nav-item">
+                            <!-- <a href="{{route('reclutador.index')}}" class="nav-link">Reclutador</a> -->
+                            <a href="{{route('admin.index')}}" class="nav-link">Administrador</a>
                         </li>
                         @endif
 
@@ -124,12 +133,11 @@ scratch. This page gets rid of all links and provides the needed markup only.
                         </a>
 
                         <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                            <a class="dropdown-item" href="#" id="{{route('user.cambiar',['id'=>$usuario->id])}}" onclick="getCambiarPassword(this.id)">Cambiar Contraseña</a>
                             <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">
                                 {{ __('Logout') }}
                             </a>
-
-
 
                             <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                                 @csrf
@@ -145,6 +153,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
         <!-- Content Wrapper. Contains page content -->
         <div class="content-wrapper">
+            <div id="modalP"></div>
             @yield('content')
         </div>
         <!-- /.content-wrapper -->
@@ -175,3 +184,14 @@ scratch. This page gets rid of all links and provides the needed markup only.
 </body>
 
 </html>
+
+<script>
+    function getCambiarPassword(url) {
+        $(".verinfo").attr('disabled', true);
+        $('.modal').modal('hide');
+        $.get(url, function(data) {
+            $('#modalP').html(data);
+            $('#modalPassword').modal('show');
+        });
+    }
+</script>

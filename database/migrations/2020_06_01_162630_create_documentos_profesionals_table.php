@@ -19,6 +19,7 @@ class CreateDocumentosProfesionalsTable extends Migration
             $table->string('certificado_titulo',100)->nullable();
             $table->string('curriculum',100)->nullable();
             $table->string('cedula_identidad',100)->nullable();
+            $table->string('capacitacion',100)->nullable();
             $table->timestamps();
         });
     }

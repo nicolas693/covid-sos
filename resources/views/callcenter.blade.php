@@ -2,7 +2,7 @@
 @section('content')
 
 
-<script src="https://cdn.datatables.net/responsive/2.2.4/js/dataTables.responsive.min.js"></script>
+<script src="{{ URL::asset('/plugins/datatables/Responsive/js/dataTables2.responsive.min.js') }}"></script>
 <style>
     .toastr-margin {
         margin-top: 25px;
@@ -110,7 +110,7 @@
                                         <td></td>
                                     @endif --}}
                                     {{-- <td>{{$pro->horas}}</td> --}}
-                                    <td>{{$pro->getComunasPreferenciaString()}}</td>
+                                    <td>{{$pro->getComunasPreferenciaStringRes()}}</td>
 
                                     <td>
                                         @php $d = $pro->getDisponibilidad(); $m=$pro->getModalidad(); @endphp
@@ -184,11 +184,39 @@
         // {"orderable": false, "width":"2%"},
     ],
         });
+
+
+        mensaje = @json(session()->get('message'));
+        if (mensaje == 'creado') {
+            Swal.fire({
+                type: 'success',
+                title: 'Postulante creado exitosamente!',
+                showConfirmButton: false,
+                timer: 2500,
+                onClose: function() {
+                    $('.modal').modal('hide');
+                    $(".REV").attr('disabled', false);
+                },
+            });
+        }
+
+        if (mensaje == 'error al buscar archivo') {
+            Swal.fire({
+                type: 'warning',
+                title: 'No se encontró el archivo solicitado!',
+                showConfirmButton: false,
+                timer: 2500,
+                onClose: function() {
+                    $('.modal').modal('hide');
+                    $(".REV").attr('disabled', false);
+                },
+            });
+        }
     });
     function verInfo(id) {
         $(".verinfo").attr('disabled', true);
-        ruta = @json(route('callcenter.verinfo', ['id' => 'id']));
-        ruta = ruta.replace('id', id);
+        ruta = @json(route('callcenter.verinfo', ['id' => 'id_prof']));
+        ruta = ruta.replace('id_prof', id);
         console.log(ruta);
         $('.modal').modal('hide');
         $.get(ruta, function(data) {
@@ -199,8 +227,8 @@
     };
     function asignarProfesional(id) {
         $(".asignar").attr('disabled', true);
-        ruta = @json(route('callcenter.asignarProfesional', ['id' => 'id']));
-        ruta = ruta.replace('id', id);
+        ruta = @json(route('callcenter.asignarProfesional', ['id' => 'id_prof']));
+        ruta = ruta.replace('id_prof', id);
 
 
         $('.modal').modal('hide');
@@ -213,8 +241,8 @@
     };
     function complementarProfesional(id) {
         $(".complementar").attr('disabled', true);
-        ruta = @json(route('callcenter.complementarProfesional', ['id' => 'id']));
-        ruta = ruta.replace('id', id);
+        ruta = @json(route('callcenter.complementarProfesional', ['id' => 'id_prof']));
+        ruta = ruta.replace('id_prof', id);
         console.log("aprete",ruta);
 
          $('.modal').modal('hide');

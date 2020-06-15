@@ -31,7 +31,7 @@ class RegisterController extends Controller
      * @var string
      */
     // protected $redirectTo = RouteServiceProvider::HOME;
-     protected $redirectTo = '/home';
+    protected $redirectTo = '/home';
 
     /**
      * Create a new controller instance.
@@ -52,20 +52,20 @@ class RegisterController extends Controller
     protected function validator(array $data)
     {
         $rut = '/^([0-9])+\-([kK0-9])+$/';
-        
+
         return Validator::make(
             $data,
             [
-                'email' => 'required|email',
                 'name' => ['required', 'string', 'max:255'],
                 'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
                 'password' => ['required', 'string', 'min:8', 'confirmed'],
+                recaptchaFieldName() => recaptchaRuleName()
             ],
             [
                 'required' => 'Este campo es obligatorio!',
                 'email' => 'El correo debe tener formato de correo electrónico!',
                 'rut.regex' => 'El RUT debe ser ingresado sin puntos!',
-               
+                'recaptcha' => 'Debe demostrar que no eres un robot!',
                 'password.confirmed' => 'Las contraseñas no coinciden!',
                 'max' => 'Este campo no debe tener mas de :max caracteres !',
                 'min' => 'Este campo debe tener al menos :min caracteres !'

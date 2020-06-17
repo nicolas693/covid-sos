@@ -170,41 +170,41 @@ class ProfesionalController extends Controller
             // dd($datos['fechas'],$datos['horas']);
             $doc = new DocumentosProfesional();
             $doc->profesional_id = $profesional->id;
-        
+
 
             $fecha = new DateTime();
             $time = $fecha->format('Y-m-d His');
-    
-         
+
+
             if (isset($datos['cert'])) {
-                
+
                 $fileName = explode('-', $datos['rut'])[0] . '_' .  $time . '(CERT).' . $request->cert->extension();
                 $request->cert->move(public_path('file'), $fileName);
                 $doc->certificado_titulo = $fileName;
             }
-    
+
             if (isset($datos['cv'])) {
-               
+
                 $fileName = explode('-', $datos['rut'])[0] . '_' .  $time . '(CV).' . $request->cv->extension();
                 $request->cv->move(public_path('file'), $fileName);
                 $doc->curriculum = $fileName;
             }
-    
-    
+
+
             if (isset($datos['cedula'])) {
-               
+
                 $fileName = explode('-', $datos['rut'])[0] . '_' .  $time . '(CI).' . $request->cedula->extension();
                 $request->cedula->move(public_path('file'), $fileName);
                 $doc->cedula_identidad = $fileName;
             }
-    
+
             if (isset($datos['capacitacion'])) {
-                
+
                 $fileName = explode('-', $datos['rut'])[0] . '_' .  $time . '(CAP).' . $request->capacitacion->extension();
                 $request->capacitacion->move(public_path('file'), $fileName);
                 $doc->capacitacion = $fileName;
             }
-    
+
 
             $doc->save();
 

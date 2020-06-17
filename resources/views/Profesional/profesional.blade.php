@@ -72,7 +72,7 @@
                             </div>
                             <div class="col-md-1"></div>
                             <div class="col-md-10">
-                                <form action="{{route('enviar.solicitud')}}" method="POST" class="formulario_profesional" enctype="multipart/form-data">
+                                <form action="{{route('enviar.solicitud')}}" method="post" class="formulario_profesional" enctype="multipart/form-data">
                                     @csrf
                                     <div class="form-group col-md-12">
                                         <label for="radioPrimary1">
@@ -328,9 +328,9 @@
 
                                     </div>
 
-                                
 
-                                  
+
+
                                     <div class="col-md-12">
                                         <div class="row">
                                             <div class="col-md-4">

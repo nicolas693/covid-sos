@@ -8,6 +8,7 @@ use App\Datos\Titulo;
 use App\Datos\Especialidad;
 use App\Datos\Comuna;
 use App\Datos\Establecimiento;
+use App\Datos\ServicioClinico;
 class LiveSearchController extends Controller
 {
     function getNacionalidades(Request $request)
@@ -73,6 +74,17 @@ class LiveSearchController extends Controller
             ->orWhere('establecimiento_id', 'LIKE', '%' . $request->name . '%')
             ->get()->take(10)->map(function ($item) {
                 return ["id" => $item->establecimiento_id, "text" => $item->tx_descripcion];
+            });
+        return response()->json($data);
+    }
+
+    function getServicio(Request $request)
+    {
+        $someModel = new ServicioClinico();
+        $data = $someModel->where('tx_descripcion', 'LIKE', '%' . $request->name . '%')
+            ->orWhere('cd_servicio', 'LIKE', '%' . $request->name . '%')
+            ->get()->take(10)->map(function ($item) {
+                return ["id" => $item->id, "text" => $item->tx_descripcion];
             });
         return response()->json($data);
     }

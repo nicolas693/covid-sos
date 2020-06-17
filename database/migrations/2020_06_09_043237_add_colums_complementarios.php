@@ -44,15 +44,17 @@ class AddColumsComplementarios extends Migration
      */
     public function down()
     {
-        $table->dropColumn(['iaasCurso']);
-        $table->dropColumn(['rcpCurso']);
-        $table->dropColumn(['pacienteCriticoCurso']);
-        $table->dropColumn(['ventilacionMecanicaCurso']);
-        $table->dropColumn(['adminEstadoCurso']);
-        $table->dropColumn(['urgenciaDesastresCurso']);
-        $table->dropColumn(['adultoMayorCurso']);
-        $table->dropColumn(['infeccionesRespiratoriasCurso']);
-        $table->dropColumn(['iraCurso']);
-        $table->dropColumn(['eraCurso']);
+        Schema::table('complementarios', function(Blueprint $table) {
+            $table->dropColumn(['iaasCurso']);
+            $table->dropColumn(['rcpCurso']);
+            $table->dropColumn(['pacienteCriticoCurso']);
+            $table->dropColumn(['ventilacionMecanicaCurso']);
+            $table->dropColumn(['adminEstadoCurso']);
+            $table->dropColumn(['urgenciaDesastresCurso']);
+            $table->dropColumn(['adultoMayorCurso']);
+            $table->dropColumn(['infeccionesRespiratoriasCurso']);
+            $table->dropColumn(['iraCurso']);
+            $table->dropColumn(['eraCurso']);
+        });
     }
 }

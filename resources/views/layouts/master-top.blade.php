@@ -69,7 +69,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
         <!-- Navbar -->
         <nav class="main-header navbar navbar-expand-md navbar-light navbar-white">
-            <div class="container">
+            <div class="container" id="container_header">
                 <a href="{{route('home')}}" class="navbar-brand">
                     <img src="{{asset('/images/PRAM_login.png')}}" alt="Logo" style="max-height: 35px;">
                     <!-- <span class="brand-text font-weight-light">PRAM</span> -->

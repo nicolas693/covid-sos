@@ -38,9 +38,12 @@ route::group(['middleware' => 'auth'], function () {
     route::get('/live_search/especialidades', 'LiveSearchController@getEspecialidades')->name('live_search.especialidades');
     route::get('/live_search/comunas', 'LiveSearchController@getComunas')->name('live_search.comunas');
     route::get('/live_search/establecimientos', 'LiveSearchController@getEstablecimientos')->name('live_search.establecimientos');
-
+    route::get('/live_search/servicio', 'LiveSearchController@getServicio')->name('live_search.servicio');
 
     route::get('/reclutador', 'ReclutadorController@index')->name('reclutador.index');
+    Route::post('/enviarSolicitud', 'ReclutadorController@store')->name('reclutador.store');
+
+
     route::get('/callcenter', 'CallCenterController@index')->name('callcenter.index');
     route::get('/callcenter/verinfo/{id}', 'CallCenterController@verInfo')->name('callcenter.verinfo');
     route::get('/callcenter/asignarProfesional/{id}', 'CallCenterController@asignarProfesional')->name('callcenter.asignarProfesional');

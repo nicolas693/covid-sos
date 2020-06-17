@@ -45,6 +45,11 @@ class User extends Authenticatable
         return $profesional;
     }
 
+    public function getEstablecimiento()
+    {
+        return $this->hasOne('App\Datos\Establecimiento', 'establecimiento_id', 'establecimiento_id')->first();
+    }
+
     public function obtenerTipoUsuario()
     {
         $profesional = $this->hasOne('App\UserType', 'id','user_type')->first()->tx_descripcion;

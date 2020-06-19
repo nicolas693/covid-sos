@@ -77,7 +77,7 @@ class Profesional extends Model
                 $comuna = $cp->getComuna();
                 $data[$comuna->id] = $comuna->tx_descripcion;
             }
-           
+
         }
         return join(',', $data);
     }

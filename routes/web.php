@@ -41,8 +41,11 @@ route::group(['middleware' => 'auth'], function () {
     route::get('/live_search/servicio', 'LiveSearchController@getServicio')->name('live_search.servicio');
 
     route::get('/reclutador', 'ReclutadorController@index')->name('reclutador.index');
-    Route::post('/enviarSolicitud', 'ReclutadorController@store')->name('reclutador.store');
-
+    Route::post('/crearSolicitud', 'ReclutadorController@crearSolicitud')->name('reclutador.crearSolicitud');
+    route::get('/nuevaSolicitud', 'ReclutadorController@nuevaSolicitud')->name('reclutador.nuevaSolicitud');
+    Route::get('/reclutador/verinfo/{id}', 'ReclutadorController@verSolicitud')->name('reclutador.verSolicitud');
+    Route::get('/reclutador/eliminarSolicitud/{id}', 'ReclutadorController@modalEliminarSolicitud')->name('reclutador.modalEliminarSolicitud');
+    Route::post('/reclutador/eliminarSolicitud', 'ReclutadorController@eliminarSolicitud')->name('reclutador.eliminarSolicitud');
 
     route::get('/callcenter', 'CallCenterController@index')->name('callcenter.index');
     route::get('/callcenter/verinfo/{id}', 'CallCenterController@verInfo')->name('callcenter.verinfo');

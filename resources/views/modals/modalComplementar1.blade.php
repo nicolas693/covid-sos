@@ -57,7 +57,7 @@
 
             <!-- Modal body -->
             <div class="modal-body">
-        
+
 
 
                 {{-- DATOS PERSONALES --}}

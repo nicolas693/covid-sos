@@ -40,22 +40,22 @@
                 <div class="col-md-11" style="margin-left:auto;margin-right:auto">
                 <div class="card mt-5">
                     <div class="card-header">
-                        <h3 class="card-title" style="margin-top:5px">Modulo Reclutador</h3>
+                        <h3 class="card-title" style="margin-top:5px">MODULO RECLUTADOR - <strong>{{Auth::user()->getEstablecimiento()->tx_descripcion}}</strong></h3>
 
                         <div class="card-tools">
-                            <button type="button" class="btn btn-primary btn-sm" onclick="crearSolicitud()" >
+                            <button type="button" class="btn btn-primary btn-sm crearSolicitud" onclick="crearSolicitud({{Auth::user()->id}})" >
                                 <i class="fas fa-plus"></i>
                                 <span style="margin-left:5px">Crear Solicitud</span>
                             </button>
                         </div>
                     </div>
                     <div class="card-body">
-                        <div class="col-md-12">
-                            @if (session('status')=='created')
+                        <div class="col-md-12" style="padding:0px">
+                            @if (session('status')=='solicitud_creada')
                             <div class="alert alert-success alert-dismissible">
                                 <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
                                 <h5><i class="icon fas fa-check"></i> Atención!</h5>
-                                El registro ha sido ingresado exitosamente!
+                                La solicitud ha sido ingresada exitosamente!
                             </div>
                             @endif
 
@@ -66,62 +66,60 @@
                                 El registro ha sido actualizado exitosamente!
                             </div>
                             @endif
-                            @if (session('status')=='complementario')
-                            <div class="alert alert-success alert-dismissible">
+                            @if (session('status')=='solicitud_eliminada')
+                            <div class="alert alert-danger alert-dismissible">
                                 <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
                                 <h5><i class="icon fas fa-check"></i> Atención!</h5>
-                                Los datos complementarios han sido actualizado exitosamente!
+                                La solicitud ha sido eliminada!
                             </div>
                             @endif
                         </div>
                         {{-- <table class="table table-sm nowrap" id="tabla_reclutador" style="width: 100%;"> --}}
-                            <table  class="table table-striped table-bordered table-sm nowrap" id="modulo_reclutador" style="width: 100%">
+                            <table  class="table table-striped table-bordered table-sm nowrap" id="tabla_reclutador" style="width: 100%">
 
+                                {{--  --}}
                             <thead class="bold">
                                 <tr>
-                                    <td>Establecimiento</td>
-                                    <td>Tipo Atencion</td>
+                                    <td>Id</td>
                                     <td>Profecional</td>
                                     <td>Especialidad</td>
-                                    <td>Experiencia</td>
-                                    <td>Años</td>
+                                    <td>Posgrado</td>
+                                    <td>Canntidad</td>
                                     <td>Diurno/Turno</td>
-                                    <td>Horas</td>
-                                    <td>Capacitaciones</td>
+                                    <td>Horas p/dia</td>
+                                    {{-- <td>Capacitaciones</td> --}}
                                     <td>Dias</td>
-                                    <td>Inicio</td>
-                                    <td>Termino</td>
-                                    <td>Crecion</td>
+                                    <td>Fecha inicio</td>
+                                    <td>Fecha creacion</td>
                                     <td>Acción</td>
                                 </tr>
                             </thead>
 
 
                             <tbody>
-                                {{-- @foreach($solicitudes as $key => $solicitud)
-                                <tr>
-                                    <td>{{$solicitud->establecimiento}}</td>
-                                    <td>{{$solicitud->atencion}}</td>
-                                    <td>{{$solicitud->profesional}}</td>
-                                    <td>{{$solicitud->jornada}}</td>
-                                    <td>{{$solicitud->horas}}</td>
-                                    <td>{{$solicitud->capacitacion}}</td>
-                                    <td>{{$solicitud->dias}}</td>
-                                    <td>{{$solicitud->inicio}}</td>
-                                    <td>{{$solicitud->termino}}</td>
-                                    <td>{{$solicitud->creacion}}</td>
+                                @foreach($solicitudes as $key => $solicitud)
+                                    <tr>
+                                        <td>{{$solicitud->id}}</td>
+                                        <td>{{$solicitud->getTitulo()->tx_descripcion}}</td>
+                                        <td>{{$solicitud->getEspecialidad()->tx_descripcion??$solicitud->getEspecialidad()}}</td>
+                                        <td>{{$solicitud->getPosgrado()->tx_descripcion??$solicitud->getPosgrado()}}</td>
+                                        <td>{{$solicitud->cantidad}}</td>
+                                        <td>{{$solicitud->getJornada()->tx_descripcion}}</td>
+                                        <td>{{$solicitud->horas}}</td>
+                                        <td>{{$solicitud->dias}}</td>
+                                        @php
+                                            $fecha=\Carbon\Carbon::parse($solicitud->fecha_inicio)->format('d-m-Y');
+                                        @endphp
+                                        <td>{{$fecha}}</td>
+                                        <td>{{$solicitud->created_at->format('d-m-Y')}}</td>
 
 
-                                    <td style="text-align:center">
-                                        <button type="button" class="btn btn-info btn-sm verinfo" name="{{$solicitud->id}}"  title="Información solicitudfesional" onclick="verInfo(this.name)"><i class="fas fa-info-circle"></i></button>
-                                        <button type="button" class="btn btn-primary btn-sm complementar" name="{{$solicitud->id}}"  onclick="complementarsolicitudfesional(this.name)"title="Asignar solicitudfesional"><i class="fas fa-user-md"></i></button>
-
-                                        <button type="button" class="btn btn-success btn-sm asignar" name="{{$solicitud->id}}"  onclick="asignarsolicitudfesional(this.name)"title="Asignar solicitudfesional"><i class="fas fa-plus"></i></button>
-
-                                    </td>
-                                </tr>
-                                @endforeach --}}
-
+                                        <td style="text-align:center">
+                                            <button type="button" class="btn btn-info btn-sm verSolicitud" name="{{$solicitud->id}}"  title="Información solicitud" onclick="verSolicitud(this.name)"><i class="fas fa-info-circle"></i></button>
+                                            <button type="button" class="btn btn-danger btn-sm eliminarSolicitud" name="{{$solicitud->id}}"  onclick="eliminarSolicitud(this.name)"title="eliminar solicitud "><i class="fa fa-trash"></i></button>
+                                        </td>
+                                    </tr>
+                                @endforeach
                             </tbody>
                         </table>
                     </div>
@@ -132,13 +130,14 @@
     </div>
     </div>
     <div id="modal">
-        @include('modals.modalSolicitud', ['user' =>$usuario = Auth::user()])
+
     </div>
 </section>
 <script>
     $(document).ready(function() {
-        $('#modulo_reclutador').DataTable({
+        $('#tabla_reclutador').DataTable({
             responsive: true,
+            "pageLength": 50,
             language: {
                 "lengthMenu": "Mostrar _MENU_ registros por página",
                 "zeroRecords": "No se encontraron registros",
@@ -155,9 +154,9 @@
                 },
             },
             "columns": [
-        null,
-        null,
-        null,
+        // null,
+        // null,
+        // null,
         null,
         null,
         null,
@@ -242,10 +241,47 @@
         });
 
     };
+
+
+
+    // MODALES
     function crearSolicitud(id) {
-        $('.modal').modal('hide');
-        $('#modalSolicitud').modal('show');
+        // console.log(id);
+        $(".crearSolicitud").attr('disabled', true);
+        ruta = @json(route('reclutador.nuevaSolicitud'));
+        // console.log(ruta);
+            $('.modal').modal('hide');
+            $.get(ruta, function(data) {
+            $('#modal').html(data);
+            $('#modalSolicitud').modal('show');
+            });
     };
+
+    function verSolicitud(id) {
+        $(".verSolicitud").attr('disabled', true);
+        ruta = @json(route('reclutador.verSolicitud', ['id' => 'id_prof']));
+        ruta = ruta.replace('id_prof', id);
+        // console.log("aprete",ruta);
+        $('.modal').modal('hide');
+            $.get(ruta, function(data) {
+            //   console.log(data);
+            $('#modal').html(data);
+            $('#modalVerSolicitud').modal('show');
+        });
+    };
+
+    function eliminarSolicitud(id) {
+        $(".btnEliminar").attr('disabled', true);
+        ruta = @json(route('reclutador.modalEliminarSolicitud', ['id' => 'id_prof']));
+        ruta = ruta.replace('id_prof', id);
+        $('.modal').modal('hide');
+        $.get(ruta, function(data) {
+            $('#modal').html(data);
+            $('#modalDelete').modal('show');
+        });
+        // setTimeout(() => {  $(".ELIMINAR").attr('disabled', false) }, 500);
+    }
+
 
 </script>
 @endsection
